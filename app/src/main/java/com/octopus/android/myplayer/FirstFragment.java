@@ -3,7 +3,6 @@ package com.octopus.android.myplayer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,11 +11,18 @@ import androidx.fragment.app.Fragment;
 
 import com.octopus.android.myplayer.databinding.FragmentFirstBinding;
 import com.zhuchao.android.detect.FdActivity;
+import com.zhuchao.android.fbase.MethodThreadMode;
+import com.zhuchao.android.fbase.TCourierSubscribe;
+import com.zhuchao.android.fbase.eventinterface.EventCourierInterface;
+import com.zhuchao.android.fbase.eventinterface.PlaybackEvent;
+import com.zhuchao.android.fbase.eventinterface.PlayerCallback;
+import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo;
+import com.zhuchao.android.session.BaseFragment;
 import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;
 import com.zhuchao.android.video.VideoList;
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends BaseFragment implements PlayerCallback {
 
     private FragmentFirstBinding binding;
     //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
@@ -46,12 +52,12 @@ public class FirstFragment extends Fragment {
 
         ///Intent intent = new Intent(getContext(), FdActivity.class);
         ///startActivity(intent);
-
+        tPlayManager = TPlayManager.getInstance(getContext());
         defaultPlayingList_video.add(oMedia);
         tPlayManager.addPlayList("video", defaultPlayingList_video);
         tPlayManager.addPlayList("audio", defaultPlayingList_audio);
         tPlayManager.addPlayList("picture", defaultPlayingList_picture);
-
+        tPlayManager.callback(this);
         binding.getRoot().findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -101,4 +107,22 @@ public class FirstFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onEventPlayerStatus(PlayerStatusInfo playerStatusInfo) {
+        switch (playerStatusInfo.getEventType()) {
+            case PlaybackEvent.Status_NothingIdle://播放器空闲
+            case PlaybackEvent.Status_Opening://正在打开媒体文件
+            case PlaybackEvent.Status_Buffering://正在缓冲
+            case PlaybackEvent.Status_Playing://正在播放
+            case PlaybackEvent.Status_Ended://播放完成
+            case PlaybackEvent.Status_Error://错误
+                break;
+        }
+    }
+
+    @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
+    public boolean onCourierEvent(EventCourierInterface courierInterface) {
+        //todo 异步事件
+        return true;
+    }
 }

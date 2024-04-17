@@ -10,9 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.octopus.android.myplayer.databinding.FragmentSecondBinding;
+import com.zhuchao.android.session.BaseFragment;
 
 
-public class SecondFragment extends Fragment {
+public class SecondFragment extends BaseFragment {
 
     private FragmentSecondBinding binding;
 
