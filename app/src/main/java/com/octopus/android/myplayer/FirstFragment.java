@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.octopus.android.myplayer.databinding.FragmentFirstBinding;
 import com.zhuchao.android.detect.FdActivity;
+import com.zhuchao.android.fbase.MMLog;
 import com.zhuchao.android.fbase.MethodThreadMode;
 import com.zhuchao.android.fbase.TCourierSubscribe;
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface;
@@ -23,7 +24,7 @@ import com.zhuchao.android.video.OMedia;
 import com.zhuchao.android.video.VideoList;
 
 public class FirstFragment extends BaseFragment implements PlayerCallback {
-
+    private static final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
     //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
     private final OMedia oMedia = new OMedia("/storage/USBdisk2/Gentleman-1080P.mp4");
@@ -118,6 +119,7 @@ public class FirstFragment extends BaseFragment implements PlayerCallback {
             case PlaybackEvent.Status_Error://错误
                 break;
         }
+        MMLog.d(TAG,playerStatusInfo.toString());
     }
 
     @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
