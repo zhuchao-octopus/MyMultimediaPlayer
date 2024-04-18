@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <permission android:name="com.octopus.android.action.OCTOPUS.PERMISSION"/>
+
     <application
         android:name=".MultimediaApplication"
         android:allowBackup="true"
@@ -39,9 +41,12 @@
         <service
             android:name=".MultimediaService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="TODO">
         </service>
-        <receiver
+
+        <!--
+      <receiver
             android:name="com.octopus.android.multimedia.MultimediaBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
@@ -55,10 +60,11 @@
                 <action android:name="android.intent.action.MEDIA_CHECKING" />
                 <action android:name="android.intent.action.MEDIA_EJECT" />
                 <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.OCTOPUS_HELLO" />
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+        </receiver>-->
 
-        </receiver>
     </application>
 
 </manifest>

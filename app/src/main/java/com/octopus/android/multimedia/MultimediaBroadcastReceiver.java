@@ -14,10 +14,12 @@ import java.util.Objects;
 
 public class MultimediaBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "MultimediaBroadcastReceiver";
-    private static final String ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
-
+    public static final String Action_OCTOPUS_permission = "com.octopus.android.action.OCTOPUS.PERMISSION";
+    public static final String ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
+    public  static final String Action_OCTOPUS_HELLO = "com.octopus.android.action.OCTOPUS_HELLO";
     public MultimediaBroadcastReceiver() {
         super();
+        MMLog.d(TAG, "MultimediaBroadcastReceiver onCrete!");
     }
 
     @Override
@@ -29,6 +31,9 @@ public class MultimediaBroadcastReceiver extends BroadcastReceiver {
                 Intent intent1 = new Intent(context, MultimediaService.class);
                 context.startService(intent1);
             break;
+            case Action_OCTOPUS_HELLO:
+                ;//
+                break;
             case Intent.ACTION_MEDIA_MOUNTED:
                 ///if (CABINET.tCourierEventBus != null)
                 ///    CABINET.tCourierEventBus.post(new EventCourier(EventCode.USB_IN.ordinal()));
