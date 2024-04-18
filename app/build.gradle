@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.octopus.android.myplayer'
+    namespace 'com.octopus.android.multimedia'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.octopus.android.myplayer"
+        applicationId "com.octopus.android.multimedia"
         minSdk 24
         targetSdk 34
         versionCode 1

@@ -1,4 +1,4 @@
-package com.octopus.android.myplayer;
+package com.octopus.android.multimedia.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.octopus.android.myplayer.databinding.FragmentFirstBinding;
+import com.octopus.android.multimedia.R;
+import com.octopus.android.multimedia.databinding.FragmentVideoBinding;
 import com.zhuchao.android.detect.FdActivity;
 import com.zhuchao.android.fbase.MMLog;
 import com.zhuchao.android.fbase.MethodThreadMode;
@@ -24,9 +24,9 @@ import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;
 import com.zhuchao.android.video.VideoList;
 
-public class FirstFragment extends BaseFragment implements PlayerCallback {
+public class VideoFragment extends BaseFragment implements PlayerCallback {
     private static final String TAG = "FirstFragment";
-    private FragmentFirstBinding binding;
+    private FragmentVideoBinding binding;
     //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
     private final OMedia oMedia = new OMedia("/storage/USBdisk2/Gentleman-1080P.mp4");
 
@@ -38,7 +38,7 @@ public class FirstFragment extends BaseFragment implements PlayerCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentVideoBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

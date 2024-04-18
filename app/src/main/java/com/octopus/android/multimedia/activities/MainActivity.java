@@ -1,9 +1,10 @@
-package com.octopus.android.myplayer;
+package com.octopus.android.multimedia.activities;
 
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.octopus.android.myplayer.databinding.ActivityMainBinding;
+import com.octopus.android.multimedia.R;
+import com.octopus.android.multimedia.databinding.ActivityMainBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
