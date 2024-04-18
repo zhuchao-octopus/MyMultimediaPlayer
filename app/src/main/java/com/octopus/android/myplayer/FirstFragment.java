@@ -3,6 +3,7 @@ package com.octopus.android.myplayer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -59,6 +60,7 @@ public class FirstFragment extends BaseFragment implements PlayerCallback {
         tPlayManager.addPlayList("audio", defaultPlayingList_audio);
         tPlayManager.addPlayList("picture", defaultPlayingList_picture);
         tPlayManager.callback(this);
+        tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
         binding.getRoot().findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
 
             @Override
