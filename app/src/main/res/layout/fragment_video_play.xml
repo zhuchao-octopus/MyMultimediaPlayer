@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_g"
-    tools:context=".VideoPlayFragment">
+    tools:context="com.octopus.android.multimedia.fragments.VideoPlayFragment">
 
     <SurfaceView
         android:id="@+id/surfaceView"

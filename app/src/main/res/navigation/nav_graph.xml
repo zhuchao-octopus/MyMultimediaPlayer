@@ -6,7 +6,7 @@
     app:startDestination="@id/videoSortFragment">
     <fragment
         android:id="@+id/videoSortFragment"
-        android:name="com.octopus.android.myplayer.VideoSortFragment"
+        android:name="com.octopus.android.multimedia.fragments.VideoSortFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_video_sort">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoPlayFragment"
-        android:name="com.octopus.android.myplayer.VideoPlayFragment"
+        android:name="com.octopus.android.multimedia.fragments.VideoPlayFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_video_play">
 

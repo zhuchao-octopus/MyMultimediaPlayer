@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".MyPlayerApplication"
+        android:name="com.octopus.android.multimedia.fragments.MyPlayerApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
         <!--autoSize end-->
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.octopus.android.multimedia.activitys.MainActivity"
             android:exported="true"
             android:theme="@style/StartTheme">
             <intent-filter>
