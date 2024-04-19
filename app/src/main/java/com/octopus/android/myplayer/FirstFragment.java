@@ -28,7 +28,7 @@ public class FirstFragment extends BaseFragment implements PlayerCallback {
     private static final String TAG = "FirstFragment";
     private FragmentFirstBinding binding;
     //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
-    private final OMedia oMedia = new OMedia("/storage/USBdisk2/Gentleman-1080P.mp4");
+    private final OMedia oMedia = new OMedia("/storage/emulated/0/Movies/1665669595.mp4");
 
     public static final VideoList defaultPlayingList_video = new VideoList(null);//视频
     public static final VideoList defaultPlayingList_audio = new VideoList(null);//音乐
