@@ -1,10 +1,10 @@
-package com.octopus.android.multimedia.fragments.statelayout
+package com.octopus.android.multimedia.statelayout
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.octopus.android.multimedia.R
-import com.octopus.android.multimedia.fragments.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.zy.multistatepage.MultiState
 import com.zy.multistatepage.MultiStateContainer
 

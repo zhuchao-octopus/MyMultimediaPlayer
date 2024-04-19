@@ -12,8 +12,8 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoSortBinding
-import com.octopus.android.multimedia.fragments.utils.setOnClickListenerWithInterval
-import com.octopus.android.multimedia.fragments.utils.viewBinding
+import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.viewBinding
 
 /**
  * 视频分类页面

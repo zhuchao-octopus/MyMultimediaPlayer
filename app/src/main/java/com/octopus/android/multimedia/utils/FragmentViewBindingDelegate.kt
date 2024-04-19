@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments.utils
+package com.octopus.android.multimedia.utils
 
 import android.os.Handler
 import android.os.Looper

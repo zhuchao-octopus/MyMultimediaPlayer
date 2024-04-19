@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksView
@@ -13,8 +12,8 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoPlayBinding
-import com.octopus.android.multimedia.fragments.utils.setOnClickListenerWithInterval
-import com.octopus.android.multimedia.fragments.utils.viewBinding
+import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo
 import com.zhuchao.android.session.TPlayManager
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Async
@@ -19,13 +18,13 @@ import com.airbnb.mvrx.withState
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.octopus.android.multimedia.R
-import com.octopus.android.multimedia.fragments.utils.showEmpty
-import com.octopus.android.multimedia.fragments.utils.showSuccess
-import com.octopus.android.multimedia.fragments.utils.showError
-import com.octopus.android.multimedia.fragments.utils.showLoading
+import com.octopus.android.multimedia.utils.showEmpty
+import com.octopus.android.multimedia.utils.showSuccess
+import com.octopus.android.multimedia.utils.showError
+import com.octopus.android.multimedia.utils.showLoading
 
 import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
-import com.octopus.android.multimedia.fragments.utils.viewBinding
+import com.octopus.android.multimedia.utils.viewBinding
 
 
 //视频列表页面

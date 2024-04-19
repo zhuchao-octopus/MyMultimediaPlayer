@@ -1,12 +1,12 @@
-package com.octopus.android.multimedia.fragments.utils
+package com.octopus.android.multimedia.utils
 
 import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.octopus.android.multimedia.fragments.statelayout.EmptyState
-import com.octopus.android.multimedia.fragments.statelayout.ErrorState
-import com.octopus.android.multimedia.fragments.statelayout.LoadingState
+import com.octopus.android.multimedia.statelayout.EmptyState
+import com.octopus.android.multimedia.statelayout.ErrorState
+import com.octopus.android.multimedia.statelayout.LoadingState
 import com.zy.multistatepage.MultiStateContainer
 import com.zy.multistatepage.state.SuccessState
 import me.jessyan.autosize.AutoSizeConfig

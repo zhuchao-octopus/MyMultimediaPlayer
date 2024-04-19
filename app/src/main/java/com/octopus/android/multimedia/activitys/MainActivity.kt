@@ -6,8 +6,8 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.ktx.immersionBar
 import com.octopus.android.multimedia.R
-import com.octopus.android.multimedia.fragments.utils.autoCalcBaseOnWidth
-import com.octopus.android.multimedia.fragments.utils.autoCalcSizeInDp
+import com.octopus.android.multimedia.utils.autoCalcBaseOnWidth
+import com.octopus.android.multimedia.utils.autoCalcSizeInDp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
