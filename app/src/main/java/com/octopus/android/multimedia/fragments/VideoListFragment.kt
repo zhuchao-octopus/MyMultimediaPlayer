@@ -32,7 +32,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
 
     private val binding: FragmentVideoListBinding by viewBinding()
 
-    // private val viewModel: VideoListViewModel by fragmentViewModel()
+    abstract val viewModel: VideoListViewModel
 
     private val adapter = VideoListAdapter()
 
@@ -59,9 +59,8 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
 
     }
 
-    abstract fun providerViewModel(): VideoListViewModel
 
-    override fun invalidate() = withState(providerViewModel()) {
+    override fun invalidate() = withState(viewModel) {
         if (it.list is Success) {
             if (it.list.invoke().isNullOrEmpty()) {
                 //显示无数据
@@ -74,7 +73,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
         } else if (it.list is Fail) {
             //显示错误
             binding.multiStateContainer.showError {
-                providerViewModel().fetchData()
+                viewModel.fetchData()
             }
         } else {
             //显示加载中

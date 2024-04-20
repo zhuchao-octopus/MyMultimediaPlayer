@@ -4,10 +4,7 @@ import com.airbnb.mvrx.fragmentViewModel
 
 //文件夹视频列表页面
 class FolderFragment : VideoListFragment() {
-    private val viewModel: FolderViewModel by fragmentViewModel()
-    override fun providerViewModel(): VideoListViewModel {
-        return viewModel
-    }
+    override val viewModel: FolderViewModel by fragmentViewModel()
 }
 
 class FolderViewModel(initialState: VideoListState) : VideoListViewModel(initialState) {

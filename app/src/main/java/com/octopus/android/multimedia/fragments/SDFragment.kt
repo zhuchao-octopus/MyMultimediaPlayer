@@ -5,10 +5,7 @@ import kotlinx.coroutines.delay
 
 //sd卡视频列表页面
 class SDFragment : VideoListFragment() {
-    private val viewModel: SDViewModel by fragmentViewModel()
-    override fun providerViewModel(): VideoListViewModel {
-        return viewModel
-    }
+    override val viewModel: SDViewModel by fragmentViewModel()
 }
 
 class SDViewModel(initialState: VideoListState) : VideoListViewModel(initialState) {

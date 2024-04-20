@@ -5,10 +5,11 @@ import kotlinx.coroutines.delay
 
 //播放列表页面
 class PlayListFragment : VideoListFragment() {
-    private val viewModel: PlayListViewModel by fragmentViewModel()
-    override fun providerViewModel(): VideoListViewModel {
-        return viewModel
-    }
+
+
+    override val viewModel: PlayListViewModel by fragmentViewModel()
+
+
 }
 
 class PlayListViewModel(initialState: VideoListState) : VideoListViewModel(initialState) {
