@@ -4,8 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.zhuchao.android.fbase.EC;
-import com.zhuchao.android.fbase.FileUtils;
 import com.zhuchao.android.fbase.MMLog;
 import com.zhuchao.android.fbase.MessageEvent;
 import com.zhuchao.android.fbase.MethodThreadMode;
@@ -30,7 +28,7 @@ public class MultimediaService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Cabinet.getEventBus().unRegisterEventObserver(this);
-        MMLog.d(TAG,"MultimediaService onDestroy!");
+        MMLog.d(TAG, "MultimediaService onDestroy!");
     }
 
     @Override
@@ -49,6 +47,12 @@ public class MultimediaService extends Service {
             }
             case MessageEvent.MESSAGE_EVENT_USB_UNMOUNT -> {
                 ///MMLog.d(TAG, "MESSAGE_EVENT_USB_UNMOUNT");
+            }
+            case MessageEvent.MESSAGE_EVENT_LOCAL_VIDEO -> {
+                MMLog.d(TAG, "MessageEvent.MESSAGE_EVENT_LOCAL_VIDEO");
+            }
+            case MessageEvent.MESSAGE_EVENT_USB_VIDEO -> {
+                MMLog.d(TAG, "MessageEvent.MESSAGE_EVENT_USB_VIDEO");
             }
         }
         return true;
