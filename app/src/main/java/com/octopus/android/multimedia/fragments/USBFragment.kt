@@ -17,13 +17,13 @@ class USBFragment : VideoListFragment() {
     fun onTCourierSubscribeEvent(courierInterface: EventCourierInterface): Boolean {
         when (courierInterface.id) {
             MessageEvent.MESSAGE_EVENT_LOCAL_VIDEO -> {
-                ///MMLog.d(TAG, "MESSAGE_EVENT_USB_MOUNTED");
-                ///MMLog.d(TAG, FileUtils.getUDiscName(this).toString());
             }
 
             MessageEvent.MESSAGE_EVENT_USB_VIDEO -> {
                 MMLog.d(tag, "MessageEvent.MESSAGE_EVENT_USB_VIDEO");
+                viewModel.fetchData()
             }
+
         }
         return true
     }
