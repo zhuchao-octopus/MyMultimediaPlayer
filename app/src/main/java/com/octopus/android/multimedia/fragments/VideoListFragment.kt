@@ -23,6 +23,7 @@ import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
+import com.zhuchao.android.video.OMedia
 
 
 //视频列表页面
@@ -38,7 +39,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
         super.onViewCreated(view, savedInstanceState)
 
         //设置点击事件
-        adapter.setOnItemClickListener { baseQuickAdapter: BaseQuickAdapter<String, *>, view: View, i: Int ->
+        adapter.setOnItemClickListener { baseQuickAdapter: BaseQuickAdapter<OMedia, *>, view: View, i: Int ->
             val item = adapter.getItem(i)
             //跳转到播放页面
             findNavController().navigate(
@@ -94,12 +95,12 @@ abstract class VideoListViewModel(initialState: VideoListState) :
 }
 
 //视频列表页面状态
-data class VideoListState(val list: Async<List<Any>> = Uninitialized) : MavericksState
+data class VideoListState(val list: Async<List<OMedia>> = Uninitialized) : MavericksState
 
 //视频列表适配器
-class VideoListAdapter : BaseQuickAdapter<String, QuickViewHolder>() {
-    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: String?) {
-        holder.setText(R.id.textView, item)
+class VideoListAdapter : BaseQuickAdapter<OMedia, QuickViewHolder>() {
+    override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: OMedia?) {
+        holder.setText(R.id.textView, item?.pathName)
     }
 
     override fun onCreateViewHolder(
