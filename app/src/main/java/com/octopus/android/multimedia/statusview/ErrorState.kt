@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.statelayout
+package com.octopus.android.multimedia.statusview
 
 import android.content.Context
 import android.view.LayoutInflater

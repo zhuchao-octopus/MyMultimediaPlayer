@@ -1,5 +1,6 @@
 package com.octopus.android.multimedia.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -23,19 +24,17 @@ import com.zhuchao.android.session.TPlayManager
  */
 class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play), MavericksView {
 
-
     private val binding: FragmentVideoPlayBinding by viewBinding()
-
     private val viewModel: VideoPlayViewModel by fragmentViewModel()
-
     private lateinit var mTPlayManager: TPlayManager
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mTPlayManager = TPlayManager.getInstance(context);
 
-        mTPlayManager?.apply {
+        mTPlayManager.apply {
             setSurfaceView(binding.surfaceView)
             callback {
                 Log.d("VideoPlayFragment", "播放信息:$it")
@@ -65,7 +64,6 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play), MavericksV
                     }
                 }
             }
-
         }
         //点击播放区域,改变按钮状态
         binding.viewPlay.setOnTouchListener { v, event ->
@@ -76,7 +74,6 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play), MavericksV
             }
             false
         }
-
 
         binding.viewPrev.setOnClickListenerWithInterval {
             //TODO 点击快退
@@ -114,7 +111,6 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play), MavericksV
             }
             true
         }
-
 
         binding.ivEq.setOnClickListenerWithInterval {
             //TODO 点击eq

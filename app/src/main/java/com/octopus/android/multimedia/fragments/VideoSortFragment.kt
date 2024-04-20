@@ -78,7 +78,6 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort), MavericksV
             }
 
             else -> {
-
             }
         }
 
@@ -113,7 +112,6 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort), MavericksV
             override fun getItemCount(): Int {
                 return 4
             }
-
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
                     return PlayListFragment()
@@ -133,7 +131,6 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort), MavericksV
             binding.ivPlayList.isSelected = true
             binding.tvPlayList.setTextColor(requireContext().getColor(R.color.colorAccent))
         }
-
     }
 
 
@@ -149,7 +146,7 @@ class VideoSortViewModel(initialState: VideoSortState) : MavericksViewModel<Vide
 
 
 data class VideoSortState(
-    val index: Int = 0,//当前选中项
+    val index: Int = 0, //当前选中项
 ) : MavericksState
 
 

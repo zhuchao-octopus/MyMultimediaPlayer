@@ -18,12 +18,11 @@ import com.airbnb.mvrx.withState
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.octopus.android.multimedia.R
+import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
 import com.octopus.android.multimedia.utils.showEmpty
-import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
-
-import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
+import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 
 
@@ -56,7 +55,6 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
 
         //默认显示加载中
         binding.multiStateContainer.showLoading()
-
     }
 
     abstract fun providerViewModel(): VideoListViewModel
@@ -98,7 +96,7 @@ abstract class VideoListViewModel(initialState: VideoListState) :
 }
 
 //视频列表页面状态
-data class VideoListState(val list: Async<List<String>> = Uninitialized) : MavericksState
+data class VideoListState(val list: Async<List<Any>> = Uninitialized) : MavericksState
 
 //视频列表适配器
 class VideoListAdapter : BaseQuickAdapter<String, QuickViewHolder>() {
