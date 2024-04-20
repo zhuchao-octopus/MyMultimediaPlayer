@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/videoSortFragment">
+    app:startDestination="@id/fmFragment">
     <fragment
         android:id="@+id/videoSortFragment"
         android:name="com.octopus.android.multimedia.fragments.VideoSortFragment"
-        android:label="@string/first_fragment_label"
+        android:label="video list"
         tools:layout="@layout/fragment_video_sort">
         <action
             android:id="@+id/action_videoSortFragment_to_videoPlayFragment"
@@ -16,8 +16,16 @@
     <fragment
         android:id="@+id/videoPlayFragment"
         android:name="com.octopus.android.multimedia.fragments.VideoPlayFragment"
-        android:label="@string/first_fragment_label"
+        android:label="video play"
         tools:layout="@layout/fragment_video_play">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fmFragment"
+        android:name="com.octopus.android.multimedia.fragments.fm.FmFragment"
+        android:label="fm"
+        tools:layout="@layout/fragment_fm">
 
     </fragment>
 </navigation>

@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
-import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
@@ -22,7 +21,7 @@ import com.zhuchao.android.session.TPlayManager
 /**
  * 视频播放页面
  */
-class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play), MavericksView {
+class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
     private val binding: FragmentVideoPlayBinding by viewBinding()
     private val viewModel: VideoPlayViewModel by fragmentViewModel()

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.MavericksState
-import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
@@ -27,11 +26,11 @@ import com.octopus.android.multimedia.utils.viewBinding
 
 
 //视频列表页面
-abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), MavericksView {
+abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
 
     private val binding: FragmentVideoListBinding by viewBinding()
 
-    // private val viewModel: VideoListViewModel by fragmentViewModel()
+    abstract val viewModel: VideoListViewModel
 
     private val adapter = VideoListAdapter()
 
@@ -57,9 +56,8 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
         binding.multiStateContainer.showLoading()
     }
 
-    abstract fun providerViewModel(): VideoListViewModel
 
-    override fun invalidate() = withState(providerViewModel()) {
+    override fun invalidate() = withState(viewModel) {
         if (it.list is Success) {
             if (it.list.invoke().isNullOrEmpty()) {
                 //显示无数据
@@ -72,7 +70,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), M
         } else if (it.list is Fail) {
             //显示错误
             binding.multiStateContainer.showError {
-                providerViewModel().fetchData()
+                viewModel.fetchData()
             }
         } else {
             //显示加载中

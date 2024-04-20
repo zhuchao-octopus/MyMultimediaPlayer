@@ -6,10 +6,7 @@ import kotlinx.coroutines.delay
 
 //usb视频播放页面
 class USBFragment : VideoListFragment() {
-    private val viewModel: USBViewModel by fragmentViewModel()
-    override fun providerViewModel(): VideoListViewModel {
-        return viewModel
-    }
+    override val viewModel: USBViewModel by fragmentViewModel()
 }
 
 class USBViewModel(initialState: VideoListState) : VideoListViewModel(initialState) {
