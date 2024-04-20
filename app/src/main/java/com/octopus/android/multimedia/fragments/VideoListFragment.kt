@@ -95,7 +95,7 @@ abstract class VideoListViewModel(initialState: VideoListState) :
 }
 
 //视频列表页面状态
-data class VideoListState(val list: Async<List<OMedia>> = Uninitialized) : MavericksState
+data class VideoListState(val list: Async<List<OMedia>?> = Uninitialized) : MavericksState
 
 //视频列表适配器
 class VideoListAdapter : BaseQuickAdapter<OMedia, QuickViewHolder>() {

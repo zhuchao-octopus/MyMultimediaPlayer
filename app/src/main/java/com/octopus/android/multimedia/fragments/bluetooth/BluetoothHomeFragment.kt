@@ -65,7 +65,7 @@ class BluetoothHomeFragment : BaseFragment(R.layout.fragment_bluetooth_home) {
         //配置viewpager
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
-                return 4
+                return 6
             }
 
             override fun createFragment(position: Int): Fragment {
@@ -86,6 +86,8 @@ class BluetoothHomeFragment : BaseFragment(R.layout.fragment_bluetooth_home) {
             }
         }
 
+
+        binding.viewDial.isSelected =true
 
     }
 

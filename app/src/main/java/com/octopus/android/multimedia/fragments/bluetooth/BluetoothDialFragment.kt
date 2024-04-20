@@ -3,6 +3,7 @@ package com.octopus.android.multimedia.fragments.bluetooth
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,6 +21,9 @@ import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.toastLong
 import com.octopus.android.multimedia.utils.viewBinding
 
+/**
+ * 蓝牙拨号页面
+ * */
 class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
 
     private val binding: FragmentBluetoothDialBinding by viewBinding()
@@ -35,7 +39,7 @@ class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
                     val textView = viewGroup.getChildAt(i)
                     if (textView is TextView) {
                         textView.isClickable = true
-                        textView.setOnClickListenerWithInterval { view ->
+                        textView.setOnClickListener { view ->
                             if (view is TextView) {
                                 viewModel.addNumberText(view.text.toString())
                             }
@@ -43,6 +47,24 @@ class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
                     }
                 }
             }
+        }
+
+        binding.viewDelete.setOnClickListener {
+            viewModel.deleteLastText()
+        }
+        binding.viewDelete.setOnLongClickListener {
+            viewModel.deleteAllText()
+            true
+        }
+
+        binding.viewCall.setOnClickListenerWithInterval {
+            //TODO 拨打电话
+        }
+        binding.viewHung.setOnClickListenerWithInterval {
+            //TODO 挂断电话
+        }
+        binding.viewVoice.setOnClickListenerWithInterval {
+            //TODO 声音
         }
 
     }
@@ -60,7 +82,29 @@ class BluetoothDialViewModel(initialState: BluetoothDialState) :
     MavericksViewModel<BluetoothDialState>(
         initialState
     ) {
+
+    /**
+     * 添加字符到末尾
+     * */
     fun addNumberText(text: String) = setState {
-        copy(phoneNumber = phoneNumber ?: "" + text)
+        copy(phoneNumber = (phoneNumber ?: "") + text)
+    }
+
+    /**
+     * 删除末尾字符
+     * */
+    fun deleteLastText() = setState {
+        if (phoneNumber.isNullOrEmpty()) {
+            copy()
+        } else {
+            copy(phoneNumber = phoneNumber.substring(0, phoneNumber.length - 1))
+        }
+    }
+
+    /**
+     * 删除所有字符
+     * */
+    fun deleteAllText() = setState {
+        copy(phoneNumber = "")
     }
 }
