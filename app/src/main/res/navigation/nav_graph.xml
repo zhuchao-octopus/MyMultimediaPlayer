@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fmFragment">
+    app:startDestination="@id/bluetoothFragment">
     <fragment
         android:id="@+id/videoSortFragment"
         android:name="com.octopus.android.multimedia.fragments.VideoSortFragment"
@@ -26,6 +26,13 @@
         android:name="com.octopus.android.multimedia.fragments.fm.FmFragment"
         android:label="fm"
         tools:layout="@layout/fragment_fm">
+
+    </fragment>
+    <fragment
+        android:id="@+id/bluetoothFragment"
+        android:name="com.octopus.android.multimedia.fragments.bluetooth.BluetoothHomeFragment"
+        android:label="fm"
+        tools:layout="@layout/fragment_bluetooth_home">
 
     </fragment>
 </navigation>
