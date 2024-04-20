@@ -23,7 +23,6 @@ class USBFragment : VideoListFragment() {
                 MMLog.d(tag, "MessageEvent.MESSAGE_EVENT_USB_VIDEO");
                 viewModel.fetchData()
             }
-
         }
         return true
     }
