@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.airbnb.mvrx.MavericksView
 import com.octopus.android.multimedia.utils.autoCalcBaseOnWidth
 import com.octopus.android.multimedia.utils.autoCalcSizeInDp
+import com.zhuchao.android.session.Cabinet
 import me.jessyan.autosize.AutoSize
 
 abstract class BaseFragment(@LayoutRes containerLayoutId: Int = 0) : Fragment(containerLayoutId),
@@ -24,9 +25,14 @@ abstract class BaseFragment(@LayoutRes containerLayoutId: Int = 0) : Fragment(co
             requireActivity().application.autoCalcSizeInDp(),
             requireActivity().application.autoCalcBaseOnWidth()
         )
+        Cabinet.getEventBus().registerEventObserver(this);
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Cabinet.getEventBus().unRegisterEventObserver(this);
+    }
     override fun invalidate() {
 
     }

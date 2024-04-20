@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.octopus.android.multimedia.statelayout.EmptyState
-import com.octopus.android.multimedia.statelayout.ErrorState
-import com.octopus.android.multimedia.statelayout.LoadingState
+import com.octopus.android.multimedia.statusview.EmptyState
+import com.octopus.android.multimedia.statusview.ErrorState
+import com.octopus.android.multimedia.statusview.LoadingState
 import com.zy.multistatepage.MultiStateContainer
 import com.zy.multistatepage.state.SuccessState
 import me.jessyan.autosize.AutoSizeConfig
@@ -23,7 +23,6 @@ internal fun Fragment.toastLong(str: String) {
 internal fun Context.toastLong(str: String) {
     Toast.makeText(this, str, Toast.LENGTH_LONG).show()
 }
-
 
 
 /***
@@ -66,6 +65,7 @@ fun Context.autoCalcSizeInDp(): Float {
     }
     return 720f
 }
+
 fun MultiStateContainer.showSuccess() {
     show<SuccessState>()
 }

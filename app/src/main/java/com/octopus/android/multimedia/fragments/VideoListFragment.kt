@@ -54,7 +54,6 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
 
         //默认显示加载中
         binding.multiStateContainer.showLoading()
-
     }
 
 
@@ -95,7 +94,7 @@ abstract class VideoListViewModel(initialState: VideoListState) :
 }
 
 //视频列表页面状态
-data class VideoListState(val list: Async<List<String>> = Uninitialized) : MavericksState
+data class VideoListState(val list: Async<List<Any>> = Uninitialized) : MavericksState
 
 //视频列表适配器
 class VideoListAdapter : BaseQuickAdapter<String, QuickViewHolder>() {

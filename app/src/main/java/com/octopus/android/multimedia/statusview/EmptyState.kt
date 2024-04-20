@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.statelayout
+package com.octopus.android.multimedia.statusview
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import com.octopus.android.multimedia.R
 import com.zy.multistatepage.MultiState
 import com.zy.multistatepage.MultiStateContainer
 
-class EmptyState: MultiState() {
+class EmptyState : MultiState() {
     override fun onCreateView(
         context: Context,
         inflater: LayoutInflater,

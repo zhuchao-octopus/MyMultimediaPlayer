@@ -1,8 +1,8 @@
 package com.octopus.android.multimedia.fragments
 
 import com.airbnb.mvrx.fragmentViewModel
+import com.zhuchao.android.session.Cabinet
 import kotlinx.coroutines.delay
-import java.lang.Exception
 
 //usb视频播放页面
 class USBFragment : VideoListFragment() {
@@ -16,9 +16,11 @@ class USBViewModel(initialState: VideoListState) : VideoListViewModel(initialSta
             //TODO 获取usb视频列表数据
 
             //模拟出错场景
-            delay(3000)
-            throw Exception("test exception")
+            //delay(3000)
+            //throw Exception("test exception")
             // listOf("1", "2", "3")
+            Cabinet.getPlayManager().localUSBMediaVideos.all.values.toList()
+
         }.execute { copy(list = it) }
     }
 }

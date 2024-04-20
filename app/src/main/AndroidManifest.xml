@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
-        android:name="com.octopus.android.multimedia.fragments.MyPlayerApplication"
+        android:name="com.octopus.android.multimedia.MultimediaApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,16 +32,32 @@
             </intent-filter>
         </activity>
 
-        <!--        <activity-->
-        <!--            android:name="com.zhuchao.android.detect.FdActivity"-->
-        <!--            android:exported="true"-->
-        <!--            android:theme="@style/Theme.MyTestApplication">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
+        <receiver
+            android:name=".MultimediaBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.octopus.android.action.OCTOPUS_HELLO" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
+        <service
+            android:name=".MultimediaService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+
+        <!--<activity-->
+        <!--android:name="com.zhuchao.android.detect.FdActivity"-->
+        <!--android:exported="true"-->
+        <!--android:theme="@style/Theme.MyTestApplication">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
     </application>
 
 </manifest>
