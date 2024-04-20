@@ -28,6 +28,7 @@
                 android:src="@mipmap/fm_limit" />
 
             <FrameLayout
+                android:id="@+id/viewLeftChannel1"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="40dp"
@@ -36,7 +37,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,6 +63,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/viewLeftChannel2"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="76dp"
@@ -69,7 +72,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,6 +98,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/viewLeftChannel3"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="124dp"
@@ -102,7 +107,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,6 +134,7 @@
 
 
             <FrameLayout
+                android:id="@+id/viewRightChannel1"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_gravity="right"
@@ -137,7 +144,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,6 +170,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/viewRightChannel2"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_gravity="right"
@@ -171,7 +180,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,6 +206,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/viewRightChannel3"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_gravity="right"
@@ -205,7 +216,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg1" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -231,12 +243,14 @@
 
 
             <FrameLayout
-                android:layout_gravity="center_horizontal"
                 android:layout_width="172dp"
                 android:layout_height="148dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="205dp"
                 android:layout_marginRight="190dp"
-                android:background="@mipmap/fm_item_bg3"
-                android:layout_marginTop="205dp">
+                android:background="@drawable/selector_fm_item_bg3"
+                android:clickable="true">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -245,12 +259,14 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_gravity="center_horizontal"
                 android:layout_width="172dp"
                 android:layout_height="148dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="190dp"
-                android:background="@mipmap/fm_item_bg3"
-                android:layout_marginTop="205dp">
+                android:layout_marginTop="205dp"
+                android:background="@drawable/selector_fm_item_bg3"
+                android:clickable="true">
+
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -293,9 +309,8 @@
             </FrameLayout>
 
 
-
-
             <FrameLayout
+                android:id="@+id/viewAF"
                 android:layout_width="178dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center_horizontal"
@@ -305,7 +320,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg2" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg2" />
 
                 <ImageView
                     android:layout_width="78dp"
@@ -316,6 +332,7 @@
 
 
             <FrameLayout
+                android:id="@+id/viewTA"
                 android:layout_width="178dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center_horizontal"
@@ -325,7 +342,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg2" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg2" />
 
                 <ImageView
                     android:layout_width="78dp"
@@ -335,6 +353,7 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/viewPTY"
                 android:layout_width="178dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center_horizontal"
@@ -343,7 +362,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/fm_item_bg2" />
+                    android:clickable="true"
+                    android:src="@drawable/selector_fm_item_bg2" />
 
                 <ImageView
                     android:layout_width="78dp"
@@ -356,9 +376,11 @@
         </FrameLayout>
 
         <ImageView
+            android:id="@+id/viewRDS"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="right|bottom"
+            android:clickable="true"
             android:padding="20dp"
             android:src="@drawable/selector_fm_rds" />
     </FrameLayout>
@@ -386,101 +408,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewLeft"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/selector_fm_left" />
 
-                <ImageView
-                    android:id="@+id/ivLeft"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:padding="5dp"
-                    android:src="@drawable/selector_fm_left" />
-            </FrameLayout>
-
-
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/selector_fm_search" />
 
-                <ImageView
-                    android:id="@+id/ivSearch"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:src="@drawable/selector_fm_search" />
-            </FrameLayout>
-
-
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewRight"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:scaleX="-1"
+                android:src="@drawable/selector_fm_left" />
 
-                <ImageView
-                    android:id="@+id/ivRight"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:padding="5dp"
-                    android:scaleX="-1"
-                    android:src="@drawable/selector_fm_left" />
-            </FrameLayout>
-
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewSignal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/selector_fm_signal" />
 
-                <ImageView
-                    android:id="@+id/ivSignal"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:src="@drawable/selector_fm_signal" />
-            </FrameLayout>
 
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewDoubleCircle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/selector_fm_double_circle" />
 
-                <ImageView
-                    android:id="@+id/ivDoubleCircle"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:src="@drawable/selector_fm_double_circle" />
-            </FrameLayout>
-
-            <FrameLayout
+            <ImageView
                 android:id="@+id/viewEq"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/ivEq"
-                    android:layout_width="55dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:clickable="false"
-                    android:src="@drawable/selector_fm_eq" />
-            </FrameLayout>
-
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/selector_fm_eq" />
         </LinearLayout>
 
         <FrameLayout
@@ -496,6 +478,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
+                android:clickable="true"
                 android:src="@drawable/selector_fm_am" />
 
 
@@ -514,6 +497,7 @@
                 android:layout_height="61dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
+                android:clickable="true"
                 android:src="@drawable/selector_fm_settings" />
 
         </FrameLayout>
