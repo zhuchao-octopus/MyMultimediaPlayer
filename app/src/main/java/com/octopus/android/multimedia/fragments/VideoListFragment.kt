@@ -23,6 +23,7 @@ import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
+import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.video.OMedia
 
 
@@ -41,13 +42,13 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
         //设置点击事件
         adapter.setOnItemClickListener { baseQuickAdapter: BaseQuickAdapter<OMedia, *>, view: View, i: Int ->
             val item = adapter.getItem(i)
+            Cabinet.getPlayManager().localUSBMediaVideos.saveToFile("localUSBMediaVideos")
             //跳转到播放页面
             findNavController().navigate(
                 R.id.action_videoSortFragment_to_videoPlayFragment,
                 item?.asMavericksArgs()
             )
         }
-
 
         //配置recycleView
         binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
@@ -81,8 +82,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
 }
 
 //视频列表ViewModel
-abstract class VideoListViewModel(initialState: VideoListState) :
-    MavericksViewModel<VideoListState>(
+abstract class VideoListViewModel(initialState: VideoListState) : MavericksViewModel<VideoListState>(
         initialState
     ) {
 
