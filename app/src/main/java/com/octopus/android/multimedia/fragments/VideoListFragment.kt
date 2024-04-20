@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.MavericksState
-import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
@@ -18,17 +17,16 @@ import com.airbnb.mvrx.withState
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.octopus.android.multimedia.R
+import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
 import com.octopus.android.multimedia.utils.showEmpty
-import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
-
-import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
+import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 
 
 //视频列表页面
-abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list), MavericksView {
+abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
 
     private val binding: FragmentVideoListBinding by viewBinding()
 

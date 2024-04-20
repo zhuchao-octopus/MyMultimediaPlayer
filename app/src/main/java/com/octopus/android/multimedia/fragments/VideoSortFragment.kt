@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.mvrx.MavericksState
-import com.airbnb.mvrx.MavericksView
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
@@ -18,7 +17,7 @@ import com.octopus.android.multimedia.utils.viewBinding
 /**
  * 视频分类页面
  * */
-class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort), MavericksView {
+class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
 
     private val binding: FragmentVideoSortBinding by viewBinding()
     private val viewModel: VideoSortViewModel by fragmentViewModel()
