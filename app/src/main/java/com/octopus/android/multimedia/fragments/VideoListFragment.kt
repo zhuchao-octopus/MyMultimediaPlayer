@@ -46,7 +46,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
             //跳转到播放页面
             findNavController().navigate(
                 R.id.action_videoSortFragment_to_videoPlayFragment,
-                item?.pathName?.asMavericksArgs()
+                item?.asMavericksArgs()
             )
         }
 

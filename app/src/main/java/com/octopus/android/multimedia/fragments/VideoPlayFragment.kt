@@ -16,6 +16,7 @@ import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo
 import com.zhuchao.android.session.TPlayManager
+import com.zhuchao.android.video.OMedia
 
 
 /**
@@ -58,7 +59,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
                         mTPlayManager?.stopPlay()
                         viewModel.setPlayState(false)
                     } else {
-                        startPlay(it.url)
+                        startPlay(it.media)
                         //toastLong("开始播放${it.url}")
                         viewModel.setPlayState(true)
                     }
@@ -91,7 +92,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         withState(viewModel) {
             mTPlayManager?.apply {
-                startPlay(it.url)
+                startPlay(it.media)
                 viewModel.setPlayState(true)
             }
         }
@@ -157,9 +158,9 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 data class VideoPlayState(
     val playing: Boolean = false,//播放中
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
-    val url: String? = null  //文件url
+    val media: OMedia? = null  //文件url
 ) : MavericksState {
-    constructor(args: String?) : this(url = args)
+    constructor(args: OMedia?) : this(media = args)
 }
 
 class VideoPlayViewModel(
