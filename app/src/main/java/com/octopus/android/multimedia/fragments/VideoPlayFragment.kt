@@ -50,6 +50,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         //点击播放
         binding.viewPlay.setOnClickListenerWithInterval {
+          //  Log.d("test22")
             withState(viewModel) {
 
                 mTPlayManager?.apply {
@@ -75,49 +76,49 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         }
 
         binding.viewPrev.setOnClickListenerWithInterval {
-            //TODO 点击快退
             mTPlayManager?.playPre()
         }
-
-//        binding.viewPrev.setOnLongClickListener {
-//            //TODO 长按快退
-//            true
-//        }
-        //点击快退区域,改变按钮状态
-        binding.viewPrev.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                binding.ivPrev.isPressed = true
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                binding.ivPrev.isPressed = false
-            }
-            false
-        }
-
-
         binding.viewNext.setOnClickListenerWithInterval {
-            //TODO 点击快进
             mTPlayManager?.playNext()
         }
 
-//        binding.viewNext.setOnLongClickListener {
-//            //TODO 长按快进
+        //点击快退区域,改变按钮状态
+//        binding.viewPrev.setOnTouchListener { v, event ->
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                binding.ivPrev.isPressed = true
+//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+//                binding.ivPrev.isPressed = false
+//            }
+//            false
+//        }
+
+
+
+
+
+        //点击快退区域,改变按钮状态
+//        binding.viewNext.setOnTouchListener { v, event ->
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                binding.ivNext.isPressed = true
+//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+//                binding.ivNext.isPressed = false
+//            }
 //            true
 //        }
-        //点击快退区域,改变按钮状态
-        binding.viewNext.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                binding.ivNext.isPressed = true
-            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-                binding.ivNext.isPressed = false
-            }
-            true
-        }
 
         binding.ivEq.setOnClickListenerWithInterval {
             //TODO 点击eq
         }
 
         binding.progressView.visibility = View.GONE
+
+
+        withState(viewModel) {
+            mTPlayManager?.apply {
+                startPlay(it.url)
+                viewModel.setPlayState(true)
+            }
+        }
     }
 
     override fun invalidate() = withState(viewModel) {
@@ -150,15 +151,16 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
     override fun onResume() {
         super.onResume()
 
-        //TODO 恢复播放
-        mTPlayManager.resumePlay()
+        //恢复播放
+
+        //mTPlayManager.resumePlay()
     }
 
     override fun onStop() {
         super.onStop()
 
-        //TODO 暂停播放
-        mTPlayManager.stopPlay()
+        //暂停播放
+        //mTPlayManager.stopPlay()
     }
 
 
