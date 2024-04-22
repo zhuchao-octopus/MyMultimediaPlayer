@@ -8,6 +8,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
@@ -27,7 +28,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
     private val binding: FragmentVideoPlayBinding by viewBinding()
     private val viewModel: VideoPlayViewModel by fragmentViewModel()
     private lateinit var mTPlayManager: TPlayManager
-
+    //val media: OMedia? by args()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         mTPlayManager = TPlayManager.getInstance(context);
 
         mTPlayManager.apply {
-            setSurfaceView(binding.surfaceView)
+
             callback {
                 Log.d("VideoPlayFragment", "播放信息:$it")
                 viewModel.setPlayStatusInfo(it)
@@ -87,12 +88,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         binding.progressView.visibility = View.GONE
 
-        withState(viewModel) {
-            mTPlayManager.apply {
-                startPlay(it.media)
-                viewModel.setPlayState(true)
-            }
-        }
+
     }
 
     override fun invalidate() = withState(viewModel) {
@@ -125,9 +121,16 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
     override fun onResume() {
         super.onResume()
 
-        //恢复播放
+        withState(viewModel){
+            mTPlayManager.apply {
+                setSurfaceView(binding.surfaceView)
+                startPlay(it.url)
+                playPause()
+                viewModel.setPlayState(true)
+            }
+        }
 
-        //mTPlayManager.resumePlay()
+
     }
 
     override fun onStop() {
@@ -155,9 +158,9 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 data class VideoPlayState(
     val playing: Boolean = false,//播放中
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
-    val media: OMedia? = null  //文件url
+    val url: String? = null  //文件url
 ) : MavericksState {
-    constructor(args: OMedia?) : this(media = args)
+    // constructor(args: OMedia?) : this(media = args)
 }
 
 class VideoPlayViewModel(
