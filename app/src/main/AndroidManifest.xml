@@ -27,37 +27,10 @@
             android:theme="@style/StartTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".MultimediaBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="com.octopus.android.action.OCTOPUS_HELLO" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".MultimediaService"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-
-        <!--<activity-->
-        <!--android:name="com.zhuchao.android.detect.FdActivity"-->
-        <!--android:exported="true"-->
-        <!--android:theme="@style/Theme.MyTestApplication">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN" />-->
-        <!--<category android:name="android.intent.category.LAUNCHER" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
     </application>
 
 </manifest>
