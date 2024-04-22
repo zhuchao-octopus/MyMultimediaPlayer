@@ -54,15 +54,16 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
           //  Log.d("test22")
             withState(viewModel) {
 
-                mTPlayManager?.apply {
-                    if (isPlaying) {
-                        mTPlayManager?.stopPlay()
-                        viewModel.setPlayState(false)
-                    } else {
-                        startPlay(it.media)
-                        //toastLong("开始播放${it.url}")
-                        viewModel.setPlayState(true)
-                    }
+                mTPlayManager.apply {
+                    mTPlayManager.playPause();
+                    /*if (isPlaying) {
+                                    mTPlayManager?.stopPlay()
+                                    viewModel.setPlayState(false)
+                                } else {
+                                    startPlay(it.media)
+                                    //toastLong("开始播放${it.url}")
+                                    viewModel.setPlayState(true)
+                                }*/
                 }
             }
         }
@@ -89,9 +90,8 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         binding.progressView.visibility = View.GONE
 
-
         withState(viewModel) {
-            mTPlayManager?.apply {
+            mTPlayManager.apply {
                 startPlay(it.media)
                 viewModel.setPlayState(true)
             }

@@ -42,7 +42,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
         //设置点击事件
         adapter.setOnItemClickListener { baseQuickAdapter: BaseQuickAdapter<OMedia, *>, view: View, i: Int ->
             val item = adapter.getItem(i)
-            Cabinet.getPlayManager().localUSBMediaVideos.saveToFile("localUSBMediaVideos")
+            //Cabinet.getPlayManager().localUSBMediaVideos.saveToFile("localUSBMediaVideos")
             //跳转到播放页面
             findNavController().navigate(
                 R.id.action_videoSortFragment_to_videoPlayFragment,
