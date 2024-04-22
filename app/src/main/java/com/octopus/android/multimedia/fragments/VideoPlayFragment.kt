@@ -76,10 +76,10 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         }
 
         binding.viewPrev.setOnClickListenerWithInterval {
-            mTPlayManager?.playPre()
+            mTPlayManager.playPre()
         }
         binding.viewNext.setOnClickListenerWithInterval {
-            mTPlayManager?.playNext()
+            mTPlayManager.playNext()
         }
 
         binding.ivEq.setOnClickListenerWithInterval {
@@ -124,8 +124,9 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         withState(viewModel){
             mTPlayManager.apply {
                 setSurfaceView(binding.surfaceView)
-                startPlay(it.url)
-                playPause()
+                //startPlay(it.url)
+                //playPause()
+                autoPlay()
                 viewModel.setPlayState(true)
             }
         }
@@ -135,7 +136,6 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
     override fun onStop() {
         super.onStop()
-
         //暂停播放
         mTPlayManager.stopPlay()
     }

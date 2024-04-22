@@ -13,6 +13,7 @@ import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoSortBinding
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
+import com.zhuchao.android.session.Cabinet
 
 /**
  * 视频分类页面
@@ -94,6 +95,7 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
         }
         binding.viewUsb.setOnClickListenerWithInterval {
             viewModel.setIndex(2)
+            //Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(this.context,"localUSBMediaVideos")
         }
         binding.viewFolder.setOnClickListenerWithInterval {
             viewModel.setIndex(3)
