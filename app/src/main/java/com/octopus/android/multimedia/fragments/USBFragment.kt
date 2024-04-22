@@ -21,7 +21,7 @@ class USBFragment : VideoListFragment() {
             //USB 媒体库更新后,刷新列表页面
             MessageEvent.MESSAGE_EVENT_USB_VIDEO -> {
                 viewModel.fetchData()
-                Cabinet.getPlayManager().playingList.add(Cabinet.getPlayManager().localUSBMediaVideos);
+                //Cabinet.getPlayManager().playingList.add(Cabinet.getPlayManager().localUSBMediaVideos);
             }
         }
     }
