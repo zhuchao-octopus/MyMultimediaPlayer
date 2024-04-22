@@ -6,6 +6,7 @@
         <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#eb9219</item>
+        <item name="android:textColor">@color/white</item>
 
 
     </style>
