@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.zy.multistatepage.MultiStateContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/multiStateContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/viewSearch"
+            android:layout_width="0dp"
+            android:layout_height="93dp"
+            android:layout_marginRight="16dp"
+            android:background="@mipmap/video_item_bg"
+            app:layout_constraintEnd_toStartOf="@+id/ivPerson"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="973dp"
+                android:layout_height="47dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/bt_search_box" />
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/video_divider"
+            app:layout_constraintEnd_toEndOf="@id/viewSearch"
+            app:layout_constraintStart_toStartOf="@id/viewSearch"
+            app:layout_constraintTop_toBottomOf="@+id/viewSearch" />
+
+        <ImageView
+            android:id="@+id/ivPerson"
+            android:layout_width="198dp"
+            android:layout_height="122dp"
+            android:background="@drawable/selector_bt_dial_btn"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@mipmap/bt_paired"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivSim"
+            android:layout_width="198dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/selector_bt_dial_btn"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@mipmap/bt_search_icon2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPerson" />
+
+        <ImageView
+            android:id="@+id/ivDownload"
+            android:layout_width="198dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/selector_bt_dial_btn"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@mipmap/bt_disconnect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivSim" />
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="198dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/selector_bt_dial_btn"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@mipmap/bt_remove"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivDownload" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/viewSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            tools:listitem="@layout/item_pair_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.zy.multistatepage.MultiStateContainer>

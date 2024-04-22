@@ -82,30 +82,6 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
             mTPlayManager?.playNext()
         }
 
-        //点击快退区域,改变按钮状态
-//        binding.viewPrev.setOnTouchListener { v, event ->
-//            if (event.action == MotionEvent.ACTION_DOWN) {
-//                binding.ivPrev.isPressed = true
-//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-//                binding.ivPrev.isPressed = false
-//            }
-//            false
-//        }
-
-
-
-
-
-        //点击快退区域,改变按钮状态
-//        binding.viewNext.setOnTouchListener { v, event ->
-//            if (event.action == MotionEvent.ACTION_DOWN) {
-//                binding.ivNext.isPressed = true
-//            } else if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
-//                binding.ivNext.isPressed = false
-//            }
-//            true
-//        }
-
         binding.ivEq.setOnClickListenerWithInterval {
             //TODO 点击eq
         }

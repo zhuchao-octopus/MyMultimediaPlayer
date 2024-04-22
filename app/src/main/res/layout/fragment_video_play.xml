@@ -104,12 +104,11 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/ivPrev"
                     android:layout_width="56dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:clickable="false"
                     android:src="@drawable/selector_prev" />
+
             </FrameLayout>
 
             <FrameLayout
@@ -132,9 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
                 <ImageView
-                    android:id="@+id/ivNext"
                     android:layout_width="56dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -150,7 +147,6 @@
             android:layout_height="57dp"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="50dp"
-
             android:src="@drawable/selector_eq" />
 
     </LinearLayout>
