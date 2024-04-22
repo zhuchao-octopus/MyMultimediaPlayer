@@ -76,12 +76,13 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         binding.viewPrev.setOnClickListenerWithInterval {
             //TODO 点击快退
+            mTPlayManager?.playPre()
         }
 
-        binding.viewPrev.setOnLongClickListener {
-            //TODO 长按快退
-            true
-        }
+//        binding.viewPrev.setOnLongClickListener {
+//            //TODO 长按快退
+//            true
+//        }
         //点击快退区域,改变按钮状态
         binding.viewPrev.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -95,12 +96,13 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         binding.viewNext.setOnClickListenerWithInterval {
             //TODO 点击快进
+            mTPlayManager?.playNext()
         }
 
-        binding.viewNext.setOnLongClickListener {
-            //TODO 长按快进
-            true
-        }
+//        binding.viewNext.setOnLongClickListener {
+//            //TODO 长按快进
+//            true
+//        }
         //点击快退区域,改变按钮状态
         binding.viewNext.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {

@@ -46,7 +46,7 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
             //跳转到播放页面
             findNavController().navigate(
                 R.id.action_videoSortFragment_to_videoPlayFragment,
-                item?.asMavericksArgs()
+                item?.pathName?.asMavericksArgs()
             )
         }
 
@@ -82,7 +82,8 @@ abstract class VideoListFragment : BaseFragment(R.layout.fragment_video_list) {
 }
 
 //视频列表ViewModel
-abstract class VideoListViewModel(initialState: VideoListState) : MavericksViewModel<VideoListState>(
+abstract class VideoListViewModel(initialState: VideoListState) :
+    MavericksViewModel<VideoListState>(
         initialState
     ) {
 

@@ -13,18 +13,16 @@ import com.zhuchao.android.video.OMedia
 class USBFragment : VideoListFragment() {
     private var tag = "USBFragment";
     override val viewModel: USBViewModel by fragmentViewModel()
-    @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
-    fun onTCourierSubscribeEvent(courierInterface: EventCourierInterface): Boolean {
-        when (courierInterface.id) {
-            MessageEvent.MESSAGE_EVENT_LOCAL_VIDEO -> {
-            }
 
+    @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
+    fun onTCourierSubscribeEvent(courierInterface: EventCourierInterface) {
+        MMLog.d(tag, "onTCourierSubscribeEvent:$courierInterface")
+        when (courierInterface.id) {
+            //USB 媒体库更新后,刷新列表页面
             MessageEvent.MESSAGE_EVENT_USB_VIDEO -> {
-                MMLog.d(tag, "MessageEvent.MESSAGE_EVENT_USB_VIDEO");
                 viewModel.fetchData()
             }
         }
-        return true
     }
 }
 
@@ -32,11 +30,6 @@ class USBViewModel(initialState: VideoListState) : VideoListViewModel(initialSta
 
     override fun fetchData() {
         suspend {
-            //TODO 获取usb视频列表数据
-            //模拟出错场景
-            //delay(3000)
-            //throw Exception("test exception")
-            // listOf("1", "2", "3")
             Cabinet.getPlayManager().localUSBMediaVideos.all.values.toList() as List<OMedia>
         }.execute { copy(list = it) }
     }
