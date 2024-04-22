@@ -93,7 +93,7 @@ class BluetoothHomeFragment : BaseFragment(R.layout.fragment_bluetooth_home) {
 
     override fun invalidate() = withState(viewModel) {
         if (it.index != binding.viewPager.currentItem) {
-            binding.viewPager.currentItem = it.index
+            binding.viewPager.setCurrentItem(it.index,false)
         }
 
         binding.viewDial.isSelected = it.index == 0

@@ -51,19 +51,16 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
         //点击播放
         binding.viewPlay.setOnClickListenerWithInterval {
-          //  Log.d("test22")
             withState(viewModel) {
-
                 mTPlayManager.apply {
-                    mTPlayManager.playPause();
-                    /*if (isPlaying) {
-                                    mTPlayManager?.stopPlay()
-                                    viewModel.setPlayState(false)
-                                } else {
-                                    startPlay(it.media)
-                                    //toastLong("开始播放${it.url}")
-                                    viewModel.setPlayState(true)
-                                }*/
+
+                    if (isPlaying) {
+                        playPause()
+                        viewModel.setPlayState(false)
+                    } else {
+                        playPause()
+                        viewModel.setPlayState(true)
+                    }
                 }
             }
         }
@@ -137,7 +134,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         super.onStop()
 
         //暂停播放
-        //mTPlayManager.stopPlay()
+        mTPlayManager.stopPlay()
     }
 
 
