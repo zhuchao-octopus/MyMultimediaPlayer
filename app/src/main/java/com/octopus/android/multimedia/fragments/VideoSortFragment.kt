@@ -95,7 +95,7 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
         }
         binding.viewUsb.setOnClickListenerWithInterval {
             viewModel.setIndex(2)
-            //Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(this.context,"localUSBMediaVideos")
+            Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(this.context,"localUSBMediaVideos")
         }
         binding.viewFolder.setOnClickListenerWithInterval {
             viewModel.setIndex(3)

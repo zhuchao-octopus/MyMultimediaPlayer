@@ -149,10 +149,8 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
     override fun onResume() {
         super.onResume()
-
-
+        mTPlayManager.setSurfaceView(binding.surfaceView)
         mTPlayManager.apply {
-            setSurfaceView(binding.surfaceView)
             if (flag) {
                 flag = false
                 withState(viewModel) {
