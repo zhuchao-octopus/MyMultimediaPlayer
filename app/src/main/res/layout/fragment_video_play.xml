@@ -50,13 +50,13 @@
             <!--                android:src="@mipmap/seek_bar_bg"-->
             <!--                style="@android:style/Widget.ProgressBar.Horizontal" />-->
 
-            <ProgressBar
+            <SeekBar
                 android:id="@+id/ivProgress"
-                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:progress="20"
-                android:progressDrawable="@drawable/video_progress" />
+                android:progressDrawable="@drawable/layer_seekbar"
+                android:thumb="@null" />
 
         </FrameLayout>
 
@@ -131,6 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
+
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="40dp"
