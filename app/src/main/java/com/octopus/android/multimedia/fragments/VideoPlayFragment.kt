@@ -1,6 +1,7 @@
 package com.octopus.android.multimedia.fragments
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -10,7 +11,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
-import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
@@ -19,7 +19,6 @@ import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo
 import com.zhuchao.android.session.TPlayManager
-import com.zhuchao.android.video.OMedia
 
 
 /**
@@ -154,7 +153,11 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
             if (flag) {
                 flag = false
                 withState(viewModel) {
-                    startPlay(it.url)
+                    if (!it.path.isNullOrEmpty()) {
+                        startPlay(it.path)
+                    } else if (it.uri != null) {
+                        startPlay(it.uri)
+                    }
                 }
 
             } else {
@@ -192,9 +195,11 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 data class VideoPlayState(
     val playing: Boolean = false,//播放中
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
-    val url: String? = null  //文件url
+    val path: String? = null,  //文件path
+    val uri: Uri? = null
 ) : MavericksState {
-    constructor(args: String?) : this(url = args)
+    constructor(args: String?) : this(path = args)
+    constructor(args: Uri?) : this(uri = args)
 }
 
 class VideoPlayViewModel(

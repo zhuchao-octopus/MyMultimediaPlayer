@@ -1,12 +1,20 @@
 package com.octopus.android.multimedia.fragments
 
+import android.content.ActivityNotFoundException
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.VideoOnly
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
@@ -15,6 +23,8 @@ import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.toastLong
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.session.Cabinet
+import java.io.File
+
 
 /**
  * 视频分类页面
@@ -85,6 +95,20 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
 
     }
 
+
+    private val pickMedia =
+        registerForActivityResult(PickVisualMedia()) {
+            //跳转到播放页面
+            it?.apply {
+                findNavController().navigate(
+                    R.id.action_videoSortFragment_to_videoPlayFragment,
+                    asMavericksArgs()
+                )
+            }
+
+        }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -96,11 +120,24 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
         }
         binding.viewUsb.setOnClickListenerWithInterval {
             viewModel.setIndex(2)
-            Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(this.context,"localUSBMediaVideos")
+            Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(
+                this.context,
+                "localUSBMediaVideos"
+            )
         }
+
+
         binding.viewFolder.setOnClickListenerWithInterval {
             //viewModel.setIndex(3)
-            toastLong("显示文件选择器")
+
+            try {
+                pickMedia.launch(PickVisualMediaRequest(VideoOnly))
+            } catch (e: ActivityNotFoundException) {
+                toastLong("当前设备不支持选择视频")
+            } catch (e: Throwable) {
+                Log.e("VideoSortFragment", e.toString())
+            }
+
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -115,6 +152,7 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
             override fun getItemCount(): Int {
                 return 3
             }
+
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
                     return PlayListFragment()
