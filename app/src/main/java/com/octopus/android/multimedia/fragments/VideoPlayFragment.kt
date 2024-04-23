@@ -196,7 +196,7 @@ data class VideoPlayState(
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
     val url: String? = null  //文件url
 ) : MavericksState {
-    // constructor(args: OMedia?) : this(media = args)
+    constructor(args: String?) : this(url = args)
 }
 
 class VideoPlayViewModel(
