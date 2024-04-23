@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
@@ -85,6 +87,31 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         binding.ivEq.setOnClickListenerWithInterval {
             //TODO 点击eq
         }
+        binding.ivProgress.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if (mTPlayManager.playingMedia != null && seekBar != null) {
+                    //将进度转为时间
+                    val time = mTPlayManager.playingMedia.length * (seekBar.progress / 100f)
+
+                    Log.d(
+                        "onStopTrackingTouch",
+                        "time:$time,mTPlayManager.playingMedia.length:${mTPlayManager.playingMedia.length}"
+                    )
+                    //改变播放进度
+                    mTPlayManager.playingMedia.time=time.toLong()
+                }
+            }
+
+
+        })
 
         binding.progressView.visibility = View.GONE
 
@@ -121,7 +148,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
     override fun onResume() {
         super.onResume()
 
-        withState(viewModel){
+        withState(viewModel) {
             mTPlayManager.apply {
                 setSurfaceView(binding.surfaceView)
                 startPlay(it.url)
