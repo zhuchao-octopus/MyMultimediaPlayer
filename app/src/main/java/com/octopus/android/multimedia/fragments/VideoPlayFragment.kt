@@ -78,10 +78,10 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         }
 
         binding.viewPrev.setOnClickListenerWithInterval {
-            mTPlayManager.playPre()
+            mTPlayManager?.playPre()
         }
         binding.viewNext.setOnClickListenerWithInterval {
-            mTPlayManager.playNext()
+            mTPlayManager?.playNext()
         }
 
         binding.ivEq.setOnClickListenerWithInterval {
@@ -106,7 +106,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
                         "time:$time,mTPlayManager.playingMedia.length:${mTPlayManager.playingMedia.length}"
                     )
                     //改变播放进度
-                    mTPlayManager.playingMedia.time=time.toLong()
+                    mTPlayManager.playingMedia.time = time.toLong()
                 }
             }
 
@@ -145,17 +145,25 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
     }
 
+    private var flag: Boolean = true
+
     override fun onResume() {
         super.onResume()
 
-        withState(viewModel) {
-            mTPlayManager.apply {
-                setSurfaceView(binding.surfaceView)
-                //startPlay(it.url)
-                //playPause()
+
+        mTPlayManager.apply {
+            setSurfaceView(binding.surfaceView)
+            if (flag) {
+                flag = false
+                withState(viewModel) {
+                    startPlay(it.url)
+                }
+
+            } else {
                 autoPlay()
-                viewModel.setPlayState(true)
             }
+
+            viewModel.setPlayState(true)
         }
 
 
@@ -163,6 +171,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
 
     override fun onStop() {
         super.onStop()
+
         //暂停播放
         mTPlayManager.stopPlay()
     }
