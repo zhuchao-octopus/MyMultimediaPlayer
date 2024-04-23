@@ -12,6 +12,7 @@ import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoSortBinding
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.toastLong
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.session.Cabinet
 
@@ -98,7 +99,8 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
             Cabinet.getPlayManager().localUSBMediaVideos.saveToFile(this.context,"localUSBMediaVideos")
         }
         binding.viewFolder.setOnClickListenerWithInterval {
-            viewModel.setIndex(3)
+            //viewModel.setIndex(3)
+            toastLong("显示文件选择器")
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -111,7 +113,7 @@ class VideoSortFragment : BaseFragment(R.layout.fragment_video_sort) {
         //配置viewpager
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
-                return 4
+                return 3
             }
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
