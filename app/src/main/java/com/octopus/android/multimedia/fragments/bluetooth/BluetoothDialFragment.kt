@@ -1,6 +1,7 @@
 package com.octopus.android.multimedia.fragments.bluetooth
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
@@ -28,6 +30,7 @@ class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
 
     private val binding: FragmentBluetoothDialBinding by viewBinding()
     private val viewModel: BluetoothDialViewModel by fragmentViewModel()
+    private val bluetoothViewModel: BluetoothViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,14 +61,20 @@ class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
         }
 
         binding.viewCall.setOnClickListenerWithInterval {
-            //TODO 拨打电话
+            if (binding.tvPhoneNumber.text.isNullOrEmpty()) {
+                return@setOnClickListenerWithInterval
+            }
+            bluetoothViewModel.callNumber(binding.tvPhoneNumber.text.toString())
         }
         binding.viewHung.setOnClickListenerWithInterval {
-            //TODO 挂断电话
+            bluetoothViewModel.hang()
         }
         binding.viewVoice.setOnClickListenerWithInterval {
             //TODO 声音
         }
+
+        binding.tvPhoneNumber.movementMethod = ScrollingMovementMethod.getInstance()
+
 
     }
 
@@ -107,4 +116,6 @@ class BluetoothDialViewModel(initialState: BluetoothDialState) :
     fun deleteAllText() = setState {
         copy(phoneNumber = "")
     }
+
+
 }

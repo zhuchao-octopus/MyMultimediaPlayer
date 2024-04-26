@@ -26,10 +26,6 @@ class MainActivity : AppCompatActivity() {
         //}
 
         setContentView(R.layout.activity_main)
-        //val value1 = 1280f * 1280f + 720f * 720f
-        //val value2 = sqrt(value1.toDouble())
-        //val value3 = value2 / 160
-        //toastLong("设计屏幕尺寸为:$value3")
     }
 
     override fun getResources(): Resources {

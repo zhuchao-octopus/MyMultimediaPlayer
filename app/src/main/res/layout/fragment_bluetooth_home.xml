@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_g"
-    tools:context="com.octopus.android.multimedia.fragments.VideoPlayFragment">
+
+    tools:background="@mipmap/bg_g">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

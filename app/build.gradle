@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -89,4 +90,9 @@ dependencies {
     //implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
     //state page
     implementation 'com.github.Zhao-Yan-Yan:MultiStatePage:2.0.6'
+
+
+    //趣智达 SDK and framework
+    implementation files('../libs/CarSdk_2.4.4.aar')
+    compileOnly files('../libs/framework.jar')
 }

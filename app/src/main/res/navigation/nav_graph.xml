@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/videoSortFragment">
+    app:startDestination="@id/bluetoothHomeFragment">
     <fragment
         android:id="@+id/videoSortFragment"
         android:name="com.octopus.android.multimedia.fragments.VideoSortFragment"
@@ -35,4 +35,32 @@
         tools:layout="@layout/fragment_bluetooth_home">
 
     </fragment>
+
+    <fragment
+        android:id="@+id/musicSortFragment"
+        android:name="com.octopus.android.multimedia.fragments.music.MusicSortFragment"
+        android:label="musicHome"
+        tools:layout="@layout/fragment_music_sort">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/musicPlayFragment"
+        android:name="com.octopus.android.multimedia.fragments.music.MusicPlayFragment"
+        android:label="musicPlay"
+        tools:layout="@layout/fragment_music_play">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/inputFragment"
+        android:name="com.octopus.android.multimedia.fragments.InputFragment"
+        android:label="input"
+
+        tools:layout="@layout/fragment_input" />
+    <action
+        android:id="@+id/action_global_inputFragment"
+        app:destination="@id/inputFragment" />
+
+
 </navigation>

@@ -216,14 +216,19 @@
 
     <TextView
         android:id="@+id/tvPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-10dp"
+        android:gravity="center_horizontal|top"
+        android:paddingHorizontal="10dp"
+        android:scrollbars="vertical"
         android:textColor="@color/white"
         android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/viewCall"
         app:layout_constraintEnd_toEndOf="@+id/viewVoice"
         app:layout_constraintStart_toStartOf="@+id/viewVoice"
         app:layout_constraintTop_toTopOf="@+id/viewDelete"
+        tools:text="000"
         tools:textColor="00000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

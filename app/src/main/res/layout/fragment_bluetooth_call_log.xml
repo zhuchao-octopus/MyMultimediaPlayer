@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/multiStateContainer"
     android:layout_width="match_parent"
+    tools:background="@mipmap/bg_g"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingHorizontal="28dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +19,7 @@
             android:layout_height="0dp"
             android:layout_marginRight="16dp"
             android:background="@mipmap/video_item_bg"
-            app:layout_constraintEnd_toStartOf="@+id/ivPerson"
+            app:layout_constraintEnd_toStartOf="@+id/ivInCallLog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +34,7 @@
 
 
         <ImageView
-            android:id="@+id/ivPerson"
+            android:id="@+id/ivInCallLog"
             android:layout_width="198dp"
             android:layout_height="122dp"
             android:background="@drawable/selector_bt_dial_btn"
@@ -43,7 +45,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivSim"
+            android:id="@+id/ivOutCallLog"
             android:layout_width="198dp"
             android:layout_height="122dp"
             android:layout_marginTop="8dp"
@@ -52,10 +54,10 @@
             android:scaleType="center"
             android:src="@mipmap/bt_call_received"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivPerson" />
+            app:layout_constraintTop_toBottomOf="@+id/ivInCallLog" />
 
         <ImageView
-            android:id="@+id/ivDownload"
+            android:id="@+id/ivMissCallLog"
             android:layout_width="198dp"
             android:layout_height="122dp"
             android:layout_marginTop="8dp"
@@ -64,7 +66,7 @@
             android:scaleType="center"
             android:src="@mipmap/bt_call_missed"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivSim" />
+            app:layout_constraintTop_toBottomOf="@+id/ivOutCallLog" />
 
         <ImageView
             android:id="@+id/ivDelete"
@@ -76,7 +78,7 @@
             android:scaleType="center"
             android:src="@mipmap/bt_remove"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivDownload" />
+            app:layout_constraintTop_toBottomOf="@+id/ivMissCallLog" />
 
 
         <androidx.recyclerview.widget.RecyclerView

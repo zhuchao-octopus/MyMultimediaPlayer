@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/itemBg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/video_item_bg"

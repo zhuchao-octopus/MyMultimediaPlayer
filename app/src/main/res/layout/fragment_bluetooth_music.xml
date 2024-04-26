@@ -118,6 +118,7 @@
                 android:background="@drawable/select_bt_music_item_center">
 
                 <ImageView
+                    android:id="@+id/ivPlay"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
@@ -125,6 +126,7 @@
                     android:src="@mipmap/bt_music_play" />
 
                 <TextView
+                    android:id="@+id/tvPlay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

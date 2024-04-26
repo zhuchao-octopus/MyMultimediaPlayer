@@ -9,23 +9,41 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="28dp">
 
         <FrameLayout
             android:id="@+id/viewSearch"
             android:layout_width="0dp"
             android:layout_height="93dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="16dp"
             android:background="@mipmap/video_item_bg"
+            android:paddingHorizontal="28dp"
             app:layout_constraintEnd_toStartOf="@+id/ivPerson"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/bt_search_box" />
+
+            <EditText
+                android:id="@+id/etSearch"
                 android:layout_width="973dp"
                 android:layout_height="47dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/bt_search_box" />
+                android:background="@null"
+                android:imeOptions="actionSearch"
+                android:inputType="textAutoComplete"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingHorizontal="50dp"
+                android:textColor="#000000"
+                android:textSize="26sp"
+                tools:text="text" />
+
 
         </FrameLayout>
 
@@ -86,15 +104,21 @@
             app:layout_constraintTop_toBottomOf="@+id/ivDownload" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleView"
+        <com.octopus.android.multimedia.utils.HideSoftInputView
+            android:id="@+id/hideSoftInputView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/viewSearch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            tools:listitem="@layout/item_phone_list" />
+            app:layout_constraintTop_toBottomOf="@+id/divider">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                tools:listitem="@layout/item_phone_list" />
+        </com.octopus.android.multimedia.utils.HideSoftInputView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.zy.multistatepage.MultiStateContainer>
