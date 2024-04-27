@@ -2,6 +2,8 @@ package com.octopus.android.multimedia.fragments;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 
+import static com.zhuchao.android.session.Cabinet.testMyCarAidlInterface;
+
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.view.KeyEventDispatcher;
 
+import com.octopus.android.multimedia.MultimediaApplication;
 import com.octopus.android.multimedia.R;
 import com.octopus.android.multimedia.databinding.FragmentVideoBinding;
 import com.zhuchao.android.car.IMyCarAidlInterface;
@@ -34,6 +37,7 @@ import com.zhuchao.android.fbase.eventinterface.PlayerCallback;
 import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo;
 import com.zhuchao.android.session.BaseFragment;
 
+import com.zhuchao.android.session.Cabinet;
 import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;
 import com.zhuchao.android.video.VideoList;
@@ -50,7 +54,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
     public static final VideoList defaultPlayingList_audio = new VideoList(null);//音乐
     public static final VideoList defaultPlayingList_picture = new VideoList(null);//图片
     private TPlayManager tPlayManager = TPlayManager.getInstance(getContext());
-    private IMyCarAidlInterface carBinder;
+
     private Context mContext = null;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,7 +84,6 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         tPlayManager.callback(this);
         tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
         binding.getRoot().findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 //oMedia.with(getContext()).build().playOn((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
@@ -107,44 +110,45 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         binding.getRoot().findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///Intent intent = new Intent(mContext, MMCarService.class);
-                ///MMLog.d(TAG,"mContext.bindService(intent, serviceConnection, BIND_AUTO_CREATE)");
-                Intent intent = new Intent("com.zhuchao.android.car.action.MMCarService");
-                //intent.setPackage(mContext.getPackageName());
-                intent.setComponent(new ComponentName("com.zhuchao.android.car","com.zhuchao.android.car.service.MMCarService"));
-                //Intent newIntent = new Intent(createExplicitFromImplicitIntent(mContext,intent));
-                mContext.bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+                 Cabinet.disconnectedMyCarAidlService(MultimediaApplication.getAppContext());
             }
         });
 
         binding.getRoot().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(carBinder == null) {
-                    MMLog.d(TAG, "carBinder = NULL!");
-                    return;
-                }
-                try {
-                    MMLog.d(TAG,carBinder.getHelloData());
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
+                testMyCarAidlInterface();
             }
         });
         binding.getRoot().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent("com.octopus.android.action.OCTOPUS_HELLO");
-               intent.setPackage(mContext.getPackageName());
-               intent.setComponent(new ComponentName("com.zhuchao.android.session","com.zhuchao.android.session.GlobalBroadcastReceiver"));
+               ///MMLog.d(TAG,"!!!!!!!!!!!!!!!!");
+               Intent intent = new Intent("com.octopus.android.OCTOPUS_HELLO");
+               //Intent intent = new Intent("com.zhuchao.android.ACTION_FILE_SCAN");
+               intent.setPackage(mContext.getPackageName());//静态注册的自定义广播需要带上包名
+               //intent.setComponent(new ComponentName("com.zhuchao.android.session","com.zhuchao.android.session.GlobalBroadcastReceiver"));
                mContext.sendBroadcast(intent);
             }
         });
         binding.getRoot().findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), FdActivity.class);
-                startActivity(intent);
+                ///Intent intent = new Intent(getContext(), FdActivity.class);
+                ///startActivity(intent);
+                Intent intent = new Intent("com.zhuchao.android.ACTION_TEST");//动态注册的自定义广播，带上包名和类名
+                //intent.setPackage(mContext.getPackageName());//接收器在组件mContext.getPackageName()中
+                intent.setComponent(new ComponentName(mContext.getPackageName(),"com.zhuchao.android.session.GlobalBroadcastReceiver"));
+                mContext.sendBroadcast(intent);
+            }
+        });
+        binding.getRoot().findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("com.octopus.android.OCTOPUS_HELLO");//动态注册的广播,默认发往当前组件中
+                ///intent.setPackage(mContext.getPackageName());
+                //intent.setComponent(new ComponentName("com.zhuchao.android.car","com.zhuchao.android.car.service.MMCarService"));
+                mContext.sendBroadcast(intent);
             }
         });
     }
@@ -174,29 +178,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         //todo 异步事件
         return true;
     }
-    private final ServiceConnection serviceConnection = new ServiceConnection() {
 
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MMLog.i(TAG, "onServiceConnected: succeed to connect service.");
-            carBinder = IMyCarAidlInterface.Stub.asInterface(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-
-        @Override
-        public void onBindingDied(ComponentName name) {
-            ServiceConnection.super.onBindingDied(name);
-        }
-
-        @Override
-        public void onNullBinding(ComponentName name) {
-            ServiceConnection.super.onNullBinding(name);
-        }
-    };
     public static Intent createExplicitFromImplicitIntent(Context context, Intent implicitIntent) {
         // Retrieve all services that can match the given intent
         PackageManager pm = context.getPackageManager();

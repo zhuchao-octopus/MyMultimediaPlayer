@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <!--
     <permission android:name="com.octopus.android.action.OCTOPUS.PERMISSION"/>
+    <permission android:name="com.octopus.android.OCTOPUS_HELLO"/>-->
 
     <application
         android:name=".MultimediaApplication"
