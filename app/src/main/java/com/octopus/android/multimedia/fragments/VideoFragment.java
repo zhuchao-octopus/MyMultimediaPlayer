@@ -1,42 +1,33 @@
 package com.octopus.android.multimedia.fragments;
 
-import static android.content.Context.BIND_AUTO_CREATE;
-
 import static com.zhuchao.android.session.Cabinet.testMyCarAidlInterface;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.KeyEventDispatcher;
 
 import com.octopus.android.multimedia.MultimediaApplication;
 import com.octopus.android.multimedia.R;
 import com.octopus.android.multimedia.databinding.FragmentVideoBinding;
-import com.zhuchao.android.car.IMyCarAidlInterface;
-import com.zhuchao.android.detect.FdActivity;
-import com.zhuchao.android.fbase.MMLog;
+import com.zhuchao.android.car.PEventCourier;
+import com.zhuchao.android.fbase.MessageEvent;
 import com.zhuchao.android.fbase.MethodThreadMode;
-import com.zhuchao.android.fbase.TAppProcessUtils;
 import com.zhuchao.android.fbase.TCourierSubscribe;
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface;
 import com.zhuchao.android.fbase.eventinterface.PlaybackEvent;
 import com.zhuchao.android.fbase.eventinterface.PlayerCallback;
 import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo;
 import com.zhuchao.android.session.BaseFragment;
-
 import com.zhuchao.android.session.Cabinet;
 import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;
@@ -56,6 +47,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
     private TPlayManager tPlayManager = TPlayManager.getInstance(getContext());
 
     private Context mContext = null;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -103,32 +95,37 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
 
             @Override
             public void onClick(View v) {
-                tPlayManager.autoPlay();
+                ///tPlayManager.autoPlay();
+                //Intent intent1 = new Intent();
+                //intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.service.MMCarService"));
+                //mContext.startService(intent1);
+                Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
             }
         });
-
         binding.getRoot().findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 Cabinet.disconnectedMyCarAidlService(MultimediaApplication.getAppContext());
+                ///Cabinet.disconnectedMyCarAidlService(MultimediaApplication.getAppContext());
+                ///Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
+                testMyCarAidlInterface();
             }
         });
 
         binding.getRoot().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testMyCarAidlInterface();
+                byte[] cmd = {0, 2, 3, 4, 5, 6, 7, 8, 9};
+                Cabinet.IAidlSendMessage(new PEventCourier(MessageEvent.MESSAGE_EVENT_OCTOPUS_CAR_SERVICE, cmd));
             }
         });
         binding.getRoot().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ///MMLog.d(TAG,"!!!!!!!!!!!!!!!!");
-               Intent intent = new Intent("com.octopus.android.OCTOPUS_HELLO");
-               //Intent intent = new Intent("com.zhuchao.android.ACTION_FILE_SCAN");
-               intent.setPackage(mContext.getPackageName());//静态注册的自定义广播需要带上包名
-               //intent.setComponent(new ComponentName("com.zhuchao.android.session","com.zhuchao.android.session.GlobalBroadcastReceiver"));
-               mContext.sendBroadcast(intent);
+                ///MMLog.d(TAG,"!!!!!!!!!!!!!!!!");
+                Intent intent = new Intent(MessageEvent.MESSAGE_EVENT_OCTOPUS_ACTION_HELLO);
+                //Intent intent = new Intent("com.zhuchao.android.ACTION_FILE_SCAN");
+                intent.setPackage(mContext.getPackageName());//静态注册的自定义广播需要带上包名
+                mContext.sendBroadcast(intent);
             }
         });
         binding.getRoot().findViewById(R.id.button8).setOnClickListener(new View.OnClickListener() {
@@ -136,18 +133,18 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
             public void onClick(View v) {
                 ///Intent intent = new Intent(getContext(), FdActivity.class);
                 ///startActivity(intent);
-                Intent intent = new Intent("com.zhuchao.android.ACTION_TEST");//动态注册的自定义广播，带上包名和类名
+                Intent intent = new Intent(MessageEvent.MESSAGE_EVENT_OCTOPUS_ACTION_HELLO);//动态注册的自定义广播，带上包名和类名
                 //intent.setPackage(mContext.getPackageName());//接收器在组件mContext.getPackageName()中
-                intent.setComponent(new ComponentName(mContext.getPackageName(),"com.zhuchao.android.session.GlobalBroadcastReceiver"));
+                intent.setComponent(new ComponentName(mContext.getPackageName(), "com.zhuchao.android.session.GlobalBroadcastReceiver"));
                 mContext.sendBroadcast(intent);
             }
         });
         binding.getRoot().findViewById(R.id.button9).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("com.octopus.android.OCTOPUS_HELLO");//动态注册的广播,默认发往当前组件中
-                ///intent.setPackage(mContext.getPackageName());
-                //intent.setComponent(new ComponentName("com.zhuchao.android.car","com.zhuchao.android.car.service.MMCarService"));
+            public void onClick(View v) {//com.zhuchao.android.ACTION_TEST
+                Intent intent = new Intent(MessageEvent.MESSAGE_EVENT_OCTOPUS_ACTION_HELLO);//动态注册的广播,发往外部
+                //Intent intent = new Intent("com.zhuchao.android.ACTION_TEST");
+                intent.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.session.GlobalBroadcastReceiver"));
                 mContext.sendBroadcast(intent);
             }
         });

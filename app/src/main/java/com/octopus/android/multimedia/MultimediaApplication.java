@@ -3,6 +3,7 @@ package com.octopus.android.multimedia;
 import android.content.Intent;
 import android.os.Build;
 
+import com.zhuchao.android.session.Cabinet;
 import com.zhuchao.android.session.MApplication;
 
 public class MultimediaApplication extends MApplication {
@@ -19,6 +20,8 @@ public class MultimediaApplication extends MApplication {
                 startService(intent1);
             }
         }*/
+        /////////////////////////////////////////////////////////////////////////////////
+        //初始化各模块组件
     }
 
     @Override
