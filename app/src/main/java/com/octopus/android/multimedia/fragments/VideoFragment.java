@@ -96,18 +96,22 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
             @Override
             public void onClick(View v) {
                 ///tPlayManager.autoPlay();
-                //Intent intent1 = new Intent();
-                //intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.service.MMCarService"));
-                //mContext.startService(intent1);
-                Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
+                Intent intent1 = new Intent();
+                intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.service.MMCarService"));
+                mContext.startService(intent1);
+                //Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
             }
         });
         binding.getRoot().findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent1 = new Intent();
+                intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.out.OutApp"));
+                mContext.startService(intent1);
                 ///Cabinet.disconnectedMyCarAidlService(MultimediaApplication.getAppContext());
                 ///Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
-                testMyCarAidlInterface();
+                //testMyCarAidlInterface();
+
             }
         });
 
