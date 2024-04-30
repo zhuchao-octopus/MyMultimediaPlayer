@@ -30,6 +30,8 @@ class BluetoothHomeFragment : BaseFragment(R.layout.fragment_bluetooth_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewPager.offscreenPageLimit = 6
+
         binding.viewDial.setOnClickListenerWithInterval {
             it.isSelected = true
             viewModel.setIndex(0)

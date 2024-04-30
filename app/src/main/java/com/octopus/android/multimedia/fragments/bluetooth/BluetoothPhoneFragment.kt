@@ -52,6 +52,7 @@ class BluetoothPhoneFragment : BaseFragment(R.layout.fragment_bluetooth_phone) {
         binding.ivDownload.setOnClickListenerWithInterval {
             hideSoftInput(it)
             bluetoothViewModel.fetchContacts()
+            viewModel.setSelectedItem(null)
 
         }
         binding.ivDelete.setOnClickListenerWithInterval {

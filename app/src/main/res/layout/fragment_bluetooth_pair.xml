@@ -16,7 +16,7 @@
             android:id="@+id/viewSearch"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
+
             android:layout_marginRight="16dp"
             android:background="@mipmap/video_item_bg"
             app:layout_constraintEnd_toStartOf="@+id/ivSearch"
@@ -51,7 +51,7 @@
             android:background="@drawable/selector_bt_dial_btn"
             android:clickable="true"
             android:scaleType="center"
-            android:src="@mipmap/bt_disconnect"
+            android:src="@mipmap/bt_connect"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivSearch" />
 

@@ -1,6 +1,5 @@
 package com.octopus.android.multimedia.fragments.bluetooth
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.airbnb.mvrx.activityViewModel
@@ -35,6 +34,11 @@ class BluetoothMusicFragment : BaseFragment(R.layout.fragment_bluetooth_music) {
         }
 
         binding.multiStateContainer.showLoading()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bluetoothViewModel.switchMusicChannel()
     }
 
     override fun invalidate() = withState(bluetoothViewModel) {

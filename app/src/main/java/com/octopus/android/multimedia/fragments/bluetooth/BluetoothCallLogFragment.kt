@@ -66,16 +66,22 @@ class BluetoothCallLogFragment : BaseFragment(R.layout.fragment_bluetooth_call_l
                 AlertDialog.Builder(requireContext()).apply {
                     setMessage("确认要将\n名称:${it.name},号码:${it.number}\n从电话簿中删除吗?")
                     setPositiveButton("删除") { dialog: DialogInterface, _: Int ->
-                        if (it.deleteKey == 0) {
-                            bluetoothViewModel.deleteInCallLog(it)
-                        } else if (it.deleteKey == 1) {
-                            bluetoothViewModel.deleteOutCallLog(it)
-                        } else if (it.deleteKey == 2) {
-                            bluetoothViewModel.deleteMissCallLog(it)
+
+                        val callLog = it
+                        withState(viewModel) {
+                            if (it.index == 0) {
+                                bluetoothViewModel.deleteOutCallLog(callLog)
+                            } else if (it.index == 1) {
+                                bluetoothViewModel.deleteInCallLog(callLog)
+                            } else if (it.index == 2) {
+                                bluetoothViewModel.deleteMissCallLog(callLog)
+                            }
+
+                            viewModel.setSelectedItem(null)
+                            dialog.dismiss()
                         }
 
-                        viewModel.setSelectedItem(null)
-                        dialog.dismiss()
+
                     }
                     setNegativeButton("取消") { dialog: DialogInterface, _: Int ->
                         dialog.dismiss()

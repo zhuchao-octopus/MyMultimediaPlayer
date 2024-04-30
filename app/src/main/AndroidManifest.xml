@@ -6,6 +6,7 @@
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
     <application
+        tools:replace="android:name"
         android:name="com.octopus.android.multimedia.MultimediaApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +26,7 @@
         <!--autoSize end-->
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name="com.octopus.android.multimedia.activitys.MainActivity"
             android:exported="true"
             android:theme="@style/StartTheme">

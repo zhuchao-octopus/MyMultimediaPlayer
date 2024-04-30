@@ -24,7 +24,6 @@ data class CallLog(
     val name: String?,//名称
     val number: String?,//号码
     val time: Long?,//通话时间
-    val deleteKey: Int = 0//删除key
 )
 
 /**
@@ -40,8 +39,9 @@ data class Contacts(
  * */
 data class BTDevice(
     val deviceName: String? = null,//设备名称
-    val phoneMacAddress: String? = null, //设备mac地址
-    val pairState: Int? = null,//配对状态,null未配对,0:未连接:1已连接
+    val deviceMacAddress: String? = null, //设备mac地址
+    val pairState: Boolean = false,//是否为配对过的设备
+    val time: Long = System.currentTimeMillis(),//添加时间,用于排序
 )
 
 /**
@@ -61,6 +61,10 @@ data class BluetoothState(
     val deviceName: String? = null,//设备名称
     val searchKey: String? = null,//搜索关键字
     val searchContactsList: Async<List<Contacts>> = Uninitialized,//搜索联系人结果
+    val pairDeviceList: List<BTDevice> = emptyList(),//已配对设备
+    val searchDeviceList: List<BTDevice> = emptyList(),//搜索出来新设备
+    val connectedDeviceMac: String? = null,//当前已连接设备的mac地址
+    val displayDeviceList: Async<List<BTDevice>> = Uninitialized,//显示设备列表,由于已配对设备,和搜索设备会有重复和排序问题,这里用一个新的列表管理
 ) : MavericksState
 
 /**
@@ -77,12 +81,19 @@ class BluetoothViewModel(initialState: BluetoothState) :
         //openBluetooth()
 
 
+        //获取已配对设备列表
+        //queryPairList()
     }
 
     override fun onCleared() {
         super.onCleared()
+
+        //停止播放音乐
+        ApiBt.btavStop()
+
         //断开IPC连接
         connection?.disconnect(MApplication.getAppContext())
+
     }
 
     //删除单个联系人
@@ -127,9 +138,10 @@ class BluetoothViewModel(initialState: BluetoothState) :
         ApiBt.btavNext()
     }
 
-    private fun chooseMusicChannel() {
+    fun switchMusicChannel() {
         //如果需要播放器出声音，就需要切播放器
-        ApiMain.appId(ApiMain.APP_ID_AUDIO_PLAYER, ApiMain.APP_ID_AUDIO_PLAYER)
+        // ApiMain.appId(ApiMain.APP_ID_AUDIO_PLAYER, ApiMain.APP_ID_AUDIO_PLAYER)
+        ApiMain.appId(ApiMain.APP_ID_BTAV, ApiMain.APP_ID_BTAV)
     }
 
     //上一首
@@ -173,7 +185,7 @@ class BluetoothViewModel(initialState: BluetoothState) :
             Log.e("deleteInCallLog", "delete fail! time is null")
             return
         }
-        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        ApiBt.deleteOneCallLog(ApiBt.CALL_LOG_TYPE_IN, callLog.number, callLog.time)
         setState { copy(inCallLogList = inCallLogList - callLog) }
     }
 
@@ -182,7 +194,7 @@ class BluetoothViewModel(initialState: BluetoothState) :
             Log.e("deleteOutCallLog", "delete fail! time is null")
             return
         }
-        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        ApiBt.deleteOneCallLog(ApiBt.CALL_LOG_TYPE_OUT, callLog.number, callLog.time)
         setState { copy(outCallLogList = outCallLogList - callLog) }
     }
 
@@ -191,7 +203,7 @@ class BluetoothViewModel(initialState: BluetoothState) :
             Log.e("deleteMissCallLog", "delete fail! time is null")
             return
         }
-        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        ApiBt.deleteOneCallLog(ApiBt.CALL_LOG_TYPE_MISS, callLog.number, callLog.time)
         setState { copy(missCallLogList = missCallLogList - callLog) }
     }
 
@@ -206,19 +218,49 @@ class BluetoothViewModel(initialState: BluetoothState) :
     }
 
     //搜索蓝牙设备
-    fun discover() {
-        ApiBt.discover(300)
+    fun searchBtDevice() {
+        ApiBt.discover(1) //搜索周围蓝牙设备
     }
 
     //查下已配对设备列表
     fun queryPairList() {
-        ApiBt.queryPair()
+        ApiBt.queryPair() //查询已配对设备
     }
 
-    fun connectDevice(deviceName: String) {
-        ApiBt.connectDevice(deviceName)
+    //连接设备
+    fun connectDevice(deviceMacAddress: String) {
+        ApiBt.connectDevice(deviceMacAddress)
     }
 
+    //断开连接
+    fun disconnectDevice() {
+        ApiBt.link(0)
+        ApiBt.btavLink(0)
+    }
+
+
+    //删除设备
+    fun deleteDevice(deviceMacAddress: String) {
+        //参考 demo中的BtContent.java类
+        ApiBt.cmd(ApiBt.CMD_REMOVE_BOND, deviceMacAddress)
+    }
+
+    //计算显示设备列表
+    private fun calcDisplayDeviceList() = withState {
+        suspend {
+            val result = it.pairDeviceList.toMutableList()
+            //遍历所有搜索设备,如果当前设备不在已配对列表中,则添加到显示列表中,最后根据搜索时间进行排序
+            it.searchDeviceList.forEach { btDevice ->
+                val item = result.find { it.deviceMacAddress.equals(btDevice.deviceMacAddress) }
+                if (item == null) {
+                    result.add(btDevice)
+                }
+            }
+            //result.sortBy { it.time }
+            result.sortWith(compareBy({ !it.pairState }, { it.time }))
+            result
+        }.execute { copy(displayDeviceList = it) }
+    }
 
     /**
      * 设置搜索关键字
@@ -275,6 +317,8 @@ class BluetoothViewModel(initialState: BluetoothState) :
                 ApiBt.UPDATE_LOCAL_NAME,//设备名称
                 ApiBt.UPDATE_SEARCH_LIST,//搜索列表
                 ApiBt.UPDATE_PAIR_LIST,//已配对设备
+
+                ApiBt.UPDATE_PHONE_MAC_ADDR,//当前已连接的设备mac地址
             ), callback, true
         )
     }
@@ -366,10 +410,45 @@ class BluetoothViewModel(initialState: BluetoothState) :
                 }
 
                 ApiBt.UPDATE_SEARCH_LIST -> { //搜索列表
+                    val index = params.getInt("index", -1)
+                    val phoneMacAddress = params.getString("phoneMacAddr")
+                    val phoneName = params.getString("phoneName")
 
+                    //参考趣智达sdk BtContent.java 中的示例,-1的时候清空列表
+                    if (index == -1) {
+                        setState { copy(searchDeviceList = emptyList()) }
+                    } else {
+                        val device = BTDevice(phoneName, phoneMacAddress, false)
+                        setState { copy(searchDeviceList = searchDeviceList + device) }
+                    }
+                    calcDisplayDeviceList()
                 }
 
                 ApiBt.UPDATE_PAIR_LIST -> { //已配对列表
+                    val index = params.getInt("index", -1)
+                    val phoneMacAddress = params.getString("phoneMacAddr")
+                    val phoneName = params.getString("phoneName")
+
+                    //参考趣智达sdk BtContent.java 中的示例,-1的时候清空列表
+                    if (index == -1) {
+                        setState { copy(pairDeviceList = listOf()) }
+                    } else {
+
+                        //这里sdk会返回重复数据,仍然需要手动过滤下
+                        val device = BTDevice(phoneName, phoneMacAddress, true)
+                        withState { state ->
+                            val item =
+                                state.pairDeviceList.find { it.deviceMacAddress.equals(device.deviceMacAddress) }
+                            if (item == null) {
+                                setState {
+                                    copy(
+                                        pairDeviceList = pairDeviceList + device
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    calcDisplayDeviceList()
 
                 }
 
@@ -389,6 +468,11 @@ class BluetoothViewModel(initialState: BluetoothState) :
                         setState { copy(missCallLogList = missCallLogList + callLog) }
                     }
 
+                }
+
+                ApiBt.UPDATE_PHONE_MAC_ADDR -> {
+                    val value = params.getString("value")
+                    setState { copy(connectedDeviceMac = value) }
                 }
             }
         }
