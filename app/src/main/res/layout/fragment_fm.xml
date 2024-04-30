@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@mipmap/bg_g"
-    >
+    tools:background="@mipmap/bg_g">
 
     <FrameLayout
         android:layout_width="0dp"
@@ -20,40 +19,63 @@
             android:layout_height="555dp"
             android:layout_gravity="center">
 
+            <TextView
+
+                android:id="@+id/tvMinChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="100dp"
+                tools:text="87.50"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tvMaxChannel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="70dp"
+                tools:text="87.50"
+                android:textSize="22sp" />
+
             <FrameLayout
-                android:layout_width="1140dp"
+                android:layout_width="match_parent"
                 android:layout_height="95dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="20dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/fm_limit" />
 
-                <SeekBar
+                <androidx.appcompat.widget.AppCompatSeekBar
                     android:id="@+id/seekBar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="70dp"
+                    android:max="10800"
+                    android:min="8750"
+                    android:progress="8750"
                     android:progressDrawable="@null"
                     android:thumb="@mipmap/fm_seekbar_progress" />
 
             </FrameLayout>
+
 
             <FrameLayout
                 android:id="@+id/viewLeftChannel1"
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="175dp">
+                android:layout_marginTop="175dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -63,11 +85,11 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvSearchChannel1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="7dp"
-
                     android:text="105.20"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
@@ -80,15 +102,12 @@
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="76dp"
-                android:layout_marginTop="286dp">
+                android:layout_marginTop="286dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -98,6 +117,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvSearchChannel2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -115,15 +135,12 @@
                 android:layout_width="248dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="124dp"
-                android:layout_marginTop="400dp">
+                android:layout_marginTop="400dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -133,6 +150,8 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvSearchChannel3"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -152,15 +171,12 @@
                 android:layout_height="90dp"
                 android:layout_gravity="right"
                 android:layout_marginTop="175dp"
-                android:layout_marginRight="40dp">
+                android:layout_marginRight="40dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -170,11 +186,12 @@
                     android:textSize="18sp" />
 
                 <TextView
+
+                    android:id="@+id/tvSearchChannel4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="7dp"
-
                     android:text="105.20"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
@@ -188,15 +205,12 @@
                 android:layout_height="90dp"
                 android:layout_gravity="right"
                 android:layout_marginTop="286dp"
-                android:layout_marginRight="76dp">
+                android:layout_marginRight="76dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -206,11 +220,12 @@
                     android:textSize="18sp" />
 
                 <TextView
+
+                    android:id="@+id/tvSearchChannel5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="7dp"
-
                     android:text="105.20"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
@@ -224,15 +239,12 @@
                 android:layout_height="90dp"
                 android:layout_gravity="right"
                 android:layout_marginTop="400dp"
-                android:layout_marginRight="124dp">
+                android:layout_marginRight="124dp"
+                android:background="@drawable/selector_fm_item_bg1">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg1" />
 
                 <TextView
+                    android:id="@+id/tvSearchUnit6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -242,11 +254,12 @@
                     android:textSize="18sp" />
 
                 <TextView
+
+                    android:id="@+id/tvSearchChannel6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="7dp"
-
                     android:text="105.20"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
@@ -256,8 +269,8 @@
 
 
             <FrameLayout
-                android:layout_width="172dp"
-                android:layout_height="148dp"
+                android:layout_width="178dp"
+                android:layout_height="170dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="205dp"
                 android:layout_marginRight="190dp"
@@ -272,8 +285,8 @@
             </FrameLayout>
 
             <FrameLayout
-                android:layout_width="172dp"
-                android:layout_height="148dp"
+                android:layout_width="178dp"
+                android:layout_height="170dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="190dp"
                 android:layout_marginTop="205dp"
@@ -289,8 +302,8 @@
 
 
             <FrameLayout
-                android:layout_width="311dp"
-                android:layout_height="273dp"
+                android:layout_width="310dp"
+                android:layout_height="310dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="145dp">
 
@@ -300,21 +313,22 @@
                     android:src="@mipmap/fm_center_item" />
 
                 <TextView
+                    android:id="@+id/tvChannel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="120dp"
 
                     android:text="105.20"
                     android:textColor="@color/white"
                     android:textSize="55sp" />
 
                 <TextView
+                    android:id="@+id/tvUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="190dp"
-
+                    android:layout_marginTop="210dp"
                     android:text="MHz"
                     android:textColor="@color/white"
                     android:textSize="30sp" />
@@ -370,13 +384,9 @@
                 android:layout_width="178dp"
                 android:layout_height="82dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="455dp">
+                android:layout_marginTop="455dp"
+                android:background="@drawable/selector_fm_item_bg2">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:src="@drawable/selector_fm_item_bg2" />
 
                 <ImageView
                     android:layout_width="78dp"
@@ -482,6 +492,7 @@
             android:id="@+id/viewFmOrAm"
             android:layout_width="220dp"
             android:layout_height="0dp"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -491,7 +502,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
-                android:clickable="true"
+
                 android:src="@drawable/selector_fm_am" />
 
 
@@ -510,7 +521,7 @@
                 android:layout_height="61dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:clickable="true"
+
                 android:src="@drawable/selector_fm_settings" />
 
         </FrameLayout>

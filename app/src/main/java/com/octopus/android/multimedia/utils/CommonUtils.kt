@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.octopus.android.multimedia.statusview.DeviceNotConnectState
 import com.octopus.android.multimedia.statusview.EmptyState
 import com.octopus.android.multimedia.statusview.ErrorState
 import com.octopus.android.multimedia.statusview.LoadingState
@@ -80,6 +81,10 @@ fun MultiStateContainer.showEmpty() {
 
 fun MultiStateContainer.showLoading() {
     show<LoadingState>()
+}
+
+fun MultiStateContainer.showDeviceNotConnect() {
+    show<DeviceNotConnectState>()
 }
 
 

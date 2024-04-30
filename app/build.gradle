@@ -93,6 +93,6 @@ dependencies {
 
 
     //趣智达 SDK and framework
-    implementation files('../libs/CarSdk_2.4.4.aar')
+    implementation files('../libs/CarSdk_3.2.9.aar')
     compileOnly files('../libs/framework.jar')
 }

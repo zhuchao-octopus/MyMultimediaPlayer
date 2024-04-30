@@ -2,25 +2,22 @@ package com.octopus.android.multimedia.fragments.bluetooth
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.View
-import android.view.View.OnLongClickListener
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.children
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.car.api.ApiBt
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentBluetoothDialBinding
-import com.octopus.android.multimedia.databinding.FragmentBluetoothHomeBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
-import com.octopus.android.multimedia.fragments.VideoSortViewModel
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
-import com.octopus.android.multimedia.utils.toastLong
+import com.octopus.android.multimedia.utils.showDeviceNotConnect
+import com.octopus.android.multimedia.utils.showLoading
+import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 
 /**
@@ -76,11 +73,21 @@ class BluetoothDialFragment : BaseFragment(R.layout.fragment_bluetooth_dial) {
         binding.tvPhoneNumber.movementMethod = ScrollingMovementMethod.getInstance()
 
 
+
+        binding.multiStateContainer.showLoading()
+
     }
 
 
-    override fun invalidate() = withState(viewModel) {
-        binding.tvPhoneNumber.text = it.phoneNumber
+
+    override fun invalidate()= withState(viewModel,bluetoothViewModel){ bluetoothDialState: BluetoothDialState, bluetoothState: BluetoothState ->
+        binding.tvPhoneNumber.text = bluetoothDialState.phoneNumber
+
+        if (bluetoothState.btState == ApiBt.PHONE_STATE_DISCONNECTED) {
+            binding.multiStateContainer.showDeviceNotConnect()
+        } else {
+            binding.multiStateContainer.showSuccess()
+        }
     }
 
 }

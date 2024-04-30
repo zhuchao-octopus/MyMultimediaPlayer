@@ -1,6 +1,8 @@
 package com.octopus.android.multimedia.fragments.bluetooth
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +16,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.car.api.ApiBt
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.util.setOnDebouncedItemClick
 import com.chad.library.adapter4.viewholder.QuickViewHolder
@@ -21,7 +24,10 @@ import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentBluetoothPhoneBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.showDeviceNotConnect
 import com.octopus.android.multimedia.utils.showEmpty
+import com.octopus.android.multimedia.utils.showLoading
+import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 
 
@@ -38,7 +44,7 @@ class BluetoothPhoneFragment : BaseFragment(R.layout.fragment_bluetooth_phone) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter.setStateViewLayout(requireContext(),R.layout.layout_empty)
+        adapter.setStateViewLayout(requireContext(), R.layout.layout_empty)
         adapter.isStateViewEnable = true
         binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
         binding.recycleView.adapter = adapter
@@ -50,11 +56,25 @@ class BluetoothPhoneFragment : BaseFragment(R.layout.fragment_bluetooth_phone) {
         }
         binding.ivDelete.setOnClickListenerWithInterval {
             hideSoftInput(it)
-            adapter.selectedItem?.apply {
-                bluetoothViewModel.deleteContacts(this)
-                viewModel.setSelectedItem(null)
+
+            adapter.selectedItem?.also {
+                //显示确认对话框
+                AlertDialog.Builder(requireContext()).apply {
+                    setMessage("确认要将\n名称:${it.name},号码:${it.number}\n从电话簿中删除吗?")
+                    setPositiveButton("删除") { dialog: DialogInterface, _: Int ->
+                        bluetoothViewModel.deleteContacts(it)
+                        viewModel.setSelectedItem(null)
+                        dialog.dismiss()
+                    }
+                    setNegativeButton("取消") { dialog: DialogInterface, _: Int ->
+                        dialog.dismiss()
+                    }
+                    create()
+                    show()
+                }
             }
         }
+
 
         binding.etSearch.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -83,6 +103,7 @@ class BluetoothPhoneFragment : BaseFragment(R.layout.fragment_bluetooth_phone) {
 
         binding.etSearch.addTextChangedListener(watcher)
 
+        binding.multiStateContainer.showLoading()
 
     }
 
@@ -114,6 +135,13 @@ class BluetoothPhoneFragment : BaseFragment(R.layout.fragment_bluetooth_phone) {
                 adapter.submitList(bluetoothState.contactsList)
             } else {
                 adapter.submitList(bluetoothState.searchContactsList.invoke())
+            }
+
+
+            if (bluetoothState.btState == ApiBt.PHONE_STATE_DISCONNECTED) {
+                binding.multiStateContainer.showDeviceNotConnect()
+            } else {
+                binding.multiStateContainer.showSuccess()
             }
 
         }

@@ -31,7 +31,7 @@ class BluetoothPairFragment : BaseFragment(R.layout.fragment_bluetooth_pair) {
         binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
         binding.recycleView.adapter = adapter
 
-        adapter.submitList(listOf(BTDevice("name1", 0), BTDevice("name2", 1)))
+      //  adapter.submitList(listOf(BTDevice("name1", 0), BTDevice("name2", 1)))
 
         binding.ivSearch.setOnClickListenerWithInterval {
 //            startActivity(Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {

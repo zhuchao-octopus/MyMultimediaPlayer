@@ -1,6 +1,7 @@
 package com.octopus.android.multimedia.fragments.bluetooth
 
 import android.os.Bundle
+import android.util.Log
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksState
@@ -8,6 +9,7 @@ import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
 import com.car.api.ApiBt
+import com.car.api.ApiMain
 import com.car.api.ApiVa
 import com.car.api.CarService
 import com.car.ipc.Connection
@@ -15,9 +17,15 @@ import com.car.ipc.Connection.OnCallbackListener
 import com.car.ipc.ICallback
 import com.car.ipc.IRemote
 import com.zhuchao.android.session.MApplication
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
+
+data class CallLog(
+    val type: String?,//类型
+    val name: String?,//名称
+    val number: String?,//号码
+    val time: Long?,//通话时间
+    val deleteKey: Int = 0//删除key
+)
 
 /**
  * 联系人
@@ -31,8 +39,9 @@ data class Contacts(
  * 蓝牙设备
  * */
 data class BTDevice(
-    val deviceName: String = "",//设备名称
-    val pairState: Int = -1,//配对状态,null未配对,0:未连接:1已连接
+    val deviceName: String? = null,//设备名称
+    val phoneMacAddress: String? = null, //设备mac地址
+    val pairState: Int? = null,//配对状态,null未配对,0:未连接:1已连接
 )
 
 /**
@@ -45,9 +54,9 @@ data class BluetoothState(
     val musicState: Int = ApiBt.PLAYSTATE_PAUSE,//音乐状态
     val musicTitle: String? = null,//音乐标题
     val musicArtist: String? = null,//音乐作者
-    val outCallLogList: List<Contacts> = emptyList(),//呼出通话记录列表
-    val inCallLogList: List<Contacts> = emptyList(),//呼入通话记录列表
-    val missCallLogList: List<Contacts> = emptyList(),//未接通话记录列表
+    val outCallLogList: List<CallLog> = emptyList(),//呼出通话记录列表
+    val inCallLogList: List<CallLog> = emptyList(),//呼入通话记录列表
+    val missCallLogList: List<CallLog> = emptyList(),//未接通话记录列表
     val pinCode: String? = null,//pinCode
     val deviceName: String? = null,//设备名称
     val searchKey: String? = null,//搜索关键字
@@ -55,7 +64,7 @@ data class BluetoothState(
 ) : MavericksState
 
 /**
- * 蓝牙ViewModel
+ * 蓝牙ViewModel,与蓝牙服务具体的交互逻辑都在这里
  * */
 class BluetoothViewModel(initialState: BluetoothState) :
     MavericksViewModel<BluetoothState>(initialState), OnCallbackListener {
@@ -63,13 +72,17 @@ class BluetoothViewModel(initialState: BluetoothState) :
 
     init {
         //创建远程IPC连接
-        connection!!.connect(MApplication.getAppContext())
+        connection?.connect(MApplication.getAppContext())
+        //页面中,没有开关蓝牙的入口,这里默认开启
+        //openBluetooth()
+
+
     }
 
     override fun onCleared() {
         super.onCleared()
         //断开IPC连接
-        connection!!.disconnect(MApplication.getAppContext())
+        connection?.disconnect(MApplication.getAppContext())
     }
 
     //删除单个联系人
@@ -83,17 +96,8 @@ class BluetoothViewModel(initialState: BluetoothState) :
 
     //获取蓝牙联系人，下载电话本
     fun fetchContacts() {
+        setState { copy(contactsList = emptyList()) }
         CarService.me().cmd(ApiBt.CMD_DOWNLOAD_BOOK)
-
-        setState {
-            copy(
-                contactsList = listOf(
-                    Contacts("name1", "13454545454"),
-                    Contacts("name2", "222222222")
-                ),
-
-            )
-        }
         searchContacts()
 
     }
@@ -123,6 +127,11 @@ class BluetoothViewModel(initialState: BluetoothState) :
         ApiBt.btavNext()
     }
 
+    private fun chooseMusicChannel() {
+        //如果需要播放器出声音，就需要切播放器
+        ApiMain.appId(ApiMain.APP_ID_AUDIO_PLAYER, ApiMain.APP_ID_AUDIO_PLAYER)
+    }
+
     //上一首
     fun prevMusic() {
         ApiBt.btavPrev()
@@ -136,12 +145,17 @@ class BluetoothViewModel(initialState: BluetoothState) :
 
     //获取呼出通话记录
     fun fetchOutCallLog() {
-        CarService.me().cmd(ApiBt.CMD_OUT_CALL_LOG)
+        // CarService.me().cmd(ApiBt.CMD_OUT_CALL_LOG)
+        // ApiBt.outCallLog()
     }
 
     //获取呼入通话记录
     fun fetchInCallLog() {
-        CarService.me().cmd(ApiBt.CMD_IN_CALL_LOG)
+        //  CarService.me().cmd(ApiBt.CMD_IN_CALL_LOG)
+        //  CarService.me().cmd(ApiBt.CMD_DOWNLOAD_CALLLOG)
+
+        // ApiBt.requestCallLog()
+
     }
 
     //获取未接通话记录
@@ -152,6 +166,33 @@ class BluetoothViewModel(initialState: BluetoothState) :
     //删除所有通话记录
     fun deleteAllCallLog() {
         CarService.me().cmd(ApiBt.CMD_DELETE_ALL_CALLLOG)
+    }
+
+    fun deleteInCallLog(callLog: CallLog) {
+        if (callLog.time == null) {
+            Log.e("deleteInCallLog", "delete fail! time is null")
+            return
+        }
+        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        setState { copy(inCallLogList = inCallLogList - callLog) }
+    }
+
+    fun deleteOutCallLog(callLog: CallLog) {
+        if (callLog.time == null) {
+            Log.e("deleteOutCallLog", "delete fail! time is null")
+            return
+        }
+        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        setState { copy(outCallLogList = outCallLogList - callLog) }
+    }
+
+    fun deleteMissCallLog(callLog: CallLog) {
+        if (callLog.time == null) {
+            Log.e("deleteMissCallLog", "delete fail! time is null")
+            return
+        }
+        ApiBt.deleteOneCallLog(callLog.deleteKey, callLog.number, callLog.time)
+        setState { copy(missCallLogList = missCallLogList - callLog) }
     }
 
     //设置PinCode
@@ -217,9 +258,19 @@ class BluetoothViewModel(initialState: BluetoothState) :
                 ApiBt.UPDATE_PLAY_STATE,//当前播放音乐状态
                 ApiBt.UPDATE_ID3_TITLE,//当前播放音乐标题
                 ApiBt.UPDATE_ID3_ARTIST,//当前播放音乐作者
-                ApiBt.UPDATE_OUT_CALL_LOG_LIST,//呼出通话记录列表
-                ApiBt.UPDATE_IN_CALL_LOG_LIST,//接听通话记录列表
-                ApiBt.UPDATE_MISS_CALL_LOG_LIST,//未接通话记录列表
+
+                ApiBt.UPDATE_IN_CALL_LOG_LIST,
+                ApiBt.UPDATE_MISS_CALL_LOG_LIST,
+                ApiBt.UPDATE_OUT_CALL_LOG_LIST,
+
+                ApiBt.UPDATE_CALL_LOG_STATE,
+
+
+                ApiBt.UPDATE_ALL_CALL_LOG,//全部通话记录
+                ApiBt.UPDATE_IN_CALL_LOG,//接听通话记录列表
+                ApiBt.UPDATE_OUT_CALL_LOG,//呼出通话记录列表
+                ApiBt.UPDATE_MISS_CALL_LOG,//未接通话记录列表
+
                 ApiBt.UPDATE_PIN_CODE,//pinCode
                 ApiBt.UPDATE_LOCAL_NAME,//设备名称
                 ApiBt.UPDATE_SEARCH_LIST,//搜索列表
@@ -230,13 +281,50 @@ class BluetoothViewModel(initialState: BluetoothState) :
 
     override fun onUpdate(params: Bundle?) {
         params?.apply {
+            Log.i("onUpdate", "\n")
+            for (key in keySet()) {
+                Log.i("onUpdate", "key:$key,value:${get(key)}")
+            }
+            Log.i("onUpdate", "\n")
+
             when (getString("id")) {
                 ApiBt.UPDATE_PHONE_STATE -> //蓝牙连接状态
-                    setState { copy(btState = params.getInt("value")) }
+                {
+                    val state = params.getInt("value")
+
+                    //断开连接后,清空数据
+                    if (state == ApiBt.PHONE_STATE_DISCONNECTED) {
+                        setState {
+                            copy(
+                                btState = state,
+                                contactsList = emptyList(),
+                                inCallLogList = emptyList(),
+                                outCallLogList = emptyList(),
+                                missCallLogList = emptyList(),
+                                searchContactsList = Uninitialized,
+                                contactsLoadTask = Uninitialized
+                            )
+                        }
+                    } else if (state == ApiBt.PHONE_STATE_CONNECTED) {
+                        setState { copy(btState = state) }
+                        // ApiBt.requestCallLog()//连接成功后,获取通话记录
+
+                        //联系人信息会自动获取,这里暂时屏蔽
+                        //fetchContacts()//连接成功后,获取联系人信息
+
+                    } else {
+                        setState { copy(btState = state) }
+                    }
+                }
+
 
                 ApiBt.UPDATE_BOOK -> {       //电话本信息
-                    val contacts = Contacts(params.getString("name"), params.getString("number"))
-                    setState { copy(contactsList = contactsList + contacts) }
+                    val name = params.getString("name");
+                    val number = params.getString("number")
+                    if (!name.isNullOrEmpty() && !number.isNullOrEmpty()) {
+                        val contacts = Contacts(name, number)
+                        setState { copy(contactsList = contactsList + contacts) }
+                    }
                 }
 
                 ApiBt.UPDATE_PBAP_STATE -> {     //电话本下载状态
@@ -266,17 +354,6 @@ class BluetoothViewModel(initialState: BluetoothState) :
                     setState { copy(musicArtist = value) }
                 }
 
-                ApiBt.UPDATE_OUT_CALL_LOG_LIST -> {
-
-                }
-
-                ApiBt.UPDATE_IN_CALL_LOG_LIST -> {
-
-                }
-
-                ApiBt.UPDATE_MISS_CALL_LOG_LIST -> {
-
-                }
 
                 ApiBt.UPDATE_PIN_CODE -> {  //pinCode
                     val value = params.getString("value")
@@ -293,6 +370,24 @@ class BluetoothViewModel(initialState: BluetoothState) :
                 }
 
                 ApiBt.UPDATE_PAIR_LIST -> { //已配对列表
+
+                }
+
+                ApiBt.UPDATE_ALL_CALL_LOG -> {    //全部通话记录
+                    val name = params.getString("name")
+                    val number = params.getString("number")
+                    val time = params.getLong("time")
+                    val type = params.getString("type")
+
+                    val callLog = CallLog(type, name, number, time)
+
+                    if (ApiBt.CMD_IN_CALL_LOG.equals(type, true)) {
+                        setState { copy(inCallLogList = inCallLogList + callLog) }
+                    } else if (ApiBt.CMD_OUT_CALL_LOG.equals(type, true)) {
+                        setState { copy(outCallLogList = outCallLogList + callLog) }
+                    } else if (ApiBt.CMD_MISS_CALL_LOG.equals(type, true)) {
+                        setState { copy(missCallLogList = missCallLogList + callLog) }
+                    }
 
                 }
             }

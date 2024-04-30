@@ -1,5 +1,6 @@
 package com.octopus.android.multimedia.fragments.bluetooth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.airbnb.mvrx.activityViewModel
@@ -9,6 +10,9 @@ import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentBluetoothMusicBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
+import com.octopus.android.multimedia.utils.showDeviceNotConnect
+import com.octopus.android.multimedia.utils.showLoading
+import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 
 /**
@@ -29,6 +33,8 @@ class BluetoothMusicFragment : BaseFragment(R.layout.fragment_bluetooth_music) {
         binding.viewPlay.setOnClickListenerWithInterval {
             bluetoothViewModel.playPauseMusic()
         }
+
+        binding.multiStateContainer.showLoading()
     }
 
     override fun invalidate() = withState(bluetoothViewModel) {
@@ -40,6 +46,13 @@ class BluetoothMusicFragment : BaseFragment(R.layout.fragment_bluetooth_music) {
         } else if (it.musicState == ApiBt.PLAYSTATE_PLAY) {
             binding.ivPlay.setImageResource(R.mipmap.bt_music_pause)
             binding.tvPlay.text = "Pause"
+        }
+
+
+        if (it.btState == ApiBt.PHONE_STATE_DISCONNECTED) {
+            binding.multiStateContainer.showDeviceNotConnect()
+        } else {
+            binding.multiStateContainer.showSuccess()
         }
     }
 }
