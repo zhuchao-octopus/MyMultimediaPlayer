@@ -20,15 +20,20 @@ import com.octopus.android.multimedia.MultimediaApplication;
 import com.octopus.android.multimedia.R;
 import com.octopus.android.multimedia.databinding.FragmentVideoBinding;
 import com.zhuchao.android.car.PEventCourier;
+import com.zhuchao.android.fbase.EventCourier;
+import com.zhuchao.android.fbase.MMLog;
 import com.zhuchao.android.fbase.MessageEvent;
 import com.zhuchao.android.fbase.MethodThreadMode;
+import com.zhuchao.android.fbase.PlaybackEvent;
+import com.zhuchao.android.fbase.PlayerStatusInfo;
 import com.zhuchao.android.fbase.TCourierSubscribe;
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface;
-import com.zhuchao.android.fbase.eventinterface.PlaybackEvent;
+
 import com.zhuchao.android.fbase.eventinterface.PlayerCallback;
-import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo;
+
 import com.zhuchao.android.session.BaseFragment;
 import com.zhuchao.android.session.Cabinet;
+import com.zhuchao.android.session.TMediaManager;
 import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;
 import com.zhuchao.android.video.VideoList;
@@ -44,7 +49,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
     public static final VideoList defaultPlayingList_video = new VideoList(null);//视频
     public static final VideoList defaultPlayingList_audio = new VideoList(null);//音乐
     public static final VideoList defaultPlayingList_picture = new VideoList(null);//图片
-    private TPlayManager tPlayManager = TPlayManager.getInstance(getContext());
+    private TPlayManager tPlayManager = null;
 
     private Context mContext = null;
 
@@ -57,7 +62,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Cabinet.getEventBus().registerEventObserver(this);
         ///binding.button1.setOnClickListener(new View.OnClickListener() {
         ///    @Override
         ///    public void onClick(View view) {
@@ -68,13 +73,14 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         //MMLog.d(TAG, TAG+" " + TAppProcessUtils.getCurrentProcessNameAndId(mContext));
         ///Intent intent = new Intent(getContext(), FdActivity.class);
         ///startActivity(intent);
-        tPlayManager = TPlayManager.getInstance(getContext());
-        defaultPlayingList_video.add(oMedia);
-        tPlayManager.addPlayList("video", defaultPlayingList_video);
-        tPlayManager.addPlayList("audio", defaultPlayingList_audio);
-        tPlayManager.addPlayList("picture", defaultPlayingList_picture);
-        tPlayManager.callback(this);
-        tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
+        ///tPlayManager = TPlayManager.getInstance(getContext());
+        ///defaultPlayingList_video.add(oMedia);
+        ///tPlayManager.addPlayList("video", defaultPlayingList_video);
+        ///tPlayManager.addPlayList("audio", defaultPlayingList_audio);
+        ///tPlayManager.addPlayList("picture", defaultPlayingList_picture);
+        ///tPlayManager.callback(this);
+        ///tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
+
         binding.getRoot().findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,21 +111,28 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         binding.getRoot().findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent();
-                intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.out.OutApp"));
-                mContext.startService(intent1);
+                //Intent intent1 = new Intent();
+                //intent1.setComponent(new ComponentName("com.zhuchao.android.car", "com.zhuchao.android.car.out.OutApp"));
+                //mContext.startService(intent1);
                 ///Cabinet.disconnectedMyCarAidlService(MultimediaApplication.getAppContext());
                 ///Cabinet.initialMyCarAidlInterface(MultimediaApplication.getAppContext());
-                //testMyCarAidlInterface();
+                ///testMyCarAidlInterface();
 
+                ///tMediaManager.updateMedias();
+                ///tPlayManager.updateLocalMedias();
+                Cabinet.getEventBus().printAllEventListener();
+                MMLog.d(TAG,"=======================================");
+                Cabinet.getPlayManager().printAllEventListener();
             }
         });
 
         binding.getRoot().findViewById(R.id.button6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                byte[] cmd = {0, 2, 3, 4, 5, 6, 7, 8, 9};
-                Cabinet.IAidlSendMessage(new PEventCourier(MessageEvent.MESSAGE_EVENT_OCTOPUS_CAR_SERVICE, cmd));
+                ///byte[] cmd = {0, 2, 3, 4, 5, 6, 7, 8, 9};
+                ///Cabinet.IAidlSendMessage(new PEventCourier(MessageEvent.MESSAGE_EVENT_OCTOPUS_CAR_SERVICE, cmd));
+                Cabinet.getEventBus().post(new EventCourier(MessageEvent.MESSAGE_EVENT_TEST));
+
             }
         });
         binding.getRoot().findViewById(R.id.button7).setOnClickListener(new View.OnClickListener() {
@@ -176,7 +189,7 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
 
     @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
     public boolean onCourierEvent(EventCourierInterface courierInterface) {
-        //todo 异步事件
+        MMLog.d(TAG,courierInterface.toStr());
         return true;
     }
 

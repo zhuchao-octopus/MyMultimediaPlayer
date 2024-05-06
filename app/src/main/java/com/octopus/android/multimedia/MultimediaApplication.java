@@ -1,5 +1,6 @@
 package com.octopus.android.multimedia;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
 
