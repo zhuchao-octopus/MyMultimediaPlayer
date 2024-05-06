@@ -12,6 +12,8 @@ import com.car.ipc.Connection
 import com.car.ipc.ICallback
 import com.car.ipc.IRemote
 import com.zhuchao.android.session.MApplication
+import java.util.Timer
+import java.util.TimerTask
 
 
 class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialState),
@@ -19,13 +21,13 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
 
     private var connection: Connection? = Connection(this)
 
+    private var afTimer: Timer? = null
+
+
     init {
         //与fm服务建立连接
         connection!!.connect(MApplication.getAppContext())
 
-        //打开收音机
-        ApiMain.appId(ApiMain.APP_ID_RADIO, ApiMain.APP_ID_RADIO)
-        CarService.me().cmd(ApiRadio.CMD_POWER, ApiKit.ON)
 
         //打开默认频道
         switchChannel()
@@ -34,14 +36,22 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
     override fun onCleared() {
         super.onCleared()
 
+        //关闭定时器
+        cancelAFTimer()
+
+        //关闭收音机
+        CarService.me().cmd(ApiRadio.CMD_POWER, ApiKit.OFF)
+
         //与fm服务断开连接
         connection!!.disconnect(MApplication.getAppContext())
+
     }
 
     //向后搜索
     fun nextSearch() {
         setState {
-            copy(bandManager = bandManager.setSelected(null))
+            currentBand.setSelectedSearchIndex(-1)
+            copy(count = count + 1)
         }
         ApiRadio.seekUp()
 
@@ -50,17 +60,21 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
     //向后搜索
     fun prevSearch() {
         setState {
-            copy(bandManager = bandManager.setSelected(null))
+            currentBand.setSelectedSearchIndex(-1)
+            copy(count = count + 1)
         }
         ApiRadio.seekDown()
     }
 
     fun prevChannel() {
-        ApiRadio.prevChannel()
+       // ApiRadio.prevChannel()
+
+        ApiRadio.freqDown()
     }
 
     fun nextChannel() {
-        ApiRadio.nextChannel()
+        //ApiRadio.nextChannel()
+        ApiRadio.freqUp()
     }
 
     fun search() {
@@ -68,87 +82,130 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
     }
 
 
-    fun test() {
-
-        //测试修改数组
-//        setState {
-//            Log.d("test", "修改前hashcode:${bandList.hashCode()}")
-//            val list = bandList.map { it.clone() }.toMutableList()
-//
-//            if (bandIndex < list.size) {
-//                list[bandIndex].searchChannels = listOf(8888, 8888, 8888, 8888, 8888, 8888)
-//
-//            }
-//
-//            Log.d("test", "修改后hashcode:${list.hashCode()}")
-//
-//
-//            copy(bandList = list)
-//
-//        }
-    }
 
     //切换调频模式
-    fun toggleFmOrAm() = setState {
-        //改变当前调频模式索引,向后循环模式
-        copy(bandManager = bandManager.toggleBand()).apply {
-            switchChannel()
+    fun toggleFmOrAm() = withState {
+        if (!it.currentBand.nextSearchPage()) {
+            setState {
+                copy(
+                    currentBand = if (currentBand == fmBand) amBand else fmBand,
+                    count = count + 1
+                )
+            }
+        } else {
+            setState {
+                copy(
+                    count = count + 1
+                )
+            }
+        }
+        switchChannel()
+    }
+
+
+    //切换st启用状态
+    fun toggleStEnable() = withState {
+        ApiRadio.stero(if (it.stEnable) 0 else 1)
+    }
+
+    fun setRdsTPY(index: Int) {
+        ApiRadio.rdsPtyEnable(index)
+    }
+
+    fun setRdsSeek(index: Int) {
+        //ApiRadio.rdsPtyEnable(1)
+        ApiRadio.rdsPtySeek(index)
+    }
+
+    fun toggleRdsTa() = withState {
+        ApiRadio.rdsTaEnable(if (it.taEnable) 0 else 1)
+    }
+
+    fun toggleRdsAf() = withState {
+        if (it.afEnable) {
+            //关闭af功能
+            ApiRadio.rdsAfEnable(0)
+        } else {
+            //开启af功能
+            ApiRadio.rdsAfEnable(1)
+        }
+
+    }
+
+    private fun startAFTimer() {
+        cancelAFTimer()
+        afTimer = Timer()
+        afTimer?.schedule(object : TimerTask() {
+            override fun run() {
+                toggleAfVisible()
+            }
+        }, 0L, 1000L)
+    }
+
+    private fun cancelAFTimer() {
+        if (afTimer != null) {
+            afTimer?.cancel()
+            afTimer = null
         }
     }
 
-    fun setRdsTPY(index:Int){
-        ApiRadio.rdsPtyEnable(index)
+    //切换af文本显示状态
+    fun toggleAfVisible() = setState {
+        copy(afVisible = !afVisible)
     }
+
 
     private fun switchChannel() = withState {
 
         //rds
-        CarService.me()
-            .cmd(ApiRadio.CMD_RDS_ENABLE, if (it.getCurrentBlandMode().supportRDS) 1 else 0)
+//        if (it.currentBand.supportRDS) {
+//            ApiRadio.rdsEnable(1)
+//        } else {
+//            ApiRadio.rdsEnable(0)
+//        }
 
         //修改调频模式
-        if (it.getCurrentBlandMode().type.equals("FM", true)) {
+        if (it.currentBand is FMBand) {
             ApiRadio.band(ApiRadio.BAND_FM_INDEX_BEGIN)
-        } else if (it.getCurrentBlandMode().type.equals("AM", true)) {
+        } else if (it.currentBand is AMBand) {
             ApiRadio.band(ApiRadio.BAND_AM_INDEX_BEGIN)
         }
         //修改频道
-        ApiRadio.freq(ApiRadio.FREQ_DIRECT, it.getCurrentBlandMode().channel)
+        ApiRadio.freq(ApiRadio.FREQ_DIRECT, it.currentBand.channel)
     }
 
     fun selectSearchChannel(index: Int) = setState {
         //改变当前选中调频模式中的搜索选中状态
 
-        copy(bandManager = bandManager.setSelected(index)).apply {
-            //设置收音机频率
-            ApiRadio.freq(ApiRadio.FREQ_DIRECT, getCurrentBlandMode().channel)
-        }
+        currentBand.setSelectedSearchIndex(index)
 
+        ApiRadio.freq(ApiRadio.FREQ_DIRECT, currentBand.getSelectedSearchChannel())
+        copy(count = count + 1)
     }
 
 
     //根据进度设置当前频道
     fun setChannelByProgress2(progress: Int) = setState {
-        val temp = progress % getCurrentBlandMode().step //与最小步进取余
+        val temp = progress % currentBand.step //与最小步进取余
         var channel: Int
         if (temp == 0) {
             channel = progress
         } else {
             val result = progress - temp
-            if (result > getCurrentBlandMode().maxChannel) {
-                channel = getCurrentBlandMode().maxChannel
-            } else if (result < getCurrentBlandMode().minChannel) {
-                channel = getCurrentBlandMode().minChannel
+            if (result > currentBand.maxChannel) {
+                channel = currentBand.maxChannel
+            } else if (result < currentBand.minChannel) {
+                channel = currentBand.minChannel
             } else {
                 channel = result
             }
         }
 
-        copy(bandManager = bandManager.setChannel(channel)).apply {
-            //设置收音机频率
-            ApiRadio.freq(ApiRadio.FREQ_DIRECT, getCurrentBlandMode().channel)
-        }
+        //currentBand.channel = channel
 
+        ApiRadio.freq(ApiRadio.FREQ_DIRECT, channel)
+
+        copy(count = count + 1)
     }
 
     override fun onConnected(remote: IRemote?, callback: ICallback?) {
@@ -191,9 +248,52 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
                 ApiRadio.UPDATE_FREQ -> {
                     val value = params.getInt("value")
                     setState {
-                        copy(bandManager = bandManager.setChannel(value))
+                        currentBand.channel = value
+                        copy(count = count + 1)
                     }
                 }
+
+                //st功能启用状态
+                ApiRadio.UPDATE_STEREO -> {
+                    val value = params.getInt("value")
+                    setState { copy(stEnable = value == 1) }
+                }
+
+                ApiRadio.UPDATE_RDS_AF_ENABLE -> {
+                    val value = params.getInt("value")
+                    if (value == 1) {
+                        //开启定时器
+                        startAFTimer()
+                    } else {
+                        //关闭定时器
+                        cancelAFTimer()
+                    }
+                    setState { copy(afEnable = value == 1) }
+                }
+
+                ApiRadio.UPDATE_RDS_TA_ENABLE -> {
+                    val value = params.getInt("value")
+                    setState { copy(taEnable = value == 1) }
+                }
+
+                //更新搜索频道
+                ApiRadio.UPDATE_CHANNEL_FREQ -> {
+                    val channel = params.getInt("channel")
+                    val freq = params.getInt("freq")
+
+                    withState {
+                        it.fmBand.updateSearchChannel(channel, freq)
+                        it.amBand.updateSearchChannel(channel, freq)
+                        setState { copy(count = count + 1) }
+                    }
+
+                }
+
+//                ApiRadio.UPDATE_BAND -> {
+//                    val value = params.getInt("value")
+//                    setState { copy(taEnable = value == 1) }
+//                }
+
             }
         }
     }

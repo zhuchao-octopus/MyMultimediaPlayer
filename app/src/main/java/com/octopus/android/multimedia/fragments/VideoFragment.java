@@ -9,11 +9,13 @@ import androidx.annotation.NonNull;
 
 import com.zhuchao.android.fbase.MMLog;
 import com.zhuchao.android.fbase.MethodThreadMode;
+import com.zhuchao.android.fbase.PlaybackEvent;
+import com.zhuchao.android.fbase.PlayerStatusInfo;
 import com.zhuchao.android.fbase.TCourierSubscribe;
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface;
-import com.zhuchao.android.fbase.eventinterface.PlaybackEvent;
+
 import com.zhuchao.android.fbase.eventinterface.PlayerCallback;
-import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo;
+
 import com.zhuchao.android.session.BaseFragment;
 import com.zhuchao.android.session.TPlayManager;
 import com.zhuchao.android.video.OMedia;

@@ -17,7 +17,7 @@ import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoPlayBinding
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
-import com.zhuchao.android.fbase.eventinterface.PlayerStatusInfo
+import com.zhuchao.android.fbase.PlayerStatusInfo
 import com.zhuchao.android.session.TPlayManager
 
 
