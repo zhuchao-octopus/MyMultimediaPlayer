@@ -89,8 +89,8 @@ dependencies {
     implementation('com.zhuchao.android:libOpenComputerVision:1.0@aar')//计算机视觉
     implementation('com.zhuchao.android:libOpenDetection:1.0@aar')//人脸识别
     implementation('com.zhuchao.android:libMediaUtils:1.9@aar')//媒体库
-    implementation('com.zhuchao.android:libPlayerUtils:2.9@aar')//播放器
-    implementation('com.zhuchao.android:libSessionUtils:2.8@aar')//杂项
+    implementation('com.zhuchao.android:libPlayerUtils:3.0@aar')//播放器
+    implementation('com.zhuchao.android:libSessionUtils:2.9@aar')//杂项
 
     //autoSize
     implementation 'com.github.JessYanCoding:AndroidAutoSize:1.2.1'
