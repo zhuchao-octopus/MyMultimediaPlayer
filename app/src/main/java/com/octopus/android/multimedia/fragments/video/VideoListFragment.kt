@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.video
 
 import android.content.Context
 import android.os.Bundle
@@ -18,12 +18,12 @@ import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoListBinding
+import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.utils.showEmpty
 import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
-import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.video.OMedia
 
 

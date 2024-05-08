@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fmFragment">
+    app:startDestination="@id/videoSortFragment">
     <fragment
         android:id="@+id/videoSortFragment"
-        android:name="com.octopus.android.multimedia.fragments.VideoSortFragment"
+        android:name="com.octopus.android.multimedia.fragments.video.VideoSortFragment"
         android:label="video list"
         tools:layout="@layout/fragment_video_sort">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoPlayFragment"
-        android:name="com.octopus.android.multimedia.fragments.VideoPlayFragment"
+        android:name="com.octopus.android.multimedia.fragments.video.VideoPlayFragment"
         android:label="video play"
         tools:layout="@layout/fragment_video_play">
 
@@ -26,7 +26,7 @@
         android:name="com.octopus.android.multimedia.fragments.fm.FmFragment"
         android:label="fm"
         tools:layout="@layout/fragment_fm">
-
+        <deepLink app:uri="kld://media/fm" />
     </fragment>
     <fragment
         android:id="@+id/bluetoothHomeFragment"
@@ -42,6 +42,9 @@
         android:label="musicHome"
         tools:layout="@layout/fragment_music_sort">
 
+        <action
+            android:id="@+id/action_musicSortFragment_to_musicPlayFragment"
+            app:destination="@id/musicPlayFragment" />
     </fragment>
 
     <fragment
@@ -54,13 +57,15 @@
 
     <fragment
         android:id="@+id/inputFragment"
-        android:name="com.octopus.android.multimedia.fragments.InputFragment"
+        android:name="com.octopus.android.multimedia.fragments.bluetooth.InputFragment"
         android:label="input"
 
         tools:layout="@layout/fragment_input" />
     <action
         android:id="@+id/action_global_inputFragment"
         app:destination="@id/inputFragment" />
-
+    <action
+        android:id="@+id/action_global_fmFragment"
+        app:destination="@id/fmFragment" />
 
 </navigation>

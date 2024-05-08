@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.video
 
 import com.airbnb.mvrx.fragmentViewModel
 import com.zhuchao.android.fbase.MMLog

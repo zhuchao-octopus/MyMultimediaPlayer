@@ -9,13 +9,8 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentBluetoothHomeBinding
-import com.octopus.android.multimedia.databinding.FragmentVideoSortBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
-import com.octopus.android.multimedia.fragments.FolderFragment
-import com.octopus.android.multimedia.fragments.PlayListFragment
-import com.octopus.android.multimedia.fragments.SDFragment
-import com.octopus.android.multimedia.fragments.USBFragment
-import com.octopus.android.multimedia.fragments.VideoSortViewModel
+import com.octopus.android.multimedia.fragments.video.VideoSortViewModel
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 

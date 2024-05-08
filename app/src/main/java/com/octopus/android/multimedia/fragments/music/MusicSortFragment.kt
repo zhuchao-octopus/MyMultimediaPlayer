@@ -152,6 +152,10 @@ class MusicSortFragment : BaseFragment(R.layout.fragment_music_sort) {
             }
         }
 
+        binding.ivList.setOnClickListenerWithInterval {
+            findNavController().navigate(R.id.action_musicSortFragment_to_musicPlayFragment)
+        }
+
         if (savedInstanceState == null) {
             //默认选中第一个
             binding.ivPlayList.isSelected = true

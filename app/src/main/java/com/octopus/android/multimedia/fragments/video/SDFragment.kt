@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.video
 
 import com.airbnb.mvrx.fragmentViewModel
 import com.zhuchao.android.fbase.MMLog
@@ -8,7 +8,6 @@ import com.zhuchao.android.fbase.TCourierSubscribe
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface
 import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.video.OMedia
-import kotlinx.coroutines.delay
 
 //sd卡视频列表页面
 class SDFragment : VideoListFragment() {

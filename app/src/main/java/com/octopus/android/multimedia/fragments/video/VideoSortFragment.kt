@@ -1,7 +1,6 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.video
 
 import android.content.ActivityNotFoundException
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,11 +18,11 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoSortBinding
+import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.toastLong
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.session.Cabinet
-import java.io.File
 
 
 /**

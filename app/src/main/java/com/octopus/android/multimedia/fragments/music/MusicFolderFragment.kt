@@ -19,7 +19,7 @@ class MusicFolderFragment : MusicListFragment() {
         MMLog.d(tag, "onTCourierSubscribeEvent:$courierInterface")
         when (courierInterface.id) {
             //媒体库更新后,刷新列表页面
-            MessageEvent.MESSAGE_EVENT_SD_VIDEO -> {
+            MessageEvent.MESSAGE_EVENT_SD_AUDIO -> {
                 viewModel.fetchData()
             }
         }
@@ -31,7 +31,7 @@ class MusicFolderViewModel(initialState: MusicListState) : VideoListViewModel(in
     override fun fetchData() {
         suspend {
             //获取SD卡视频列表数据
-            Cabinet.getPlayManager().localSDMediaVideos.all.values.toList() as List<OMedia>
+            Cabinet.getPlayManager().localMediaAudios.all.values.toList() as List<OMedia>
         }.execute { copy(list = it) }
     }
 }

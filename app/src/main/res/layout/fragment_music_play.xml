@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@mipmap/bg_g"
-    >
+    tools:background="@mipmap/bg_g">
 
     <LinearLayout
         android:layout_width="1280dp"
@@ -47,6 +46,7 @@
                         android:src="@mipmap/music_song" />
 
                     <TextView
+                        android:id="@+id/tvMusicName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
@@ -66,6 +66,7 @@
                         android:src="@mipmap/music_artist" />
 
                     <TextView
+                        android:id="@+id/tvArtistsName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
@@ -86,6 +87,7 @@
                         android:src="@mipmap/music_albums2" />
 
                     <TextView
+                        android:id="@+id/tvAlbumName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
@@ -112,6 +114,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/tvStartTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
@@ -123,6 +126,7 @@
                             android:layout_weight="1" />
 
                         <TextView
+                            android:id="@+id/tvEndTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
@@ -130,14 +134,13 @@
                     </LinearLayout>
 
                     <SeekBar
-                        android:id="@+id/ivProgress"
+                        android:id="@+id/seekBar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="-15dp"
                         android:layout_marginRight="-15dp"
-                        android:progress="20"
-
                         android:duplicateParentState="true"
+                        android:progress="20"
                         android:progressDrawable="@drawable/layer_seekbar"
                         android:thumb="@null" />
 
@@ -162,6 +165,7 @@
                 android:background="@drawable/select_bt_music_item_other">
 
                 <ImageView
+                    android:id="@+id/ivMode"
                     android:layout_width="83dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center_horizontal"
@@ -208,14 +212,14 @@
                 android:layout_width="250dp"
                 android:layout_height="300dp"
 
-              >
+                >
 
                 <ImageView
 
-                    android:scaleType="fitXY"
-                    android:src="@drawable/select_bt_music_item_center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/select_bt_music_item_center" />
 
                 <ImageView
                     android:layout_width="75dp"
@@ -268,11 +272,12 @@
                 android:translationZ="-2dp">
 
                 <ImageView
-                    android:layout_width="83dp"
-                    android:layout_height="56dp"
+                    android:id="@+id/ivCollection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="65dp"
-                    android:src="@drawable/selector_prev" />
+                    android:src="@drawable/selector_music_collection" />
 
                 <TextView
                     android:layout_width="wrap_content"

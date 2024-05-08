@@ -1,9 +1,8 @@
-package com.octopus.android.multimedia.fragments;
+package com.octopus.android.multimedia.fragments.video;
 
 import com.airbnb.mvrx.fragmentViewModel
 import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.video.OMedia
-import kotlinx.coroutines.delay
 
 //播放列表页面
 class PlayListFragment : VideoListFragment() {

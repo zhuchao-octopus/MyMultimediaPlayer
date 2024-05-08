@@ -53,6 +53,21 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+
+    signingConfigs {
+        relase {
+            storeFile file(signature.storeFile)
+            keyAlias signature.keyAlias
+            keyPassword signature.keyPassword
+            storePassword signature.storePassword
+        }
+        debug {
+            storeFile file(signature.storeFile)
+            keyAlias signature.keyAlias
+            keyPassword signature.keyPassword
+            storePassword signature.storePassword
+        }
+    }
 }
 
 dependencies {
@@ -94,5 +109,6 @@ dependencies {
 
     //趣智达 SDK and framework
     implementation files('../libs/CarSdk_3.2.9.aar')
+    implementation files('../libs/CarCore_1.0.0.aar')
     compileOnly files('../libs/framework.jar')
 }

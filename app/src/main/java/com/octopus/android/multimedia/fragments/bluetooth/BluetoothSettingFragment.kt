@@ -2,7 +2,6 @@ package com.octopus.android.multimedia.fragments.bluetooth
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.asMavericksArgs
@@ -10,10 +9,7 @@ import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentBluetoothSettingBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
-import com.octopus.android.multimedia.fragments.InputFragment
-import com.octopus.android.multimedia.fragments.InputFragmentParams
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
-import com.octopus.android.multimedia.utils.toastLong
 import com.octopus.android.multimedia.utils.viewBinding
 
 class BluetoothSettingFragment : BaseFragment(R.layout.fragment_bluetooth_setting) {

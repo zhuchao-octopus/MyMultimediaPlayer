@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.bluetooth
 
 import android.content.Context
 import android.os.Bundle
@@ -6,15 +6,14 @@ import android.os.Parcelable
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.args
-import com.airbnb.mvrx.asMavericksArgs
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentInputBinding
+import com.octopus.android.multimedia.fragments.BaseFragment
+import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 import kotlinx.parcelize.Parcelize
-import java.security.Key
 
 @Parcelize
 data class InputFragmentParams(
@@ -39,19 +38,29 @@ class InputFragment : BaseFragment(R.layout.fragment_input) {
 
         binding.editText.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-
-                val navController = findNavController()
-                navController.previousBackStackEntry?.savedStateHandle?.set(
-                    args?.resultKey ?: "result",
-                    binding.editText.text.toString()
-                )
-
-                navController.popBackStack()
-
+                confirm()
             }
 
             false
         }
+
+        binding.left.setOnClickListenerWithInterval {
+            findNavController().popBackStack()
+        }
+
+        binding.right.setOnClickListenerWithInterval {
+            confirm()
+        }
+    }
+
+    private fun confirm() {
+        val navController = findNavController()
+        navController.previousBackStackEntry?.savedStateHandle?.set(
+            args?.resultKey ?: "result",
+            binding.editText.text.toString()
+        )
+
+        navController.popBackStack()
     }
 
 

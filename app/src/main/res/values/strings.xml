@@ -1,11 +1,5 @@
 <resources>
-    <string name="app_name">MultimediaApplication</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus dui nec
@@ -28,4 +22,58 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="previous">Previous</string>
+
+    <!--蓝牙相关字符串资源-->
+    <string name="app_name">Bluetooth</string>
+    <string name="bt_music_name">Bluetooth music</string>
+    <string name="favorite">Favorite</string>
+    <string name="book">Contacts</string>
+    <string name="setting">Settings</string>
+    <string name="call_log">CallLog</string>
+    <string name="dial">Dial</string>
+    <string name="keyorad">Keyboard</string>
+    <string name="transform">Transfer</string>
+    <string name="mute">Mute</string>
+    <string name="hung">Hang up</string>
+    <string name="pickup">Pick up</string>
+    <string name="search">Search</string>
+    <string name="disconnect">Bluetooth is disconnected, please connect</string>
+    <string name="connect">Connect</string>
+    <string name="book_tip">Contacts refreshing…</string>
+    <string name="log_tip">Calllog refreshing…</string>
+    <string name="favorite_tip">Without favorite record</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_result">Without search result</string>
+    <string name="ring">Incoming call ...</string>
+    <string name="dialing">Dialing ...</string>
+    <string name="delete_favorite">Delete %1$s successfully</string>
+    <string name="car_bt_str1">the day before yesterday</string>
+    <string name="car_bt_str2">Yesterday</string>
+    <string name="local_device">My equipment</string>
+    <string name="device_name">Bluetooth name</string>
+    <string name="device_version">Bluetooth version</string>
+    <string name="device_pin">PIN code</string>
+    <string name="device_input_pin">please enter the PIN code</string>
+    <string name="device_input_name">Please enter the Bluetooth name</string>
+    <string name="device_paired">Paired equipment</string>
+    <string name="device_search">Search for new devices</string>
+    <string name="device_pair_null">Not connected</string>
+    <string name="device_null">no equipment</string>
+    <string name="discoverable">Bluetooth switch </string>
+    <string name="auto_pick">automatic answering settings </string>
+    <string name="connected">has been connected</string>
+    <string name="ok"> OK</string>
+    <string name="never_auto_pick">never answer </string>
+    <string name="auto_pick_0">answer immediately</string>
+    <string name="auto_pick_5">answer after 5s</string>
+    <string name="auto_pick_10">answer after 10s</string>
+    <string name="auto_pick_30">answer after 30s</string>
+    <string name="cancel_save">delete</string>
+    <string name="bt_connect_disconnect">disconnect </string>
+    <string name="bt_str1">Click to return to the Bluetooth</string>
+    <string name="bt_music">Bt Music</string>
+    <string name="refresh">Refresh</string>
+
+
 </resources>

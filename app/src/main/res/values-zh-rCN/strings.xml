@@ -1,0 +1,53 @@
+<resources >
+
+    <!--蓝牙相关字符串资源-->
+    <string name="app_name">蓝牙</string>
+    <string name="favorite">收藏</string>
+    <string name="bt_music_name">蓝牙音乐</string>
+    <string name="book">联系人</string>
+    <string name="setting">设置</string>
+    <string name="call_log">通话记录</string>
+    <string name="dial">拨号</string>
+    <string name="keyorad">键盘</string>
+    <string name="transform">转接</string>
+    <string name="mute">静音</string>
+    <string name="hung">挂断</string>
+    <string name="pickup">接听</string>
+    <string name="search">搜索</string>
+    <string name="disconnect">蓝牙设备未连接，请连接蓝牙</string>
+    <string name="connect">连接</string>
+    <string name="book_tip">电话本刷新中...</string>
+    <string name="log_tip">通话记录刷新中...</string>
+    <string name="favorite_tip">暂无收藏记录数据</string>
+    <string name="cancel">取消</string>
+    <string name="no_result">没有搜索结果</string>
+    <string name="ring">来电中 ...</string>
+    <string name="dialing">拨号中 ...</string>
+    <string name="delete_favorite">删除 %1$s 成功</string>
+    <string name="car_bt_str1">前天</string>
+    <string name="car_bt_str2">昨天</string>
+    <string name="local_device">我的设备</string>
+    <string name="device_name">蓝牙名称</string>
+    <string name="device_version">蓝牙版本</string>
+    <string name="device_pin">PIN码</string>
+    <string name="device_input_pin">请输入PIN码</string>
+    <string name="device_input_name">请输入蓝牙名称</string>
+    <string name="device_paired">已配对设备</string>
+    <string name="device_search">搜索新设备</string>
+    <string name="device_pair_null">未连接</string>
+    <string name="device_null">无设备</string>
+    <string name="discoverable">蓝牙开关</string>
+    <string name="auto_pick">自动接听设置</string>
+    <string name="connected">已连接</string>
+    <string name="ok">确定</string>
+    <string name="never_auto_pick">从不接听</string>
+    <string name="auto_pick_0">立即接听</string>
+    <string name="auto_pick_5">5s后接听</string>
+    <string name="auto_pick_10">10s后接听</string>
+    <string name="auto_pick_30">30s后接听</string>
+    <string name="cancel_save">删除</string>
+    <string name="bt_connect_disconnect">断开</string>
+    <string name="bt_str1">点击返回蓝牙界面</string>
+    <string name="bt_music">蓝牙音乐</string>
+    <string name="refresh">刷新</string>
+</resources>

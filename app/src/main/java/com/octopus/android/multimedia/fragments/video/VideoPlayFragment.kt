@@ -1,4 +1,4 @@
-package com.octopus.android.multimedia.fragments
+package com.octopus.android.multimedia.fragments.video
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -15,6 +15,7 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentVideoPlayBinding
+import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.fbase.PlayerStatusInfo

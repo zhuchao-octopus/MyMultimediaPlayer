@@ -1,0 +1,79 @@
+ext {
+
+    setApkPathAndName = this.&setApkPathAndName
+    setApkPathAndNameDefault = this.&setApkPathAndNameDefault
+    //签名信息
+    signature = [
+            storeFile    : '../config/singApk/mtk9853/release.keystore',
+            keyAlias     : 'release.keystore',
+            keyPassword  : 'mimami',
+            storePassword: 'mimami',
+    ]
+    // 渠道版本号，不同的渠道自己演进 只支持下划线的写法,如果需要中间的横线,需双引号
+	//多渠道多风味
+
+    product_dimension = [
+            "gongban01"              :[],
+    ]
+    //作为libjar包的配置
+	libConfig = [
+            //记得修改为自己应用的包名
+            //groupId : 'com.soul.libtools',
+            //artifactId : 'LibTools',
+            //version: '1.0.1',
+    ]
+}
+
+/**
+ * 多渠道,单一维度
+ * @param it
+ * @return
+ */
+def setApkPathAndNameDefault(it) {
+    def buildType = it.buildType.name
+    def projectName = rootProject.name
+    def separator = "_"
+    def productDimension = rootProject.ext.product_dimension
+    def apkName
+    def productName
+    def mergRes = it.mergeResources
+    if(productDimension.size()>0){
+        apkName = projectName + separator + buildType + separator + it.flavorName + ".apk"
+        productName = getProductName(it)
+//        println("productName == " + productName)
+        if (buildType.contains("release")) {
+            apkName = projectName + separator +it.flavorName +".apk"
+            it.getPackageApplication().outputDirectory = new File(rootProject.rootDir.absolutePath + "/apk/release/")
+        }else{
+            it.getPackageApplication().outputDirectory = new File(rootProject.rootDir.absolutePath + "/apk/debug/")
+        }
+    }else{
+        apkName = projectName + separator + buildType +".apk"
+        if (buildType.contains("release")) {
+            apkName = projectName +".apk"
+            it.getPackageApplication().outputDirectory = new File(rootProject.rootDir.absolutePath + "/apk/release/")
+        }else{
+            it.getPackageApplication().outputDirectory = new File(rootProject.rootDir.absolutePath + "/apk/debug/")
+        }
+    }
+    it.outputs.each {
+        it.outputFileName = apkName
+    }
+}
+
+/**
+ * 获取渠道名字
+ * @param it
+ * @return
+ */
+def getProductName(it) {
+    def productName
+    if (it.productFlavors != null && it.productFlavors.size() > 0) {
+        productName = it.productFlavors[0].name
+        if (rootProject.hasProperty('PRODUCT_NAME')) {
+            productName = PRODUCT_NAME
+        }
+    }
+    return productName
+}
+
