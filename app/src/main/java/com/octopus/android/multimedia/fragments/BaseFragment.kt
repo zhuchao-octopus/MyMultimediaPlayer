@@ -25,14 +25,21 @@ abstract class BaseFragment(@LayoutRes containerLayoutId: Int = 0) : Fragment(co
             requireActivity().application.autoCalcSizeInDp(),
             requireActivity().application.autoCalcBaseOnWidth()
         )
-        Cabinet.getEventBus().registerEventObserver(this);
+
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Cabinet.getEventBus().registerEventObserver(this);
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Cabinet.getEventBus().unRegisterEventObserver(this);
     }
+
+
     override fun invalidate() {
 
     }

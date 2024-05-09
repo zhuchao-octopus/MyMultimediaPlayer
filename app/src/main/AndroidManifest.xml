@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
-    >
+    android:sharedUserId="android.uid.system">
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
+
     <application
-        tools:replace="android:name"
         android:name="com.octopus.android.multimedia.MultimediaApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTheme"
+        tools:replace="android:name"
         tools:targetApi="31">
 
         <!--autoSize start-->
@@ -28,10 +30,10 @@
         <!--autoSize end-->
 
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name="com.octopus.android.multimedia.activitys.MainActivity"
             android:exported="true"
-            android:theme="@style/StartTheme">
+            android:theme="@style/StartTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

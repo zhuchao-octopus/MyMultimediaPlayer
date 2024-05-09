@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.navigation.fragment.findNavController
@@ -45,6 +46,21 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
             }
         }
 
+
+        binding.rootView.setOnTouchListener { v, event ->
+            Log.d("VideoPlayFragment", "setOnTouchListener:$event")
+            false
+        }
+
+        binding.rootView.callBack = {
+            Log.d("VideoPlayFragment", "callBack: 隐藏进度条和菜单->$it")
+
+            if (it) {
+                showOptions()
+            } else {
+                hideOptions()
+            }
+        }
 
         //点击列表
         binding.ivList.setOnClickListenerWithInterval {
@@ -190,7 +206,33 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
         return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
     }
 
+    private var showOptions = true
 
+    private fun hideOptions() {
+        if(!showOptions)
+            return
+
+        val alphaAnimation = AlphaAnimation(1f, 0f)
+        alphaAnimation.duration = 300
+        alphaAnimation.fillAfter = true
+        binding.progressView.startAnimation(alphaAnimation)
+        binding.bottom.startAnimation(alphaAnimation)
+
+        showOptions = false
+    }
+
+    private fun showOptions() {
+        if(showOptions)
+            return
+
+        val alphaAnimation = AlphaAnimation(0f, 1f)
+        alphaAnimation.duration = 300
+        alphaAnimation.fillAfter = true
+        binding.progressView.startAnimation(alphaAnimation)
+        binding.bottom.startAnimation(alphaAnimation)
+
+        showOptions = true
+    }
 }
 
 data class VideoPlayState(
