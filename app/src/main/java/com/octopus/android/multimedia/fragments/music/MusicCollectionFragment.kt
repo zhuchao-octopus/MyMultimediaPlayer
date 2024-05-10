@@ -1,5 +1,14 @@
 package com.octopus.android.multimedia.fragments.music
 
+import android.content.Context
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Delete
+import androidx.room.Entity
+import androidx.room.Insert
+import androidx.room.PrimaryKey
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.airbnb.mvrx.fragmentViewModel
 import com.zhuchao.android.fbase.MMLog
 import com.zhuchao.android.fbase.MessageEvent
@@ -14,16 +23,6 @@ import kotlinx.coroutines.delay
 class MusicCollectionFragment : MusicListFragment() {
     override val viewModel: MusicCollectionViewModel by fragmentViewModel()
 
-    @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
-    fun onTCourierSubscribeEvent(courierInterface: EventCourierInterface) {
-        MMLog.d(tag, "onTCourierSubscribeEvent:$courierInterface")
-        when (courierInterface.id) {
-            //媒体库更新后,刷新列表页面
-            MessageEvent.MESSAGE_EVENT_SD_AUDIO -> {
-                viewModel.fetchData()
-            }
-        }
-    }
 
 }
 
@@ -35,3 +34,11 @@ class MusicCollectionViewModel(initialState: MusicListState) : VideoListViewMode
         }.execute { copy(list = it) }
     }
 }
+
+
+
+
+
+
+
+

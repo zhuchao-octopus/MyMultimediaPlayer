@@ -19,7 +19,10 @@ class MusicPlayListViewModel(initialState: MusicListState) : VideoListViewModel(
     override fun fetchData() {
         suspend {
             //获取播放列表数据
-            Cabinet.getPlayManager().playingHistoryList.all.values.toList() as List<OMedia>
+            val result =
+                Cabinet.getPlayManager().playingHistoryList.all.values.toList() as List<OMedia>
+            //播放列表需要过滤音频文件
+            result?.filter { it.isAudio }
         }.execute { copy(list = it) }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/videoSortFragment">
+    app:startDestination="@id/musicSortFragment">
     <fragment
         android:id="@+id/videoSortFragment"
         android:name="com.octopus.android.multimedia.fragments.video.VideoSortFragment"

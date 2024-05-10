@@ -87,4 +87,15 @@ fun MultiStateContainer.showDeviceNotConnect() {
     show<DeviceNotConnectState>()
 }
 
+fun Long.convertMillisToTime(): String {
+    val seconds = this / 1000
+    val hours = seconds / 3600
+    val minutes = seconds % 3600 / 60
+    val remainingSeconds = seconds % 60
+    if (hours == 0L) {
+        return String.format("%02d:%02d", minutes, remainingSeconds)
+    }
+    return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
+}
+
 

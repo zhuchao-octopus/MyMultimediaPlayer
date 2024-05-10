@@ -36,7 +36,7 @@ class VideoPlayFragment : BaseFragment(R.layout.fragment_video_play) {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mTPlayManager = TPlayManager.getInstance(context);
+        mTPlayManager = TPlayManager.getInstance(context)
 
         mTPlayManager.apply {
 

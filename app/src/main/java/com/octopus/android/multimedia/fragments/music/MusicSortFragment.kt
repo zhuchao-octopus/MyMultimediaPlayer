@@ -107,15 +107,15 @@ class MusicSortFragment : BaseFragment(R.layout.fragment_music_sort) {
 
 
         binding.viewFolder.setOnClickListenerWithInterval {
-            //viewModel.setIndex(3)
+            viewModel.setIndex(3)
 
-            try {
-                pickMedia.launch(PickVisualMediaRequest(VideoOnly))
-            } catch (e: ActivityNotFoundException) {
-                toastLong("当前设备不支持选择视频")
-            } catch (e: Throwable) {
-                Log.e("VideoSortFragment", e.toString())
-            }
+//            try {
+//                pickMedia.launch(PickVisualMediaRequest(VideoOnly))
+//            } catch (e: ActivityNotFoundException) {
+//                toastLong("当前设备不支持选择视频")
+//            } catch (e: Throwable) {
+//                Log.e("VideoSortFragment", e.toString())
+//            }
 
         }
 

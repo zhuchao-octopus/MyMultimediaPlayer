@@ -142,7 +142,9 @@
                         android:duplicateParentState="true"
                         android:progress="20"
                         android:progressDrawable="@drawable/layer_seekbar"
-                        android:thumb="@null" />
+                        android:thumb="@null"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
 
                 </LinearLayout>
 
@@ -222,6 +224,7 @@
                     android:src="@drawable/select_bt_music_item_center" />
 
                 <ImageView
+                    android:id="@+id/ivPlay"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"

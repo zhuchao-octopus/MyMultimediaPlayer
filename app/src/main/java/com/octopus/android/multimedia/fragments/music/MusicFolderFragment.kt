@@ -1,37 +1,50 @@
 package com.octopus.android.multimedia.fragments.music
 
 import com.airbnb.mvrx.fragmentViewModel
-import com.zhuchao.android.fbase.MMLog
-import com.zhuchao.android.fbase.MessageEvent
-import com.zhuchao.android.fbase.MethodThreadMode
-import com.zhuchao.android.fbase.TCourierSubscribe
-import com.zhuchao.android.fbase.eventinterface.EventCourierInterface
-import com.zhuchao.android.session.Cabinet
-import com.zhuchao.android.video.OMedia
-import kotlinx.coroutines.delay
+import com.zhuchao.android.fbase.DataID
+import com.zhuchao.android.fbase.FileUtils
+import com.zhuchao.android.fbase.ObjectList
+import com.zhuchao.android.session.MApplication
+import java.io.File
+
 
 //音乐Folder页面
-class MusicFolderFragment : MusicListFragment() {
+class MusicFolderFragment : MediaFolderFragment() {
     override val viewModel: MusicFolderViewModel by fragmentViewModel()
-
-    @TCourierSubscribe(threadMode = MethodThreadMode.threadMode.MAIN)
-    fun onTCourierSubscribeEvent(courierInterface: EventCourierInterface) {
-        MMLog.d(tag, "onTCourierSubscribeEvent:$courierInterface")
-        when (courierInterface.id) {
-            //媒体库更新后,刷新列表页面
-            MessageEvent.MESSAGE_EVENT_SD_AUDIO -> {
-                viewModel.fetchData()
-            }
-        }
-    }
 
 }
 
-class MusicFolderViewModel(initialState: MusicListState) : VideoListViewModel(initialState) {
-    override fun fetchData() {
-        suspend {
-            //获取SD卡视频列表数据
-            Cabinet.getPlayManager().localMediaAudios.all.values.toList() as List<OMedia>
-        }.execute { copy(list = it) }
+class MusicFolderViewModel(initialState: MediaFolderState) : MediaGroupViewModel(initialState) {
+    override fun fetchFolderDataSync(): List<MediaFolder>? {
+        val objectList1 = ObjectList()
+        val objectList2 = ObjectList()
+        FileUtils.getAllSubMediaDirList(
+            MApplication.getAppContext(),
+            "/",
+            objectList1, objectList2,
+            DataID.MEDIA_TYPE_ID_AllDIR,
+            DataID.MEDIA_TYPE_ID_AUDIO
+        )
+        //objectList1.printAll()
+        //objectList2.printAll()
+        return objectList1?.all?.map { MediaFolder(name = File(it.key).name, path = it.key) }
     }
+
+
+    override fun fetchMediaDataSync(key: String): List<MediaFolder>? {
+        val objectList1 = ObjectList()
+        val objectList2 = ObjectList()
+        FileUtils.getAllSubMediaDirList(
+            MApplication.getAppContext(),
+            key,
+            objectList1,
+            objectList2,
+            DataID.MEDIA_TYPE_ID_SUBDIR,
+            DataID.MEDIA_TYPE_ID_AUDIO
+        )
+//        objectList1.printAll()
+//        objectList2.printAll()
+        return objectList2?.all?.map { MediaFolder(name = it.key, path = it.key) }
+    }
+
 }
