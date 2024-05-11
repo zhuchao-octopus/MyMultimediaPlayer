@@ -24,7 +24,7 @@ class MusicAlbumsViewModel(initialState: MediaFolderState) : MediaGroupViewModel
     override fun fetchFolderDataSync(): List<MediaFolder>? {
         return Cabinet.getPlayManager().albumList.all?.map {
             MediaFolder(
-                name = it.key,
+                name = "${it.key} (${0})",
                 path = it.key
             )
         }
@@ -45,7 +45,8 @@ class MusicAlbumsViewModel(initialState: MediaFolderState) : MediaGroupViewModel
 ////        objectList2.printAll()
 //        return objectList2?.all?.map { MediaFolder(name = it.key, path = it.key) }
 
-        return Cabinet.getPlayManager().allMusic.getMusicByAlbum(key).toList().map { MediaFolder(name = it.name, path = it.srcUrl) }
+        return Cabinet.getPlayManager().allMusic.getMusicByAlbum(key).toList()
+            .map { MediaFolder(name = it.name, path = it.srcUrl) }
     }
 
 }

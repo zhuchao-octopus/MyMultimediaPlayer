@@ -4,28 +4,35 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentMusicPlayBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
 import com.octopus.android.multimedia.fragments.video.VideoPlayViewModel
+import com.octopus.android.multimedia.room.MediaRoomDatabase
+import com.octopus.android.multimedia.room.UserCollection
 import com.octopus.android.multimedia.utils.convertMillisToTime
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.fbase.DataID
+import com.zhuchao.android.fbase.PlaybackEvent
 import com.zhuchao.android.fbase.PlayerStatusInfo
+import com.zhuchao.android.session.MApplication
 import com.zhuchao.android.session.TPlayManager
+import kotlinx.coroutines.launch
 
 
 class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
 
     private val binding: FragmentMusicPlayBinding by viewBinding()
 
-    private val viewModel: MusicPlayViewModel by fragmentViewModel()
+    private val viewModel: MusicPlayViewModel by activityViewModel()
 
     private lateinit var mTPlayManager: TPlayManager
 
@@ -41,6 +48,31 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
                 viewModel.setPlayStatusInfo(it)
             }
         }
+
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if (mTPlayManager.playingMedia != null && seekBar != null) {
+                    //将进度转为时间
+                    val time = mTPlayManager.playingMedia.length * (seekBar.progress / 100f)
+
+                    Log.d(
+                        "onStopTrackingTouch",
+                        "time:$time,mTPlayManager.playingMedia.length:${mTPlayManager.playingMedia.length}"
+                    )
+                    //改变播放进度
+                    mTPlayManager.playingMedia.time = time.toLong()
+                }
+            }
+
+        })
 
 
         binding.ivPlayList.setOnClickListenerWithInterval {
@@ -78,10 +110,15 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
         }
 
         binding.viewCollection.setOnClickListenerWithInterval {
-            //TODO  收藏,取消收藏
+            viewModel.toggleCollection()
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshCollectionState()
     }
 
     override fun invalidate() = withState(viewModel) {
@@ -93,16 +130,19 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
         // 专辑名称
         binding.tvAlbumName.text = mTPlayManager.playingMedia?.movie?.album
 
-        //TODO 收藏状态
-        binding.ivCollection.isSelected = false
+        // 收藏状态
+        binding.ivCollection.isSelected = it.collectId != null
 
 
+        //Log.d("test", "playOrder:${mTPlayManager.playOrder}")
         var modeImageRes: Int
         when (mTPlayManager.playOrder) {
             DataID.PLAY_MANAGER_PLAY_ORDER2 ->
                 modeImageRes = R.mipmap.music_play_mode_list
+
             DataID.PLAY_MANAGER_PLAY_ORDER5 ->
                 modeImageRes = R.mipmap.music_play_mode_shuffle
+
             else ->
                 modeImageRes = R.mipmap.music_play_mode_loop_single
         }
@@ -127,7 +167,7 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
             }
         }
 
-        if (it.playing) {
+        if (mTPlayManager.playingMedia?.isPlaying == true) {
             binding.ivPlay.setImageResource(R.drawable.selector_stop)
         } else {
             binding.ivPlay.setImageResource(R.drawable.selector_play)
@@ -142,7 +182,8 @@ data class MusicPlayState(
     val playing: Boolean = false,//播放中
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
     val path: String? = null,  //文件path
-    val uri: Uri? = null
+    val uri: Uri? = null,
+    val collectId: Long? = null
 ) : MavericksState {
     constructor(args: String?) : this(path = args)
     constructor(args: Uri?) : this(uri = args)
@@ -162,6 +203,65 @@ class MusicPlayViewModel(
     fun setPlayState(playing: Boolean) = withState {
         setState { copy(playing = playing) }
     }
+
+    /**
+     * 收藏
+     * */
+    private fun collection() {
+        viewModelScope.launch {
+            val path =
+                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
+            if (path != null) {
+                val item = UserCollection(path = path, time = System.currentTimeMillis())
+                val id = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+                    .provideUserCollectionDao().insert(item)
+                setState { copy(collectId = id) }
+            }
+        }
+    }
+
+    /**
+     * 取消
+     * */
+    private fun cancelCollection() = withState {
+        if (it.collectId != null) {
+            viewModelScope.launch {
+                MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+                    .provideUserCollectionDao().deleteById(it.collectId)
+                setState { copy(collectId = null) }
+            }
+        }
+
+
+    }
+
+    /**
+     * 切换收藏状态
+     * */
+    fun toggleCollection() = withState {
+        if (it.collectId != null) {
+            cancelCollection()
+        } else {
+            collection()
+        }
+        refreshCollectionState()
+    }
+
+    /**
+     * 刷新收藏状态
+     * */
+    fun refreshCollectionState() {
+        viewModelScope.launch {
+            val path =
+                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
+            if (path != null) {
+                val state = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+                    .provideUserCollectionDao().queryByPath(path)
+                setState { copy(collectId = state?.id) }
+            }
+        }
+    }
+
 
     /**
      * 设置播放状态信息
@@ -185,7 +285,14 @@ class MusicPlayViewModel(
         result.playRate = info.playRate
         result.length = info.length
         result.lastError = info.lastError
+
         setState { copy(playStatusInfo = result) }
+
+
+        //判断是否切换了当前歌曲,如果是,则需要更新当前收藏状态
+        if (info.eventType == PlaybackEvent.Status_Playing) {
+            refreshCollectionState()
+        }
     }
 
 }

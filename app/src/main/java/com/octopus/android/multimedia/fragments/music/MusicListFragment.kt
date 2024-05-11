@@ -26,6 +26,7 @@ import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.session.Cabinet
+import com.zhuchao.android.session.TPlayManager
 import com.zhuchao.android.video.OMedia
 
 
@@ -44,12 +45,19 @@ abstract class MusicListFragment : BaseFragment(R.layout.fragment_music_list) {
         //设置点击事件
         adapter.setOnItemClickListener { baseQuickAdapter: BaseQuickAdapter<OMedia, *>, view: View, i: Int ->
             val item = adapter.getItem(i)
-            //Cabinet.getPlayManager().localUSBMediaVideos.saveToFile("localUSBMediaVideos")
+
             //跳转到播放页面
-            findNavController().navigate(
-                R.id.action_videoSortFragment_to_videoPlayFragment,
-                item?.pathName?.asMavericksArgs()
-            )
+//            findNavController().navigate(
+//                R.id.action_musicSortFragment_to_musicPlayFragment,
+//                item?.pathName?.asMavericksArgs()
+//            )
+
+
+
+            if (item?.pathName != null) {
+                TPlayManager.getInstance(context).startPlay(item.pathName)
+            }
+
         }
 
         //配置recycleView

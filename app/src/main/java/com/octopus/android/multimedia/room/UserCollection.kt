@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class UserCollection(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,//id
+    val id: Long = 0,//id
     val path: String,//文件路径
     val time: Long, //收藏时间
 )
