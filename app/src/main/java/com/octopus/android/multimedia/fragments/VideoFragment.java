@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,14 +41,14 @@ import java.util.List;
 public class VideoFragment extends BaseFragment implements PlayerCallback {
     private static final String TAG = "FirstFragment";
     private FragmentVideoBinding binding;
-    //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
-    private final OMedia oMedia = new OMedia("/storage/USBdisk2/Gentleman-1080P.mp4");
+
     public static final VideoList defaultPlayingList_video = new VideoList(null);//视频
     public static final VideoList defaultPlayingList_audio = new VideoList(null);//音乐
     public static final VideoList defaultPlayingList_picture = new VideoList(null);//图片
     private TPlayManager tPlayManager = null;
     private Context mContext = null;
-
+    //private final OMedia oMedia = new OMedia("/storage/USBdisk1/Gentleman-1080P.mp4");
+    private final OMedia oMedia = new OMedia("/storage/USBdisk2/Movies/Gentleman-1080P.mp4");
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -69,19 +70,21 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
         ///Intent intent = new Intent(getContext(), FdActivity.class);
         ///startActivity(intent);
         tPlayManager = TPlayManager.getInstance(getContext());
-        tPlayManager.registerStatusListener(this);
+        //tPlayManager.registerStatusListener(this);
+        ///tPlayManager.setMagicNumber(2);
+        //tPlayManager.disconnectedMyAidlService(getContext());
         ///defaultPlayingList_video.add(oMedia);
         ///tPlayManager.addPlayList("video", defaultPlayingList_video);
         ///tPlayManager.addPlayList("audio", defaultPlayingList_audio);
         ///tPlayManager.addPlayList("picture", defaultPlayingList_picture);
         ///tPlayManager.callback(this);
-        ///tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
-
+        tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
+        ///tPlayManager.updateMusicsToPlayList();
         binding.getRoot().findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //oMedia.with(getContext()).build().playOn((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
-                tPlayManager.playPause();
+                ///tPlayManager.playPause();
                 ///Cabinet.getEventBus().post(new PEventCourier(MessageEvent.MESSAGE_EVENT_LOCAL_AUDIO));//转发到本地播放器
                 ///tPlayManager.updateMediaLibrary();
                 ///tPlayManager.getMediaManager().startMediaScanning();
@@ -92,8 +95,10 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
 
             @Override
             public void onClick(View v) {
-                tPlayManager.playNext();
+                ///tPlayManager.playNext();
                 ///tPlayManager.getMediaManager().testScanning();
+                ///tPlayManager.setSurfaceView((SurfaceView) binding.getRoot().findViewById(R.id.surfaceView));
+                ///tPlayManager.startPlay(oMedia);
             }
         });
 
@@ -106,6 +111,10 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
                 /// List<String> list =  MediaFile.readMetadataFromMusic("/storage/USBdisk2/Music/Perry-Firework.mp3");
                 /// MMLog.d(TAG,list.get(0)+" "+list.get(1)+" "+list.get(2)+" "+list.get(3));
                 ///}
+                ///MMLog.log(TAG,);
+                ///tPlayManager.getLocalUSBMediaVideos().printAll();
+                tPlayManager.getAllMusic().printAll();
+                ///tPlayManager.setWindowSize(400,150);
             }
         });
         binding.getRoot().findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
@@ -131,7 +140,6 @@ public class VideoFragment extends BaseFragment implements PlayerCallback {
                 ///tPlayManager.startPlay("/storage/USBdisk2/Music/Perry-Firework.mp3");
                 tPlayManager.getAlbumList().printAll();
                 tPlayManager.getArtistList().printAll();
-
             }
         });
 

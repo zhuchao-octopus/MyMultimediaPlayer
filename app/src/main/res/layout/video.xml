@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -13,17 +13,11 @@
 
         <SurfaceView
             android:id="@+id/surfaceView"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:layout_weight="1"
-            tools:ignore="NestedWeights" />
+            android:layout_height="150dp"
+            android:layout_width="400dp"
+            tools:ignore="MissingConstraints" />
 
-        <SurfaceView
-            android:id="@+id/surfaceView2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,5 +97,6 @@
             android:text="TextView11111111111111111111111111"
             tools:ignore="NestedWeights" />
     </LinearLayout>
+
 
 </LinearLayout>
