@@ -28,6 +28,7 @@ import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
 import com.zhuchao.android.session.TPlayManager
+import com.zhuchao.android.video.VideoList
 import kotlinx.coroutines.launch
 
 
@@ -73,7 +74,10 @@ abstract class MediaFolderFragment : BaseFragment(R.layout.fragment_group_list) 
 //            )
 
 
-            TPlayManager.getInstance(context).apply { startPlay(item?.path) }
+            if (item?.path != null)
+                viewModel.updatePlayListAndPlay(item.path)
+
+
 //            if (item != null) {
 //                lifecycleScope.launch {
 //                    database.provideUserCollectionDao()
@@ -171,6 +175,10 @@ abstract class MediaGroupViewModel(initialState: MediaFolderState) :
         }
     }
 
+
+    //更新播放列表,并且播放
+    abstract fun updatePlayListAndPlay(url: String)
+
     //加载文件夹数据
     abstract fun fetchFolderDataSync(): List<MediaFolder>?
 
@@ -179,6 +187,10 @@ abstract class MediaGroupViewModel(initialState: MediaFolderState) :
 
     fun setKey(key: String?) = setState {
         copy(key = key)
+    }
+
+    fun play() {
+
     }
 
 
@@ -210,7 +222,8 @@ data class MediaFolderState(
 
 data class MediaFolder(
     val name: String = "",//显示名称
-    val path: String = ""//查询key
+    val path: String = "",//查询key
+    //val fileCount: Long = 0
 )
 
 

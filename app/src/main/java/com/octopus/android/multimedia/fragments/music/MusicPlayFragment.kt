@@ -68,7 +68,7 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
                         "time:$time,mTPlayManager.playingMedia.length:${mTPlayManager.playingMedia.length}"
                     )
                     //改变播放进度
-                    mTPlayManager.playingMedia.time = time.toLong()
+                    mTPlayManager.setTime(time.toLong())
                 }
             }
 
@@ -131,7 +131,7 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
         binding.tvAlbumName.text = mTPlayManager.playingMedia?.movie?.album
 
         // 收藏状态
-        binding.ivCollection.isSelected = it.collectId != null
+        binding.ivCollection.isSelected = it.collect
 
 
         //Log.d("test", "playOrder:${mTPlayManager.playOrder}")
@@ -167,7 +167,8 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
             }
         }
 
-        if (mTPlayManager.playingMedia?.isPlaying == true) {
+        Log.d("test", "isPlaying:" + mTPlayManager.playingMedia)
+        if (mTPlayManager.isPlaying) {
             binding.ivPlay.setImageResource(R.drawable.selector_stop)
         } else {
             binding.ivPlay.setImageResource(R.drawable.selector_play)
@@ -183,7 +184,7 @@ data class MusicPlayState(
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
     val path: String? = null,  //文件path
     val uri: Uri? = null,
-    val collectId: Long? = null
+    val collect: Boolean = false
 ) : MavericksState {
     constructor(args: String?) : this(path = args)
     constructor(args: Uri?) : this(uri = args)
@@ -209,14 +210,24 @@ class MusicPlayViewModel(
      * */
     private fun collection() {
         viewModelScope.launch {
-            val path =
-                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
-            if (path != null) {
-                val item = UserCollection(path = path, time = System.currentTimeMillis())
-                val id = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
-                    .provideUserCollectionDao().insert(item)
-                setState { copy(collectId = id) }
+//            val path =
+//                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
+//            if (path != null) {
+//                val item = UserCollection(path = path, time = System.currentTimeMillis())
+//                val id = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+//                    .provideUserCollectionDao().insert(item)
+//
+//                TPlayManager.getInstance(MApplication.getAppContext()).favouriteList.add(path)
+//
+//                setState { copy(collectId = id) }
+//            }
+
+            //添加到收藏列表中
+            TPlayManager.getInstance(MApplication.getAppContext())?.apply {
+                favouriteList.add(playingMedia)
+                //setState { copy(collect = true) }
             }
+
         }
     }
 
@@ -224,11 +235,16 @@ class MusicPlayViewModel(
      * 取消
      * */
     private fun cancelCollection() = withState {
-        if (it.collectId != null) {
-            viewModelScope.launch {
-                MediaRoomDatabase.getDatabase(MApplication.getAppContext())
-                    .provideUserCollectionDao().deleteById(it.collectId)
-                setState { copy(collectId = null) }
+
+        viewModelScope.launch {
+//                MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+//                    .provideUserCollectionDao().deleteById(it.collectId)
+//                setState { copy(collectId = null) }
+
+            //取消收藏
+            TPlayManager.getInstance(MApplication.getAppContext())?.apply {
+                favouriteList.delete(playingMedia)
+                //setState { copy(collect = true) }
             }
         }
 
@@ -239,7 +255,7 @@ class MusicPlayViewModel(
      * 切换收藏状态
      * */
     fun toggleCollection() = withState {
-        if (it.collectId != null) {
+        if (it.collect) {
             cancelCollection()
         } else {
             collection()
@@ -252,13 +268,20 @@ class MusicPlayViewModel(
      * */
     fun refreshCollectionState() {
         viewModelScope.launch {
-            val path =
-                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
-            if (path != null) {
-                val state = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
-                    .provideUserCollectionDao().queryByPath(path)
-                setState { copy(collectId = state?.id) }
+//            val path =
+//                TPlayManager.getInstance(MApplication.getAppContext())?.playingMedia?.pathName
+//            if (path != null) {
+//                val state = MediaRoomDatabase.getDatabase(MApplication.getAppContext())
+//                    .provideUserCollectionDao().queryByPath(path)
+//                setState { copy(collectId = state?.id) }
+//            }
+            TPlayManager.getInstance(MApplication.getAppContext())?.apply {
+                if (playingMedia?.pathName != null) {
+                    val item = favouriteList.findByPath(playingMedia.pathName)
+                    setState { copy(collect = item != null) }
+                }
             }
+
         }
     }
 

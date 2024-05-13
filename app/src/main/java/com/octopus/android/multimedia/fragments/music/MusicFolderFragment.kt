@@ -5,7 +5,9 @@ import com.zhuchao.android.fbase.DataID
 import com.zhuchao.android.fbase.FileUtils
 import com.zhuchao.android.fbase.ObjectList
 import com.zhuchao.android.fbase.bean.DirBean
+import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.session.MApplication
+import com.zhuchao.android.session.TPlayManager
 import java.io.File
 
 
@@ -16,6 +18,23 @@ class MusicFolderFragment : MediaFolderFragment() {
 }
 
 class MusicFolderViewModel(initialState: MediaFolderState) : MediaGroupViewModel(initialState) {
+
+    override fun updatePlayListAndPlay(url: String) = withState {
+        if (!it.key.isNullOrEmpty()) {
+
+            val list = FileUtils.getDirMediaFiles(
+                it.key,
+                DataID.MEDIA_TYPE_ID_AUDIO
+            )
+            if (list != null) {
+                val videoList = Cabinet.getPlayManager().transformToVideoList(list)
+                videoList?.updateLinkOrder()
+            }
+
+            TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)
+        }
+    }
+
     override fun fetchFolderDataSync(): List<MediaFolder>? {
         val objectList1 = FileUtils.getAllSubMediaDirList(
             MApplication.getAppContext(),
@@ -28,43 +47,27 @@ class MusicFolderViewModel(initialState: MediaFolderState) : MediaGroupViewModel
         return objectList1?.all?.mapNotNull {
             val item = it.value
             if (item is DirBean) {
-                MediaFolder(name = File(item.name).name, path = item.path)
+                MediaFolder(
+                    name = "${item.name}(${item.subItemCount})",
+                    path = item.path
+                )
+            } else {
+                null
             }
-            null
         }
     }
 
 
     override fun fetchMediaDataSync(key: String): List<MediaFolder>? {
-//        val objectList1 = ObjectList()
-//        val objectList2 = ObjectList()
-//        FileUtils.getAllSubMediaDirList(
-//            MApplication.getAppContext(),
-//            key,
-//            objectList1,
-//
-//            DataID.MEDIA_TYPE_ID_SUBDIR,
-//            DataID.MEDIA_TYPE_ID_AUDIO
-//        )
-////        objectList1.printAll()
-////        objectList2.printAll()
-//        return objectList1?.all?.map { MediaFolder(name = it.key, path = it.key) }
 
-        val objectList1 = FileUtils.getAllSubMediaDirList(
-            MApplication.getAppContext(),
-            "/",
-
-            DataID.MEDIA_TYPE_ID_AllDIR,
+        val list = FileUtils.getDirMediaFiles(
+            key,
             DataID.MEDIA_TYPE_ID_AUDIO
         )
 
-        return objectList1?.all?.mapNotNull {
-            val item = it.value
-            if (item is DirBean) {
-                MediaFolder(name = File(item.name).name, path = item.path)
-            }
-            null
-        }
+        return list.mapNotNull { MediaFolder(name = File(it).name, path = it) }
+
+
     }
 
 }

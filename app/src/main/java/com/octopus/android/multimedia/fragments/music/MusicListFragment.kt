@@ -53,8 +53,8 @@ abstract class MusicListFragment : BaseFragment(R.layout.fragment_music_list) {
 //            )
 
 
-
             if (item?.pathName != null) {
+                viewModel.updatePlayList()
                 TPlayManager.getInstance(context).startPlay(item.pathName)
             }
 
@@ -103,6 +103,9 @@ abstract class VideoListViewModel(initialState: MusicListState) :
 
     //加载列表数据
     abstract fun fetchData()
+
+    //更新播放列表
+    abstract fun updatePlayList()
 }
 
 //视频列表页面状态
@@ -111,7 +114,7 @@ data class MusicListState(val list: Async<List<OMedia>?> = Uninitialized) : Mave
 //视频列表适配器
 class MusicListAdapter : BaseQuickAdapter<OMedia, QuickViewHolder>() {
     override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: OMedia?) {
-        holder.setText(R.id.textView, item?.pathName)
+        holder.setText(R.id.textView, item?.name)
     }
 
     override fun onCreateViewHolder(

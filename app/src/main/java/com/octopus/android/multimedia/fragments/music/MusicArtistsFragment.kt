@@ -11,6 +11,7 @@ import com.zhuchao.android.fbase.TCourierSubscribe
 import com.zhuchao.android.fbase.eventinterface.EventCourierInterface
 import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.session.MApplication
+import com.zhuchao.android.session.TPlayManager
 import com.zhuchao.android.video.OMedia
 import kotlinx.coroutines.delay
 
@@ -21,29 +22,27 @@ class MusicArtistsFragment : MediaFolderFragment() {
 
 
 class MusicArtistsViewModel(initialState: MediaFolderState) : MediaGroupViewModel(initialState) {
+
+
+    override fun updatePlayListAndPlay(url: String) = withState {
+        if (!it.key.isNullOrEmpty()) {
+            TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(it.key).updateLinkOrder()
+            TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)
+        }
+    }
+
     override fun fetchFolderDataSync(): List<MediaFolder>? {
-        return Cabinet.getPlayManager().artistList.all?.map { MediaFolder(name = it.key, path = it.key) }
+        return TPlayManager.getInstance(MApplication.getAppContext()).artistList.all?.map {
+            MediaFolder(
+                name = it.key,
+                path = it.key
+            )
+        }
     }
 
     override fun fetchMediaDataSync(key: String): List<MediaFolder>? {
-
-
-//
-//        val objectList1 = ObjectList()
-//        val objectList2 = ObjectList()
-//        FileUtils.getAllSubMediaDirList(
-//            MApplication.getAppContext(),
-//            key,
-//            objectList1,
-//            objectList2,
-//            DataID.MEDIA_TYPE_ID_SUBDIR,
-//            DataID.MEDIA_TYPE_ID_AUDIO
-//        )
-//        objectList1.printAll()
-//        objectList2.printAll()
-//        return objectList2?.all?.map { MediaFolder(name = it.key, path = it.key) }
-
-        return  Cabinet.getPlayManager().allMusic.getMusicByArtist(key).toList().map { MediaFolder(name = it.name, path = it.srcUrl) }
+        return TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(key).toList()
+            .map { MediaFolder(name = it.name, path = it.srcUrl) }
     }
 
 }

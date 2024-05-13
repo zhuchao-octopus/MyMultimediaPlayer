@@ -25,4 +25,8 @@ class MusicPlayListViewModel(initialState: MusicListState) : VideoListViewModel(
             result?.filter { it.isAudio }
         }.execute { copy(list = it) }
     }
+
+    override fun updatePlayList() {
+        Cabinet.getPlayManager().playingHistoryList.updateLinkOrder()
+    }
 }
