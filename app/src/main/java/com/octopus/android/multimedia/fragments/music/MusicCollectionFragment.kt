@@ -1,12 +1,9 @@
 package com.octopus.android.multimedia.fragments.music
 
 import com.airbnb.mvrx.fragmentViewModel
-import com.octopus.android.multimedia.room.MediaRoomDatabase
+import com.zhuchao.android.session.Cabinet
 import com.zhuchao.android.session.MApplication
-import com.zhuchao.android.session.TMediaManager
 import com.zhuchao.android.session.TPlayManager
-import com.zhuchao.android.video.Movie
-import com.zhuchao.android.video.OMedia
 
 //音乐Collection页面
 class MusicCollectionFragment : MusicListFragment() {
@@ -34,6 +31,7 @@ class MusicCollectionViewModel(initialState: MusicListState) : VideoListViewMode
     }
 
     override fun updatePlayList() {
-        TPlayManager.getInstance(MApplication.getAppContext()).favouriteList.updateLinkOrder()
+
+        Cabinet.getPlayManager().createPlayingListOrder("favourite", Cabinet.getPlayManager().favouriteList)
     }
 }

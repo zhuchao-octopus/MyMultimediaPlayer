@@ -9,14 +9,10 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.activityViewModel
-import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentMusicPlayBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
-import com.octopus.android.multimedia.fragments.video.VideoPlayViewModel
-import com.octopus.android.multimedia.room.MediaRoomDatabase
-import com.octopus.android.multimedia.room.UserCollection
 import com.octopus.android.multimedia.utils.convertMillisToTime
 import com.octopus.android.multimedia.utils.setOnClickListenerWithInterval
 import com.octopus.android.multimedia.utils.viewBinding
@@ -170,8 +166,10 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
         Log.d("test", "isPlaying:" + mTPlayManager.playingMedia)
         if (mTPlayManager.isPlaying) {
             binding.ivPlay.setImageResource(R.drawable.selector_stop)
+            binding.seekBar.isEnabled = true
         } else {
             binding.ivPlay.setImageResource(R.drawable.selector_play)
+            binding.seekBar.isEnabled = false //暂停状态禁止拖动进度条
         }
 
 

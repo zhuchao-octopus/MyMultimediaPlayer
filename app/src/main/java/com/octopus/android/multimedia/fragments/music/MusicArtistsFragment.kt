@@ -26,7 +26,11 @@ class MusicArtistsViewModel(initialState: MediaFolderState) : MediaGroupViewMode
 
     override fun updatePlayListAndPlay(url: String) = withState {
         if (!it.key.isNullOrEmpty()) {
-            TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(it.key).updateLinkOrder()
+            val list =
+                TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(it.key)
+            if (list != null) {
+                Cabinet.getPlayManager().createPlayingListOrder(it.key,list)
+            }
             TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)
         }
     }
@@ -41,7 +45,8 @@ class MusicArtistsViewModel(initialState: MediaFolderState) : MediaGroupViewMode
     }
 
     override fun fetchMediaDataSync(key: String): List<MediaFolder>? {
-        return TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(key).toList()
+        return TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByArtist(key)
+            .toList()
             .map { MediaFolder(name = it.name, path = it.srcUrl) }
     }
 

@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.utils.autoCalcBaseOnWidth
@@ -48,5 +49,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.getResources();
+    }
+
+    override fun onStop() {
+        super.onStop()
+        lifecycleScope.launch { TPlayManager.getInstance().saveToFile() }
     }
 }

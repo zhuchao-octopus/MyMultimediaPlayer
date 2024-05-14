@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.Fail
@@ -13,23 +11,17 @@ import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.withState
 import com.chad.library.adapter4.BaseQuickAdapter
 import com.chad.library.adapter4.viewholder.QuickViewHolder
 import com.octopus.android.multimedia.R
 import com.octopus.android.multimedia.databinding.FragmentGroupListBinding
 import com.octopus.android.multimedia.fragments.BaseFragment
-import com.octopus.android.multimedia.room.MediaRoomDatabase
-import com.octopus.android.multimedia.room.UserCollection
 import com.octopus.android.multimedia.utils.showEmpty
 import com.octopus.android.multimedia.utils.showError
 import com.octopus.android.multimedia.utils.showLoading
 import com.octopus.android.multimedia.utils.showSuccess
 import com.octopus.android.multimedia.utils.viewBinding
-import com.zhuchao.android.session.TPlayManager
-import com.zhuchao.android.video.VideoList
-import kotlinx.coroutines.launch
 
 
 /**
@@ -48,7 +40,7 @@ abstract class MediaFolderFragment : BaseFragment(R.layout.fragment_group_list) 
 
     private val folderAdapter = FolderAdapter()
 
-    private val database by lazy { MediaRoomDatabase.getDatabase(requireContext()) }
+   // private val database by lazy { MediaRoomDatabase.getDatabase(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

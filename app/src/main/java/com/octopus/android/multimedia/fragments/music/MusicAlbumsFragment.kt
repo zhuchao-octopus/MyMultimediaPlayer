@@ -25,7 +25,11 @@ class MusicAlbumsViewModel(initialState: MediaFolderState) : MediaGroupViewModel
 
     override fun updatePlayListAndPlay(url: String) = withState {
         if (!it.key.isNullOrEmpty()) {
-            Cabinet.getPlayManager().allMusic.getMusicByAlbum(it.key).updateLinkOrder()
+            val list =
+                TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByAlbum(it.key)
+            if (list != null) {
+                Cabinet.getPlayManager().createPlayingListOrder(it.key,list)
+            }
             TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)
         }
     }

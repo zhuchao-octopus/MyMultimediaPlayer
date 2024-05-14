@@ -28,7 +28,7 @@ class MusicFolderViewModel(initialState: MediaFolderState) : MediaGroupViewModel
             )
             if (list != null) {
                 val videoList = Cabinet.getPlayManager().transformToVideoList(list)
-                videoList?.updateLinkOrder()
+                Cabinet.getPlayManager().createPlayingListOrder(it.key,videoList)
             }
 
             TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)

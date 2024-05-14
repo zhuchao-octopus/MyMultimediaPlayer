@@ -2,6 +2,7 @@ package com.octopus.android.multimedia.fragments.music;
 
 import com.airbnb.mvrx.fragmentViewModel
 import com.zhuchao.android.session.Cabinet
+import com.zhuchao.android.session.TPlayManager
 import com.zhuchao.android.video.OMedia
 import kotlinx.coroutines.delay
 
@@ -26,7 +27,7 @@ class MusicPlayListViewModel(initialState: MusicListState) : VideoListViewModel(
         }.execute { copy(list = it) }
     }
 
-    override fun updatePlayList() {
-        Cabinet.getPlayManager().playingHistoryList.updateLinkOrder()
+    override fun updatePlayList() =withState {
+        Cabinet.getPlayManager().createPlayingListOrder("history",Cabinet.getPlayManager().playingHistoryList)
     }
 }
