@@ -37,13 +37,6 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
 
         mTPlayManager = TPlayManager.getInstance(context)
 
-        mTPlayManager.apply {
-
-            callback {
-                Log.d("VideoPlayFragment", "播放信息:$it")
-                viewModel.setPlayStatusInfo(it)
-            }
-        }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -163,7 +156,7 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
             }
         }
 
-        Log.d("test", "isPlaying:" + mTPlayManager.playingMedia)
+        //Log.d("test", "isPlaying:" + mTPlayManager.playingMedia)
         if (mTPlayManager.isPlaying) {
             binding.ivPlay.setImageResource(R.drawable.selector_stop)
             binding.seekBar.isEnabled = true
@@ -180,17 +173,26 @@ class MusicPlayFragment : BaseFragment(R.layout.fragment_music_play) {
 data class MusicPlayState(
     val playing: Boolean = false,//播放中
     val playStatusInfo: PlayerStatusInfo? = null,//播放状态信息
-    val path: String? = null,  //文件path
-    val uri: Uri? = null,
-    val collect: Boolean = false
+    val path: String? = null,  //当前正在播放的文件path
+//    val uri: Uri? = null,
+    val collect: Boolean = false,
 ) : MavericksState {
-    constructor(args: String?) : this(path = args)
-    constructor(args: Uri?) : this(uri = args)
+//    constructor(args: String?) : this(path = args)
+//    constructor(args: Uri?) : this(uri = args)
 }
 
 class MusicPlayViewModel(
     initialState: MusicPlayState
 ) : MavericksViewModel<MusicPlayState>(initialState) {
+
+    init {
+        TPlayManager.getInstance(MApplication.getAppContext()).apply {
+            callback {
+                Log.d("VideoPlayFragment", "播放信息:$it")
+                setPlayStatusInfo(it)
+            }
+        }
+    }
 
     /**
      * 切换播放状态
@@ -313,6 +315,8 @@ class MusicPlayViewModel(
         //判断是否切换了当前歌曲,如果是,则需要更新当前收藏状态
         if (info.eventType == PlaybackEvent.Status_Playing) {
             refreshCollectionState()
+            //更新当前播放路径
+            setState { copy(path = TPlayManager.getInstance().playingMedia.pathName) }
         }
     }
 

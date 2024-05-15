@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/video_item_bg"
+            android:background="@drawable/selector_video_item"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -28,9 +28,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="160dp"
                 android:layout_height="90dp"
-                android:visibility="gone"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_video"
+
+                android:src="@mipmap/music_folder"
                 app:layout_constraintBottom_toTopOf="@+id/divider"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

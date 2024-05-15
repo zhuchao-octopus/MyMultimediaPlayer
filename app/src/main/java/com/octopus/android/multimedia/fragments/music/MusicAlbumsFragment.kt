@@ -28,7 +28,7 @@ class MusicAlbumsViewModel(initialState: MediaFolderState) : MediaGroupViewModel
             val list =
                 TPlayManager.getInstance(MApplication.getAppContext()).allMusic.getMusicByAlbum(it.key)
             if (list != null) {
-                Cabinet.getPlayManager().createPlayingListOrder(it.key,list)
+                Cabinet.getPlayManager().createPlayingListOrder(it.key, list)
             }
             TPlayManager.getInstance(MApplication.getAppContext()).startPlay(url)
         }
@@ -37,8 +37,9 @@ class MusicAlbumsViewModel(initialState: MediaFolderState) : MediaGroupViewModel
     override fun fetchFolderDataSync(): List<MediaFolder>? {
         return Cabinet.getPlayManager().albumList.all?.map {
             MediaFolder(
-                name = "${it.key}",
-                path = it.key
+                name = "${it.value}",
+                path = it.value.toString(),
+                displayId = Cabinet.getPlayManager().albumListID.get(it.key) as? Long
             )
         }
     }

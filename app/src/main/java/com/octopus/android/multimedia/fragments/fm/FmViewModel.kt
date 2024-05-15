@@ -16,6 +16,10 @@ import java.util.Timer
 import java.util.TimerTask
 
 
+/**
+ * 收音机viewModel
+ * 负责与radio sdk进行交互
+ * */
 class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialState),
     Connection.OnCallbackListener {
 
@@ -67,7 +71,7 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
     }
 
     fun prevChannel() {
-       // ApiRadio.prevChannel()
+        // ApiRadio.prevChannel()
 
         ApiRadio.freqDown()
     }
@@ -80,7 +84,6 @@ class FmViewModel(initialState: FmState) : MavericksViewModel<FmState>(initialSt
     fun search() {
         ApiRadio.search(ApiKit.SWITCH)
     }
-
 
 
     //切换调频模式

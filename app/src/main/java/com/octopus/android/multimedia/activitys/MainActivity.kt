@@ -15,7 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.jessyan.autosize.AutoSizeCompat
 
-
+/**
+ * 主页面
+ * 使用单Activity + 多Fragment 模式
+ * 不负责具体业务逻辑,仅作为页面容器
+ * */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

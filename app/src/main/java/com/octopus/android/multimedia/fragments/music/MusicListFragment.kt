@@ -12,6 +12,7 @@ import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.asMavericksArgs
 import com.airbnb.mvrx.withState
 import com.chad.library.adapter4.BaseQuickAdapter
@@ -34,6 +35,8 @@ import com.zhuchao.android.video.OMedia
 abstract class MusicListFragment : BaseFragment(R.layout.fragment_music_list) {
 
     private val binding: FragmentMusicListBinding by viewBinding()
+
+    private val musicPlayViewModel: MusicPlayViewModel by activityViewModel()
 
     abstract val viewModel: VideoListViewModel
 
@@ -58,6 +61,11 @@ abstract class MusicListFragment : BaseFragment(R.layout.fragment_music_list) {
                 TPlayManager.getInstance(context).startPlay(item.pathName)
             }
 
+        }
+
+        musicPlayViewModel.onEach(MusicPlayState::path) {
+            adapter.currentPlayingPath = it
+            adapter.notifyDataSetChanged()
         }
 
         //配置recycleView
@@ -113,8 +121,17 @@ data class MusicListState(val list: Async<List<OMedia>?> = Uninitialized) : Mave
 
 //视频列表适配器
 class MusicListAdapter : BaseQuickAdapter<OMedia, QuickViewHolder>() {
+
+    var currentPlayingPath: String? = null
     override fun onBindViewHolder(holder: QuickViewHolder, position: Int, item: OMedia?) {
         holder.setText(R.id.textView, item?.name)
+
+        if ((!currentPlayingPath.isNullOrEmpty()) && currentPlayingPath == item?.pathName) {
+            //显示播放中
+            holder.setVisible(R.id.ivPlaying, true)
+        } else {
+            holder.setVisible(R.id.ivPlaying, false)
+        }
     }
 
     override fun onCreateViewHolder(

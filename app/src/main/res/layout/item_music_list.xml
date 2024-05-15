@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/video_item_bg"
+            android:background="@drawable/selector_video_item"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -29,8 +29,7 @@
                 android:layout_width="160dp"
                 android:layout_height="90dp"
 
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_video"
+                android:src="@mipmap/music_list"
                 app:layout_constraintBottom_toTopOf="@+id/divider"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,15 +37,22 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:paddingHorizontal="70dp"
                 android:textColor="#ffffff"
                 android:textSize="34sp"
-
                 tools:text="测试视频文件名称" />
+
+            <ImageView
+                android:id="@+id/ivPlaying"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="50dp"
+                android:src="@mipmap/music_playing" />
         </LinearLayout>
 
 
